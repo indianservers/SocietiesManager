@@ -1,0 +1,43 @@
+{
+  "scenario": {
+    "persons": 100000,
+    "memberships": 100000,
+    "chapters": 10
+  },
+  "scope": "Warm, authenticated, single-client local HTTP API requests including cookie validation, authorization, privacy projection, PostgreSQL and serialization. Not a concurrency or production SLA claim. Dedicated benchmark database removed afterward.",
+  "fixture_insert_ms": 6299.76,
+  "timings": {
+    "society_directory": {
+      "median_ms": 53.16,
+      "p95_ms": 61.113,
+      "iterations": 20,
+      "local_target_p95_ms": 500,
+      "target_met": true,
+      "records": 100000
+    },
+    "chapter_directory": {
+      "median_ms": 25.883,
+      "p95_ms": 32.914,
+      "iterations": 20,
+      "local_target_p95_ms": 500,
+      "target_met": true,
+      "records": 10000
+    },
+    "name_search": {
+      "median_ms": 333.936,
+      "p95_ms": 366.88,
+      "iterations": 20,
+      "local_target_p95_ms": 500,
+      "target_met": true,
+      "records": 10
+    },
+    "membership_intelligence": {
+      "median_ms": 186.815,
+      "p95_ms": 202.075,
+      "iterations": 20,
+      "local_target_p95_ms": 500,
+      "target_met": true,
+      "records": 100000
+    }
+  }
+}

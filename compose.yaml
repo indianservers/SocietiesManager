@@ -1,0 +1,35 @@
+services:
+  database:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: assemblia
+      POSTGRES_USER: assemblia
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U assemblia -d assemblia"]
+      interval: 5s
+      retries: 10
+  api:
+    build: .
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Database: Host=database;Database=assemblia;Username=assemblia;Password=${POSTGRES_PASSWORD}
+      Storage__Root: /app/storage
+      PublicUrl: ${PUBLIC_URL:?Set PUBLIC_URL}
+      Smtp__Host: ${SMTP_HOST}
+      Smtp__User: ${SMTP_USER}
+      Smtp__Password: ${SMTP_PASSWORD}
+      Smtp__From: ${SMTP_FROM}
+    ports: ["127.0.0.1:5080:8080"]
+    volumes:
+      - data-protection:/home/app/.aspnet/DataProtection-Keys
+      - object-data:/app/storage
+    depends_on:
+      database:
+        condition: service_healthy
+volumes:
+  postgres-data:
+  data-protection:
+  object-data:

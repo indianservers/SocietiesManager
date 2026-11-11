@@ -1,0 +1,8 @@
+{
+  "scope": "20 warm authenticated HTTP directory reads on the integration fixture, single client",
+  "median_ms": 10.379,
+  "p95_ms": 11.702,
+  "target_p95_ms": 500,
+  "target_met": true,
+  "samples": 20
+}

@@ -1,0 +1,19 @@
+{
+  "scope": "Observed browser verification with explicitly fictional local accounts and content",
+  "activity_draft_saved": true,
+  "draft_media_controls_available": true,
+  "event_calendar_and_detail_verified": true,
+  "member_rsvp_and_confirmed_registration": true,
+  "mobile_viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "pdf_downloaded_from_real_registration": true,
+  "pdf_pages": 1,
+  "pdf_visually_rendered_and_inspected": true,
+  "pdf_qr_independently_decoded": true,
+  "qr_matches_issued_database_pass": true,
+  "qr_contains_only_opaque_reference": true,
+  "sample_pass_revoked_after_verification": true,
+  "camera_hardware_tested": false
+}

@@ -1,0 +1,40 @@
+name: Verify Phase 1
+on: [push, pull_request]
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: ci-only-password
+        ports: ['55439:5432']
+        options: --health-cmd "pg_isready -U postgres" --health-interval 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci && npm run build
+        working-directory: frontend
+      - run: dotnet build backend
+      - run: pip install -r tests/requirements.txt
+      - run: mkdir -p .local && python -c 'import json;json.dump({"password":"ci-only-password"},open(".local/dev.json","w"))'
+      - run: python tests/community_integration.py
+      - run: python tests/benchmark.py
+      - run: python tests/membership_benchmark.py
+      - run: python tests/membership_api_benchmark.py
+      - run: python tests/community_api_benchmark.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-results
+          path: tests/*.json

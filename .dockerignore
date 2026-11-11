@@ -1,0 +1,8 @@
+.local
+.git
+**/node_modules
+**/bin
+**/obj
+**/dist
+backend/wwwroot
+tests

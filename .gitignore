@@ -1,0 +1,8 @@
+node_modules/
+dist/
+bin/
+obj/
+.local/
+.env
+*.user
+backend/wwwroot/

@@ -1,0 +1,342 @@
+{
+  "database": "PostgreSQL 17",
+  "results": [
+    {
+      "name": "user signup and email verification",
+      "passed": true,
+      "ms": 410.57
+    },
+    {
+      "name": "login",
+      "passed": true,
+      "ms": 102.23
+    },
+    {
+      "name": "CSRF rejection",
+      "passed": true,
+      "ms": 16.88
+    },
+    {
+      "name": "password recovery request",
+      "passed": true,
+      "ms": 23.84
+    },
+    {
+      "name": "password recovery completion",
+      "passed": true,
+      "ms": 58.7
+    },
+    {
+      "name": "login after password reset",
+      "passed": true,
+      "ms": 70.2
+    },
+    {
+      "name": "society application",
+      "passed": true,
+      "ms": 71.04
+    },
+    {
+      "name": "duplicate society rejected",
+      "passed": true,
+      "ms": 60.42
+    },
+    {
+      "name": "no administrator workspace before approval",
+      "passed": true,
+      "ms": 105.79
+    },
+    {
+      "name": "unauthorized society approval blocked",
+      "passed": true,
+      "ms": 36.93
+    },
+    {
+      "name": "authorized society approval",
+      "passed": true,
+      "ms": 370.2
+    },
+    {
+      "name": "workspace discovery",
+      "passed": true,
+      "ms": 17.49
+    },
+    {
+      "name": "platform admin cannot browse private tenant",
+      "passed": true,
+      "ms": 14.91
+    },
+    {
+      "name": "approval cannot be repeated",
+      "passed": true,
+      "ms": 9.91
+    },
+    {
+      "name": "society rejection",
+      "passed": true,
+      "ms": 11.91
+    },
+    {
+      "name": "society onboarding save",
+      "passed": true,
+      "ms": 60.9
+    },
+    {
+      "name": "society activation",
+      "passed": true,
+      "ms": 24.96
+    },
+    {
+      "name": "region creation",
+      "passed": true,
+      "ms": 61.95
+    },
+    {
+      "name": "second region creation",
+      "passed": true,
+      "ms": 11.47
+    },
+    {
+      "name": "chapter creation",
+      "passed": true,
+      "ms": 36.21
+    },
+    {
+      "name": "invalid parent type rejected",
+      "passed": true,
+      "ms": 17.65
+    },
+    {
+      "name": "duplicate chapter code rejected",
+      "passed": true,
+      "ms": 43.23
+    },
+    {
+      "name": "chapter suspension",
+      "passed": true,
+      "ms": 45.75
+    },
+    {
+      "name": "chapter reassignment",
+      "passed": true,
+      "ms": 36.23
+    },
+    {
+      "name": "stale edit conflict",
+      "passed": true,
+      "ms": 14.0
+    },
+    {
+      "name": "alternate hierarchy definition",
+      "passed": true,
+      "ms": 51.1
+    },
+    {
+      "name": "hierarchy level editing",
+      "passed": true,
+      "ms": 32.11
+    },
+    {
+      "name": "hierarchy cycle prevention",
+      "passed": true,
+      "ms": 15.11
+    },
+    {
+      "name": "cross-tenant dashboard isolation",
+      "passed": true,
+      "ms": 4.44
+    },
+    {
+      "name": "unauthorized chapter editing blocked",
+      "passed": true,
+      "ms": 8.57
+    },
+    {
+      "name": "cross-society parent rejected",
+      "passed": true,
+      "ms": 9.74
+    },
+    {
+      "name": "unauthorized society settings blocked",
+      "passed": true,
+      "ms": 4.02
+    },
+    {
+      "name": "tree pagination bounded",
+      "passed": true,
+      "ms": 44.89
+    },
+    {
+      "name": "lazy root loading",
+      "passed": true,
+      "ms": 19.7
+    },
+    {
+      "name": "region search",
+      "passed": true,
+      "ms": 24.01
+    },
+    {
+      "name": "chapter status filtering",
+      "passed": true,
+      "ms": 19.43
+    },
+    {
+      "name": "role creation",
+      "passed": true,
+      "ms": 21.74
+    },
+    {
+      "name": "role editing",
+      "passed": true,
+      "ms": 17.27
+    },
+    {
+      "name": "officer invitation",
+      "passed": true,
+      "ms": 25.7
+    },
+    {
+      "name": "verified invitation acceptance",
+      "passed": true,
+      "ms": 28.67
+    },
+    {
+      "name": "invitation replay blocked",
+      "passed": true,
+      "ms": 7.87
+    },
+    {
+      "name": "role assignment",
+      "passed": true,
+      "ms": 28.85
+    },
+    {
+      "name": "scoped workspace dashboard narrows counts",
+      "passed": true,
+      "ms": 50.31
+    },
+    {
+      "name": "unrelated workspace parameter grants no authority",
+      "passed": true,
+      "ms": 15.72
+    },
+    {
+      "name": "scoped hierarchy exposes its authorized root",
+      "passed": true,
+      "ms": 26.48
+    },
+    {
+      "name": "scoped chapter read allowed",
+      "passed": true,
+      "ms": 11.23
+    },
+    {
+      "name": "permission scope enforcement",
+      "passed": true,
+      "ms": 6.15
+    },
+    {
+      "name": "scoped officer cannot assign roles",
+      "passed": true,
+      "ms": 7.07
+    },
+    {
+      "name": "future leadership not yet effective",
+      "passed": true,
+      "ms": 13.46
+    },
+    {
+      "name": "expired leadership assignment accepted as history",
+      "passed": true,
+      "ms": 10.62
+    },
+    {
+      "name": "expired leadership grants no access",
+      "passed": true,
+      "ms": 7.54
+    },
+    {
+      "name": "future leadership grants no access",
+      "passed": true,
+      "ms": 9.49
+    },
+    {
+      "name": "invalid leadership effective dates",
+      "passed": true,
+      "ms": 16.05
+    },
+    {
+      "name": "workspace metadata excludes application personal data",
+      "passed": true,
+      "ms": 5.72
+    },
+    {
+      "name": "workspace switching remains isolated",
+      "passed": true,
+      "ms": 9.86
+    },
+    {
+      "name": "recursive region chapter counts",
+      "passed": true,
+      "ms": 18.74
+    },
+    {
+      "name": "validated PNG upload",
+      "passed": true,
+      "ms": 39.87
+    },
+    {
+      "name": "invalid image upload rejected",
+      "passed": true,
+      "ms": 5.52
+    },
+    {
+      "name": "unauthorized image upload rejected",
+      "passed": true,
+      "ms": 3.76
+    },
+    {
+      "name": "uploaded image strips metadata",
+      "passed": true,
+      "ms": 14.98
+    },
+    {
+      "name": "cross-tenant image retrieval blocked",
+      "passed": true,
+      "ms": 3.39
+    },
+    {
+      "name": "audit trail generation",
+      "passed": true,
+      "ms": 19.58
+    },
+    {
+      "name": "PostgreSQL cycle and immutable-history guards",
+      "passed": true,
+      "ms": 50.52
+    },
+    {
+      "name": "PostgreSQL migrations applied",
+      "passed": true,
+      "ms": 35.05
+    },
+    {
+      "name": "one verified identity switches between two societies",
+      "passed": true,
+      "ms": 95.13
+    },
+    {
+      "name": "logout",
+      "passed": true,
+      "ms": 5.78
+    },
+    {
+      "name": "session revoked on logout",
+      "passed": true,
+      "ms": 2.72
+    }
+  ],
+  "passed": 67,
+  "total": 67
+}
