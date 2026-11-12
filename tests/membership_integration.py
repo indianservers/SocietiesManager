@@ -1,11 +1,12 @@
 """Phase 2 HTTP + PostgreSQL suite; runs the Phase 1 suite first."""
+from api_runtime import API_DLL
 import integration as p
 import json,time,subprocess,uuid,datetime,io,zipfile,base64,urllib.request,urllib.error,statistics
 from pathlib import Path
 import psycopg
 ROOT=p.ROOT
 log=open(ROOT/'.local/phase2-api.log','w',encoding='utf-8')
-server=subprocess.Popen(['dotnet',str(ROOT/'backend/bin/Debug/net10.0/Society.Api.dll'),'--urls','http://127.0.0.1:5089'],cwd=ROOT/'backend',env=p.env,stdout=log,stderr=log)
+server=subprocess.Popen(['dotnet',str(API_DLL),'--urls','http://127.0.0.1:5089'],cwd=ROOT/'backend',env=p.env,stdout=log,stderr=log)
 results=[]
 def check(name,fn):
  t=time.perf_counter()
@@ -217,6 +218,16 @@ try:
  formula=create('=2+2',email='formula-'+p.suffix+'@example.test')
  check('authorized member export neutralizes spreadsheet formulas',lambda:assert_(b"'=2+2" in raw(owner,base+'/export','POST',json.dumps([formula['id']]).encode(),'application/json')[0]))
  check('member export never includes private contact values',lambda:assert_(b'@example.test' not in raw(owner,base+'/export','POST',json.dumps([formula['id']]).encode(),'application/json')[0]))
+ retiredCategory=owner.request(base+'/categories','POST',{'name':'Historical category '+p.suffix,'description':'Retired category regression','active':True})['id']
+ historical=create('Historical category holder',email='historical-'+p.suffix+'@example.test')
+ historicalDetail=owner.request(base+'/members/'+historical['id'])
+ historical=historicalDetail['member']
+ historicalUpdate={'fullName':historical['fullName'],'chapterId':historical['chapterId'],'categoryId':retiredCategory,'number':historical['number'],'status':historical['status'],'profile':json.dumps(historicalDetail['profile']),'privacy':json.dumps(historicalDetail['privacy']),'revision':historical['revision']}
+ owner.request(base+'/members/'+historical['id'],'PUT',historicalUpdate,expected=204)
+ owner.request(base+'/categories/'+retiredCategory,'PUT',{'name':'Historical category '+p.suffix,'description':'Retired category regression','active':False},expected=204)
+ check('editing existing member retains a retired category without blocking profile updates',lambda:owner.request(base+'/members/'+historical['id'],'PUT',{**historicalUpdate,'revision':historical['revision']+1},expected=204))
+ formulaCard=owner.request(base+'/members/'+formula['id'])['member']
+ check('retired category cannot be newly assigned to another member',lambda:owner.request(base+'/members/'+formula['id'],'PUT',{**historicalUpdate,'fullName':formulaCard['fullName'],'chapterId':formulaCard['chapterId'],'number':formulaCard['number'],'revision':formulaCard['revision']},expected=400))
  timings=[]
  for _ in range(20):
   start=time.perf_counter();owner.request(base+'/members?pageSize=20');timings.append((time.perf_counter()-start)*1000)

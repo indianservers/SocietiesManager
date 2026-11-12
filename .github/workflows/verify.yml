@@ -1,4 +1,4 @@
-name: Verify Phase 1
+name: Verify Phases 1–6
 on: [push, pull_request]
 jobs:
   integration:
@@ -25,16 +25,37 @@ jobs:
           python-version: '3.12'
       - run: npm ci && npm run build
         working-directory: frontend
+      - run: npm run test:navigation
+        working-directory: frontend
+      - run: npm run lint
+        working-directory: frontend
+      - run: npm audit --omit=dev
+        working-directory: frontend
       - run: dotnet build backend
+      - run: dotnet list backend package --vulnerable --include-transitive
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client-17
       - run: pip install -r tests/requirements.txt
       - run: mkdir -p .local && python -c 'import json;json.dump({"password":"ci-only-password"},open(".local/dev.json","w"))'
-      - run: python tests/community_integration.py
+      - run: python tests/studio_integration.py
+      - run: python tests/runtime_role_integration.py
+      - run: python tests/phase6_pdf_qa.py
       - run: python tests/benchmark.py
       - run: python tests/membership_benchmark.py
       - run: python tests/membership_api_benchmark.py
       - run: python tests/community_api_benchmark.py
+      - run: python tests/communication_api_benchmark.py
+      - run: python tests/finance_api_benchmark.py
+      - run: python tests/phase6_api_benchmark.py
+      - run: python tests/backup_security_integration.py
+      - run: python tests/backup_restore_integration.py
+        env:
+          PG_BIN: /usr/lib/postgresql/17/bin
+      - run: dotnet publish backend -c Release -o .local/release
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: verification-results
-          path: tests/*.json
+          path: |
+            tests/*.json
+            tests/phase6-*.pdf
+            tests/phase6-*.png

@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Provision on the intended host as /opt/assemblia/deploy-reviewed-release.
+# Invoked only after an operator-approved GitHub environment release.
+set -euo pipefail
+release_tag="${1:?Provide the reviewed immutable release tag}"
+[[ "$release_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9.-]+)?$ ]]
+cd /opt/assemblia
+test "$(pwd -P)" = /opt/assemblia
+test -f deployment.env
+test "$(stat -c '%a' deployment.env)" = 600
+# This is a trusted operator-owned file, never user-supplied application data.
+set -a
+source ./deployment.env
+set +a
+: "${REGISTRY_IMAGE:?Configure the reviewed image repository}"
+: "${PUBLIC_URL:?Configure the HTTPS public URL}"
+: "${MIGRATION_DATABASE_CONNECTION:?Configure a separate migration identity}"
+[[ "$REGISTRY_IMAGE" =~ ^ghcr.io/[a-z0-9._/-]+$ ]]
+[[ "$PUBLIC_URL" =~ ^https://[A-Za-z0-9.-]+(:[0-9]+)?$ ]]
+exec 9>.deployment.lock
+flock -n 9
+compose=(docker compose -f compose.yaml -f ops/compose.backup.yaml --profile backup)
+previous_id="$("${compose[@]}" ps -q api)"
+previous_image=""
+if [[ -n "$previous_id" ]]; then previous_image="$(docker inspect --format '{{.Config.Image}}' "$previous_id")"; fi
+export ASSEMBLIA_IMAGE="$REGISTRY_IMAGE:$release_tag"
+"${compose[@]}" pull api
+rollback_app() {
+  local failed=$?
+  if [[ "$failed" -ne 0 && -n "$previous_image" ]]; then
+    export ASSEMBLIA_IMAGE="$previous_image"
+    "${compose[@]}" up -d --no-deps api || true
+    printf '%s\n' 'Release failed; previous application image requested. Database was not downgraded or overwritten.' >&2
+  fi
+  exit "$failed"
+}
+trap rollback_app EXIT
+# Build the reviewed backup image while the current application is available.
+"${compose[@]}" build backup
+# Quiesce writes so the DB snapshot and copied immutable objects/key ring agree.
+"${compose[@]}" stop api
+# A fresh encrypted pre-migration backup is mandatory. Existing private
+# object/key volumes are mounted read-only into this dedicated process.
+"${compose[@]}" run --rm --no-deps --entrypoint python backup backup_restore.py backup \
+  --destination /backups --objects /objects --keys /keys
+
+# Docker reads this variable from the process environment, not a secret-bearing
+# command-line argument. Runtime requests retain their restricted DB identity.
+export ConnectionStrings__Database="$MIGRATION_DATABASE_CONNECTION"
+"${compose[@]}" run --rm --no-deps -e ConnectionStrings__Database api --migrate
+unset ConnectionStrings__Database
+# The supplied compose database owner applies grants after additive migrations.
+"${compose[@]}" exec -T database psql -U assemblia -d assemblia -v ON_ERROR_STOP=1 < scripts/runtime-grants.sql
+"${compose[@]}" up -d --no-deps api
+ready=false
+for attempt in $(seq 1 30); do
+  if curl --silent --show-error --fail "$PUBLIC_URL/health/ready" >/dev/null; then ready=true; break; fi
+  sleep 2
+done
+test "$ready" = true
+test "$(curl --silent --output /dev/null --write-out '%{http_code}' "$PUBLIC_URL/api/v1/users/me")" = 401
+printf '{"release":"%s","previousImage":"%s","at":"%s","health":"ready"}\n' \
+  "$release_tag" "$previous_image" "$(date -u +%FT%TZ)" > last-deployment.json
+trap - EXIT
+printf '%s\n' 'Reviewed release passed basic readiness and anonymous-access smoke checks. Complete the documented authenticated acceptance checks.'

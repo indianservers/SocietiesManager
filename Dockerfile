@@ -12,7 +12,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
 COPY --from=build /app ./
 COPY --from=ui /src/dist ./wwwroot
-RUN mkdir -p /app/storage && chown -R $APP_UID /app
+RUN mkdir -p /app/storage /app/keys && chown -R $APP_UID /app
 USER $APP_UID
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "Society.Api.dll"]

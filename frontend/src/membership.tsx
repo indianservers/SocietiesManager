@@ -1,8 +1,9 @@
+import {AreaTabs} from './area-tabs';
+import {WorkspaceSections,WorkspaceAlias} from './workspace-navigation';
 import { useState, useEffect } from "react";
 import {
   Routes,
   Route,
-  NavLink,
   Link,
   useParams,
   useNavigate,
@@ -85,7 +86,19 @@ const fields = [
   ["country", "Country"],
   ["state", "State"],
   ["city", "City"],
-  ["anniversary", "Anniversary (optional)"],
+  ["pincode", "Pincode / postal code"],
+  ["maritalStatus", "Marital status"],
+  ["spouseName", "Spouse name (optional)"],
+  ["anniversary", "Wedding anniversary (optional)"],
+  ["education", "Highest qualification"],
+  ["specialization", "Education specialization"],
+  ["institution", "School / college / university"],
+  ["graduationYear", "Graduation year"],
+  ["employmentStatus", "Employment status"],
+  ["bloodGroup", "Blood group (optional)"],
+  ["emergencyContactName", "Emergency contact name"],
+  ["emergencyContactPhone", "Emergency contact mobile"],
+  ["otherInformation", "Other information (optional)"],
 ];
 function PersonalFields({ profile = {} }: any) {
   return (
@@ -97,6 +110,7 @@ function PersonalFields({ profile = {} }: any) {
             label={label}
             name={name}
             defaultValue={profile[name] || ""}
+            maxLength={4000}
             type={
               name.toLowerCase().includes("email")
                 ? "email"
@@ -122,7 +136,13 @@ function PersonalFields({ profile = {} }: any) {
       <div className="form-section">PROFESSIONAL & NETWORKING</div>
       <div className="form-grid">
         {[
-          ["organization", "Organization"],
+          ["organization", "Institute / company / employer name"],
+          ["registrationNumber", "Organization registration number"],
+          ["representativeName", "Authorized representative name"],
+          ["representativeDesignation", "Representative designation"],
+          ["workLocation", "Work location"],
+          ["experience", "Years of experience"],
+          ["website", "Website / LinkedIn"],
           ["designation", "Designation"],
           ["profession", "Profession"],
           ["industry", "Industry"],
@@ -174,7 +194,7 @@ function PrivacyFields({ privacy = {} }: any) {
         ],
         [
           "communication",
-          "Receive society communication and event invitations",
+          "Receive society communication, birthday and wedding anniversary greetings, and event invitations",
           false,
         ],
       ].map(([name, label, def]) => (
@@ -198,53 +218,14 @@ function PrivacyData(f: FormData) {
   );
 }
 
-export default function MembershipModule() {
-  const { can } = useApp();
-  return (
-    <>
-      <div className="membership-nav">
-        <NavLink end to="/app/members">
-          Overview
-        </NavLink>
-        <NavLink to="/app/members/directory">Directory</NavLink>
-        {(can("members.approve") || can("members.write")) && (
-          <NavLink to="/app/members/applications">Applications</NavLink>
-        )}
-        <NavLink to="/app/members/leadership">Leadership</NavLink>
-        <NavLink to="/app/members/committees">Committees</NavLink>
-        <NavLink to="/app/members/transfers">Transfers</NavLink>
-        {can("members.import") && (
-          <NavLink to="/app/members/import">Import</NavLink>
-        )}
-        {can("membership.settings") && (
-          <NavLink to="/app/members/settings">Policies & categories</NavLink>
-        )}
-        <NavLink to="/app/members/self">My memberships</NavLink>
-      </div>
-      <Routes>
-        <Route index element={<MembershipDashboard />} />
-        <Route path="directory" element={<MemberDirectory />} />
-        <Route path="profile/:id" element={<MemberProfile />} />
-        <Route path="applications" element={<ApplicationReviews />} />
-        <Route path="leadership" element={<Leadership />} />
-        <Route path="committees" element={<Committees />} />
-        <Route path="transfers" element={<Transfers />} />
-        <Route path="import" element={<BulkImport />} />
-        <Route path="settings" element={<MembershipSettings />} />
-        <Route path="self" element={<SelfService />} />
-        <Route
-          path="*"
-          element={
-            <Empty
-              title="Membership view unavailable"
-              text="Use the navigation above to open an implemented workspace."
-            />
-          }
-        />
-      </Routes>
-    </>
-  );
-}
+export default function MembershipModule(){const {can}=useApp();return <><AreaTabs area="people"/><Routes>
+ <Route index element={<WorkspaceSections label="Membership records" sections={[{id:'overview',label:'Membership overview',content:<MembershipDashboard/>},{id:'directory',label:'Member directory',content:<MemberDirectory/>}]}/>}/>
+ <Route path="profile/:id" element={<MemberProfile/>}/>
+ <Route path="governance" element={<WorkspaceSections label="Leadership & committees" sections={[{id:'leadership',label:'Officer appointments',content:<Leadership/>},{id:'committees',label:'Committees',content:<Committees/>}]}/>}/>
+ <Route path="operations" element={<WorkspaceSections label="Membership operations" sections={[{id:'applications',label:'Applications & review',content:<ApplicationReviews/>,visible:can('members.approve')||can('members.write')},{id:'transfers',label:'Chapter transfers',content:<Transfers/>},{id:'import',label:'Bulk import',content:<BulkImport/>,visible:can('members.import')}]}/>}/>
+ <Route path="settings" element={<MembershipSettings/>}/>
+ {Object.entries({directory:['','directory'],leadership:['governance','leadership'],committees:['governance','committees'],applications:['operations','applications'],transfers:['operations','transfers'],import:['operations','import']}).map(([path,[target,view]])=><Route key={path} path={path} element={<WorkspaceAlias to={'/app/members'+(target?'/'+target:'')} query={{view}}/>}/>)}
+ <Route path="self" element={<WorkspaceAlias to="/app/account" query={{view:'memberships'}}/>}/><Route path="*" element={<Empty title="Membership view unavailable" text="Choose a section above."/>}/></Routes></>}
 function MembershipDashboard() {
   const { scope, can } = useApp();
   const base = useBase();
@@ -269,7 +250,7 @@ function MembershipDashboard() {
         <div className="stats-grid member-stats">
           {[
             ["Memberships", q.data?.total],
-            ["Unique people", q.data?.uniquePersons],
+            ["Membership holders", q.data?.uniquePersons],
             ["Active memberships", q.data?.active],
             ["Pending applications", q.data?.pending],
             ["New this month", q.data?.newThisMonth],
@@ -357,7 +338,7 @@ function MembershipDashboard() {
     </>
   );
 }
-function SelfService() {
+export function SelfService() {
   const { switchWorkspace } = useApp();
   const q = useLoad<any[]>("/membership/me");
   const apps = useLoad<any[]>("/membership/applications");
@@ -916,14 +897,14 @@ function MemberEditor({ member, onClose }: any) {
       title={member ? "Edit member" : "Add a chapter member"}
       onClose={onClose}
     >
-      {member && full.isPending ? (
+      {cats.isPending || (member && full.isPending) ? (
         <p className="skeleton">Loading profile…</p>
-      ) : member &&
-        (full.isError || !full.data?.canEdit || !full.data?.profile) ? (
+      ) : cats.isError || (member &&
+        (full.isError || !full.data?.canEdit || !full.data?.profile)) ? (
         <div className="error" role="alert">
-          {full.error?.message ||
+          {cats.error?.message || full.error?.message ||
             "This private profile is unavailable for editing."}
-          <button onClick={() => full.refetch()}>Retry</button>
+          <button onClick={() => { if (member) void full.refetch(); void cats.refetch(); }}>Retry</button>
         </div>
       ) : (
         <form
@@ -1008,7 +989,7 @@ function MemberEditor({ member, onClose }: any) {
             </>
           )}
           <Field
-            label="Full name"
+            label="Member / organization name"
             name="fullName"
             required
             maxLength={160}
@@ -1048,7 +1029,7 @@ function MemberEditor({ member, onClose }: any) {
                 defaultValue={m?.categoryId}
               >
                 {cats.data
-                  ?.filter((c) => c.active)
+                  ?.filter((c) => c.active || c.id === m?.categoryId)
                   .map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}

@@ -1,0 +1,496 @@
+{
+  "passed": 98,
+  "total": 98,
+  "results": [
+    {
+      "name": "same-chapter member starts a private conversation",
+      "passed": true,
+      "ms": 556.89
+    },
+    {
+      "name": "direct participants can read conversation",
+      "passed": true,
+      "ms": 283.86
+    },
+    {
+      "name": "society administrator cannot read private member conversation",
+      "passed": true,
+      "ms": 82.56
+    },
+    {
+      "name": "regional scope cannot reveal private message history",
+      "passed": true,
+      "ms": 106.41
+    },
+    {
+      "name": "unrelated chapter cannot create unrestricted direct message",
+      "passed": true,
+      "ms": 82.13
+    },
+    {
+      "name": "peer receives in-app message history",
+      "passed": true,
+      "ms": 225.27
+    },
+    {
+      "name": "idempotent client key prevents duplicate message",
+      "passed": true,
+      "ms": 143.62
+    },
+    {
+      "name": "unread count reflects new peer message",
+      "passed": true,
+      "ms": 102.26
+    },
+    {
+      "name": "read action clears unread count",
+      "passed": true,
+      "ms": 107.83
+    },
+    {
+      "name": "unread count is cleared",
+      "passed": true,
+      "ms": 69.62
+    },
+    {
+      "name": "authenticated reader produces a truthful message read receipt",
+      "passed": true,
+      "ms": 183.43
+    },
+    {
+      "name": "message search is confined to permitted conversation",
+      "passed": true,
+      "ms": 157.97
+    },
+    {
+      "name": "conversation mute is stored per participant",
+      "passed": true,
+      "ms": 94.68
+    },
+    {
+      "name": "internal notes are forbidden in personal conversations",
+      "passed": true,
+      "ms": 123.07
+    },
+    {
+      "name": "message attachment is stored privately",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "unrelated member cannot retrieve private attachment",
+      "passed": true,
+      "ms": 74.01
+    },
+    {
+      "name": "invalid message upload rejected",
+      "passed": true,
+      "ms": 107.1
+    },
+    {
+      "name": "message reporting persists an audit entry",
+      "passed": true,
+      "ms": 173.09
+    },
+    {
+      "name": "member block uses existing community policy",
+      "passed": true,
+      "ms": 67.9
+    },
+    {
+      "name": "blocked sender cannot use direct history endpoint",
+      "passed": true,
+      "ms": 22.74
+    },
+    {
+      "name": "blocked sender cannot bypass via message endpoint",
+      "passed": true,
+      "ms": 30.95
+    },
+    {
+      "name": "blocked sender cannot bypass via duplicate thread creation",
+      "passed": true,
+      "ms": 73.72
+    },
+    {
+      "name": "direct-message preference prevents new sends",
+      "passed": true,
+      "ms": 61.49
+    },
+    {
+      "name": "authorized officer creates chapter group",
+      "passed": true,
+      "ms": 145.84
+    },
+    {
+      "name": "group posting policy blocks ordinary members",
+      "passed": true,
+      "ms": 105.16
+    },
+    {
+      "name": "group administrator can post",
+      "passed": true,
+      "ms": 40.73
+    },
+    {
+      "name": "unrelated chapter cannot read chapter group",
+      "passed": true,
+      "ms": 24.28
+    },
+    {
+      "name": "group removal retains join/leave history",
+      "passed": true,
+      "ms": 72.71
+    },
+    {
+      "name": "removed participant loses group access",
+      "passed": true,
+      "ms": 26.52
+    },
+    {
+      "name": "authorized group member rejoin",
+      "passed": true,
+      "ms": 82.18
+    },
+    {
+      "name": "member explicitly routes inquiry to shared team",
+      "passed": true,
+      "ms": 67.87
+    },
+    {
+      "name": "internal note remains hidden from requesting member",
+      "passed": true,
+      "ms": 55.64
+    },
+    {
+      "name": "outside member cannot read team inquiry",
+      "passed": true,
+      "ms": 51.42
+    },
+    {
+      "name": "team assignment is visible to authorized assignee",
+      "passed": true,
+      "ms": 38.96
+    },
+    {
+      "name": "unauthorized conversation assignment denied",
+      "passed": true,
+      "ms": 34.28
+    },
+    {
+      "name": "audience resolves real eligible recipients",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "regional sender resolves assigned chapter audience",
+      "passed": true,
+      "ms": 86.26
+    },
+    {
+      "name": "regional sender lists shared team inbox in its branch",
+      "passed": true,
+      "ms": 25.9
+    },
+    {
+      "name": "regional communication permission still cannot reveal private DM",
+      "passed": true,
+      "ms": 33.05
+    },
+    {
+      "name": "unauthorized audience unit is denied",
+      "passed": true,
+      "ms": 20.95
+    },
+    {
+      "name": "cross-society audience lookup is denied",
+      "passed": true,
+      "ms": 12.32
+    },
+    {
+      "name": "typed template variables render authorized sample",
+      "passed": true,
+      "ms": 105.42
+    },
+    {
+      "name": "unknown template variables are rejected",
+      "passed": true,
+      "ms": 12.71
+    },
+    {
+      "name": "script content is rejected from templates",
+      "passed": true,
+      "ms": 15.35
+    },
+    {
+      "name": "announcement snapshots and queues two distinct recipients",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "in-app announcement creates real notification",
+      "passed": true,
+      "ms": 64.15
+    },
+    {
+      "name": "targeted announcement is visible to recipient",
+      "passed": true,
+      "ms": 89.8
+    },
+    {
+      "name": "announcement excluded from unrelated chapter",
+      "passed": true,
+      "ms": 22.99
+    },
+    {
+      "name": "notification detail renders personalized content for recipient",
+      "passed": true,
+      "ms": 53.01
+    },
+    {
+      "name": "notification detail cannot be opened by unrelated member",
+      "passed": true,
+      "ms": 13.65
+    },
+    {
+      "name": "in-app read receipt updates durable delivery row",
+      "passed": true,
+      "ms": 15.6
+    },
+    {
+      "name": "announcement acknowledgment is audited",
+      "passed": true,
+      "ms": 50.3
+    },
+    {
+      "name": "notification read state can be changed",
+      "passed": true,
+      "ms": 20.67
+    },
+    {
+      "name": "notification counter is genuine and clears",
+      "passed": true,
+      "ms": 21.92
+    },
+    {
+      "name": "campaign requires configured approval",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "campaign author cannot self approve",
+      "passed": true,
+      "ms": 60.01
+    },
+    {
+      "name": "independent review schedules approved campaign",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "material edits invalidate prior approval and preserve snapshot versions",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "campaign cancellation prevents unsent jobs",
+      "passed": true,
+      "ms": 70.28
+    },
+    {
+      "name": "campaign duplication creates an unsent draft",
+      "passed": true,
+      "ms": 215.99
+    },
+    {
+      "name": "email adapter records provider acceptance without claiming delivery",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "account API never returns provider credentials",
+      "passed": true,
+      "ms": 91.11
+    },
+    {
+      "name": "ordinary members cannot administer sender accounts",
+      "passed": true,
+      "ms": 62.49
+    },
+    {
+      "name": "unauthenticated webhook signature is rejected",
+      "passed": true,
+      "ms": 38.5
+    },
+    {
+      "name": "verified webhook records actual delivery",
+      "passed": true,
+      "ms": 132.75
+    },
+    {
+      "name": "webhook duplicates are suppressed",
+      "passed": true,
+      "ms": 30.26
+    },
+    {
+      "name": "verified provider delivery updates stored status",
+      "passed": true,
+      "ms": 55.54
+    },
+    {
+      "name": "email bounce creates a channel suppression",
+      "passed": true,
+      "ms": 109.68
+    },
+    {
+      "name": "external attachment draft is held before dispatch",
+      "passed": true,
+      "ms": 89.99
+    },
+    {
+      "name": "held external draft accepts a private sanitized attachment",
+      "passed": true,
+      "ms": 80.99
+    },
+    {
+      "name": "author finalizes held delivery after attachment upload",
+      "passed": true,
+      "ms": 80.68
+    },
+    {
+      "name": "finalize retry does not duplicate delivery job",
+      "passed": true,
+      "ms": 147.36
+    },
+    {
+      "name": "SMS provider failure is recorded accurately",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "failed dispatch exposes safe operational error only",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "WhatsApp approved templates synchronize from provider adapter",
+      "passed": true,
+      "ms": 84.73
+    },
+    {
+      "name": "WhatsApp template dispatch uses verified approved binding",
+      "passed": true,
+      "ms": 408.06
+    },
+    {
+      "name": "Meta rejects an invalid HMAC signature",
+      "passed": true,
+      "ms": 8.22
+    },
+    {
+      "name": "Meta accepts a valid account-bound HMAC signature",
+      "passed": true,
+      "ms": 72.5
+    },
+    {
+      "name": "Twilio rejects unsigned callbacks",
+      "passed": true,
+      "ms": 22.1
+    },
+    {
+      "name": "Twilio accepts canonical URL and parameter signature",
+      "passed": true,
+      "ms": 52.58
+    },
+    {
+      "name": "Resend rejects an invalid Svix signature",
+      "passed": true,
+      "ms": 33.02
+    },
+    {
+      "name": "Resend accepts a timestamped Svix signature",
+      "passed": true,
+      "ms": 36.64
+    },
+    {
+      "name": "channel opt-out is excluded by audience builder",
+      "passed": true,
+      "ms": 172.92
+    },
+    {
+      "name": "transient provider failure schedules a durable retry",
+      "passed": true,
+      "ms": 0.01
+    },
+    {
+      "name": "bounded retries become a visible dead letter",
+      "passed": true,
+      "ms": 216.7
+    },
+    {
+      "name": "quiet hours defer recipient without claiming delivery",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "expired external lease requires reconciliation",
+      "passed": true,
+      "ms": 560.03
+    },
+    {
+      "name": "scheduled campaign persists without browser timer",
+      "passed": true,
+      "ms": 361.28
+    },
+    {
+      "name": "worker restart recovers durable scheduled campaign",
+      "passed": true,
+      "ms": 1018.33
+    },
+    {
+      "name": "durable automation executes in safe test mode",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "automation source key suppresses duplicate execution",
+      "passed": true,
+      "ms": 17.64
+    },
+    {
+      "name": "automation loops and overly short recurrence rejected",
+      "passed": true,
+      "ms": 33.18
+    },
+    {
+      "name": "communication analytics count real deliveries and failures",
+      "passed": true,
+      "ms": 245.78
+    },
+    {
+      "name": "unsupported provider cost metric remains unavailable",
+      "passed": true,
+      "ms": 72.9
+    },
+    {
+      "name": "cross-society inbox access denied",
+      "passed": true,
+      "ms": 44.99
+    },
+    {
+      "name": "cross-chapter analytics denied",
+      "passed": true,
+      "ms": 64.08
+    },
+    {
+      "name": "delivery queue cannot be inspected by ordinary member",
+      "passed": true,
+      "ms": 44.42
+    },
+    {
+      "name": "authenticated inbox meets documented local target",
+      "passed": true,
+      "ms": 0.0
+    }
+  ]
+}

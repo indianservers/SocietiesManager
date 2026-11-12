@@ -1,0 +1,123 @@
+{
+  "checks": [
+    {
+      "check": "Legacy invoice URL preserves query/hash",
+      "url": "http://127.0.0.1:5174/app/finance/billing?status=Issued&marker=keep&view=invoices#records",
+      "passed": true
+    },
+    {
+      "check": "/app/members/committees",
+      "region": "Committees",
+      "url": "http://127.0.0.1:5174/app/members/governance?view=committees",
+      "passed": true
+    },
+    {
+      "check": "/app/community/invitations",
+      "region": "My invitations",
+      "url": "http://127.0.0.1:5174/app/community/events?view=invitations",
+      "passed": true
+    },
+    {
+      "check": "/app/regions",
+      "region": "Region directory",
+      "url": "http://127.0.0.1:5174/app/organization?view=regions",
+      "passed": true
+    },
+    {
+      "check": "/app/branding",
+      "region": "Brand & domains",
+      "url": "http://127.0.0.1:5174/app/settings?view=branding",
+      "passed": true
+    },
+    {
+      "check": "/app/finance/reconciliation",
+      "region": "Bank reconciliation",
+      "url": "http://127.0.0.1:5174/app/finance/collections?view=reconciliation",
+      "passed": true
+    },
+    {
+      "check": "/app/finance/ledger",
+      "region": "General ledger",
+      "url": "http://127.0.0.1:5174/app/finance/accounting?view=ledger",
+      "passed": true
+    },
+    {
+      "check": "/app/finance/expenses",
+      "region": "Expenses & evidence",
+      "url": "http://127.0.0.1:5174/app/finance/planning?view=expenses",
+      "passed": true
+    },
+    {
+      "check": "/app/communications/templates",
+      "region": "Message templates",
+      "url": "http://127.0.0.1:5174/app/communications/content?view=templates",
+      "passed": true
+    },
+    {
+      "check": "/app/communications/review",
+      "region": "Approvals",
+      "url": "http://127.0.0.1:5174/app/communications/broadcasts?view=review",
+      "passed": true
+    },
+    {
+      "check": "/app/service/impact",
+      "region": "Verified outcomes & metrics",
+      "url": "http://127.0.0.1:5174/app/service?view=impact",
+      "passed": true
+    },
+    {
+      "check": "/app/studio/my",
+      "region": "My cards & certificates",
+      "url": "http://127.0.0.1:5174/app/account?view=documents",
+      "passed": true
+    },
+    {
+      "check": "/app/members/self",
+      "region": "My memberships",
+      "url": "http://127.0.0.1:5174/app/account?view=memberships",
+      "passed": true
+    },
+    {
+      "check": "/app/finance/my",
+      "region": "My balances & receipts",
+      "url": "http://127.0.0.1:5174/app/finance/collections?view=my",
+      "passed": true
+    },
+    {
+      "check": "/app/communications/preferences",
+      "region": "My preferences",
+      "url": "http://127.0.0.1:5174/app/communications/settings?view=preferences",
+      "passed": true
+    },
+    {
+      "check": "Member cannot mount administration sections",
+      "passed": true
+    },
+    {
+      "check": "Member account at 390px",
+      "passed": true,
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "check": "Administrator billing at 390px",
+      "passed": true,
+      "scrollWidth": 375,
+      "width": 375
+    },
+    {
+      "check": "Administrator menu reduced to 11 entries",
+      "passed": true,
+      "count": 11
+    },
+    {
+      "check": "Sign-out resets the previous member workspace scope",
+      "passed": true
+    }
+  ],
+  "automatedSectionTests": 5,
+  "adminMenuBefore": 24,
+  "adminMenuAfter": 11,
+  "consoleErrors": [],
+  "scope": "Local browser checks with existing synthetic administrator/member accounts; forms opened without submitting financial or issuance transactions. Backend APIs unchanged."
+}

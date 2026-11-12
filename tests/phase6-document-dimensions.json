@@ -1,0 +1,58 @@
+{
+  "card": {
+    "passed": true,
+    "pages": 2,
+    "dimensions": [
+      {
+        "widthMm": 85.60011666666666,
+        "heightMm": 53.97993888888889
+      },
+      {
+        "widthMm": 85.60011666666666,
+        "heightMm": 53.97993888888889
+      }
+    ]
+  },
+  "certificate": {
+    "passed": true,
+    "pages": 1,
+    "dimensions": [
+      {
+        "widthMm": 297.0000833333333,
+        "heightMm": 210.0001444444444
+      }
+    ]
+  },
+  "sheet": {
+    "passed": true,
+    "pages": 2,
+    "dimensions": [
+      {
+        "widthMm": 210.0001444444444,
+        "heightMm": 297.0000833333333
+      },
+      {
+        "widthMm": 210.0001444444444,
+        "heightMm": 297.0000833333333
+      }
+    ]
+  },
+  "duplex": {
+    "passed": true,
+    "positions": [
+      {
+        "xMm": 10.000015277777777,
+        "yMm": 10.00000250000005,
+        "widthMm": 85.60001083333333,
+        "heightMm": 53.98000944444444
+      },
+      {
+        "xMm": 98.90001527777777,
+        "yMm": 9.799977500000068,
+        "widthMm": 85.60001083333333,
+        "heightMm": 53.98000944444444
+      }
+    ],
+    "basis": "2 columns, 3 mm gap, 10 mm margin, mirrored back column, X +0.3 mm, Y -0.2 mm. Mathematical PDF geometry; physical printer calibration remains required."
+  }
+}

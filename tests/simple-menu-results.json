@@ -1,0 +1,73 @@
+{
+  "preview": "http://localhost:5187",
+  "checks": [
+    {
+      "check": "Seven main menu links and horizontal Finance tabs",
+      "pass": true
+    },
+    {
+      "check": "Legacy finance group retains tool, query and fragment",
+      "pass": true
+    },
+    {
+      "check": "Home keyboard switches to one selected panel",
+      "pass": true
+    },
+    {
+      "check": "Browser Back restores Summary",
+      "pass": true
+    },
+    {
+      "check": "Form tabs retain unsaved values",
+      "pass": true
+    },
+    {
+      "check": "Messages horizontal tabs and chapter-group inbox filter",
+      "pass": true
+    },
+    {
+      "check": "Activities unifies projects, events and tabbed volunteer records",
+      "pass": true
+    },
+    {
+      "check": "Review selector exposes community approvals, moderation and insights",
+      "pass": true
+    },
+    {
+      "check": "People includes organization hierarchy, regions and chapters",
+      "pass": true
+    },
+    {
+      "check": "Reports split into run, saved, schedules and downloads panels",
+      "pass": true
+    },
+    {
+      "check": "My account retains password form under Security",
+      "pass": true
+    },
+    {
+      "check": "Mobile Finance tabs scroll within page without horizontal overflow",
+      "pass": true
+    },
+    {
+      "check": "Mobile General settings uses three short form tabs without page overflow",
+      "pass": true
+    },
+    {
+      "check": "Member menu hides administrative Settings and Documents areas",
+      "pass": true
+    },
+    {
+      "check": "Member documents remain accessible in My account",
+      "pass": true
+    },
+    {
+      "check": "Documents retains unified card/certificate register, requests, export and print",
+      "pass": true
+    },
+    {
+      "check": "Desktop dark theme retains readable horizontal finance tabs",
+      "pass": true
+    }
+  ]
+}

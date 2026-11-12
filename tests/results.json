@@ -4,337 +4,337 @@
     {
       "name": "user signup and email verification",
       "passed": true,
-      "ms": 410.57
+      "ms": 434.23
     },
     {
       "name": "login",
       "passed": true,
-      "ms": 102.23
+      "ms": 138.2
     },
     {
       "name": "CSRF rejection",
       "passed": true,
-      "ms": 16.88
+      "ms": 18.57
     },
     {
       "name": "password recovery request",
       "passed": true,
-      "ms": 23.84
+      "ms": 34.02
     },
     {
       "name": "password recovery completion",
       "passed": true,
-      "ms": 58.7
+      "ms": 133.43
     },
     {
       "name": "login after password reset",
       "passed": true,
-      "ms": 70.2
+      "ms": 128.07
     },
     {
       "name": "society application",
       "passed": true,
-      "ms": 71.04
+      "ms": 91.11
     },
     {
       "name": "duplicate society rejected",
       "passed": true,
-      "ms": 60.42
+      "ms": 80.2
     },
     {
       "name": "no administrator workspace before approval",
       "passed": true,
-      "ms": 105.79
+      "ms": 96.64
     },
     {
       "name": "unauthorized society approval blocked",
       "passed": true,
-      "ms": 36.93
+      "ms": 21.51
     },
     {
       "name": "authorized society approval",
       "passed": true,
-      "ms": 370.2
+      "ms": 716.61
     },
     {
       "name": "workspace discovery",
       "passed": true,
-      "ms": 17.49
+      "ms": 36.4
     },
     {
       "name": "platform admin cannot browse private tenant",
       "passed": true,
-      "ms": 14.91
+      "ms": 49.37
     },
     {
       "name": "approval cannot be repeated",
       "passed": true,
-      "ms": 9.91
+      "ms": 11.26
     },
     {
       "name": "society rejection",
       "passed": true,
-      "ms": 11.91
+      "ms": 18.19
     },
     {
       "name": "society onboarding save",
       "passed": true,
-      "ms": 60.9
+      "ms": 79.89
     },
     {
       "name": "society activation",
       "passed": true,
-      "ms": 24.96
+      "ms": 40.87
     },
     {
       "name": "region creation",
       "passed": true,
-      "ms": 61.95
+      "ms": 100.68
     },
     {
       "name": "second region creation",
       "passed": true,
-      "ms": 11.47
+      "ms": 18.38
     },
     {
       "name": "chapter creation",
       "passed": true,
-      "ms": 36.21
+      "ms": 51.91
     },
     {
       "name": "invalid parent type rejected",
       "passed": true,
-      "ms": 17.65
+      "ms": 20.19
     },
     {
       "name": "duplicate chapter code rejected",
       "passed": true,
-      "ms": 43.23
+      "ms": 32.46
     },
     {
       "name": "chapter suspension",
       "passed": true,
-      "ms": 45.75
+      "ms": 61.27
     },
     {
       "name": "chapter reassignment",
       "passed": true,
-      "ms": 36.23
+      "ms": 43.79
     },
     {
       "name": "stale edit conflict",
       "passed": true,
-      "ms": 14.0
+      "ms": 14.42
     },
     {
       "name": "alternate hierarchy definition",
       "passed": true,
-      "ms": 51.1
+      "ms": 45.49
     },
     {
       "name": "hierarchy level editing",
       "passed": true,
-      "ms": 32.11
+      "ms": 30.91
     },
     {
       "name": "hierarchy cycle prevention",
       "passed": true,
-      "ms": 15.11
+      "ms": 19.91
     },
     {
       "name": "cross-tenant dashboard isolation",
       "passed": true,
-      "ms": 4.44
+      "ms": 6.55
     },
     {
       "name": "unauthorized chapter editing blocked",
       "passed": true,
-      "ms": 8.57
+      "ms": 8.29
     },
     {
       "name": "cross-society parent rejected",
       "passed": true,
-      "ms": 9.74
+      "ms": 12.26
     },
     {
       "name": "unauthorized society settings blocked",
       "passed": true,
-      "ms": 4.02
+      "ms": 8.79
     },
     {
       "name": "tree pagination bounded",
       "passed": true,
-      "ms": 44.89
+      "ms": 59.93
     },
     {
       "name": "lazy root loading",
       "passed": true,
-      "ms": 19.7
+      "ms": 30.28
     },
     {
       "name": "region search",
       "passed": true,
-      "ms": 24.01
+      "ms": 32.25
     },
     {
       "name": "chapter status filtering",
       "passed": true,
-      "ms": 19.43
+      "ms": 24.81
     },
     {
       "name": "role creation",
       "passed": true,
-      "ms": 21.74
+      "ms": 17.45
     },
     {
       "name": "role editing",
       "passed": true,
-      "ms": 17.27
+      "ms": 22.04
     },
     {
       "name": "officer invitation",
       "passed": true,
-      "ms": 25.7
+      "ms": 42.83
     },
     {
       "name": "verified invitation acceptance",
       "passed": true,
-      "ms": 28.67
+      "ms": 35.59
     },
     {
       "name": "invitation replay blocked",
       "passed": true,
-      "ms": 7.87
+      "ms": 11.37
     },
     {
       "name": "role assignment",
       "passed": true,
-      "ms": 28.85
+      "ms": 30.89
     },
     {
       "name": "scoped workspace dashboard narrows counts",
       "passed": true,
-      "ms": 50.31
+      "ms": 49.68
     },
     {
       "name": "unrelated workspace parameter grants no authority",
       "passed": true,
-      "ms": 15.72
+      "ms": 22.49
     },
     {
       "name": "scoped hierarchy exposes its authorized root",
       "passed": true,
-      "ms": 26.48
+      "ms": 67.85
     },
     {
       "name": "scoped chapter read allowed",
       "passed": true,
-      "ms": 11.23
+      "ms": 13.28
     },
     {
       "name": "permission scope enforcement",
       "passed": true,
-      "ms": 6.15
+      "ms": 8.88
     },
     {
       "name": "scoped officer cannot assign roles",
       "passed": true,
-      "ms": 7.07
+      "ms": 9.1
     },
     {
       "name": "future leadership not yet effective",
       "passed": true,
-      "ms": 13.46
+      "ms": 17.76
     },
     {
       "name": "expired leadership assignment accepted as history",
       "passed": true,
-      "ms": 10.62
+      "ms": 16.8
     },
     {
       "name": "expired leadership grants no access",
       "passed": true,
-      "ms": 7.54
+      "ms": 8.83
     },
     {
       "name": "future leadership grants no access",
       "passed": true,
-      "ms": 9.49
+      "ms": 11.19
     },
     {
       "name": "invalid leadership effective dates",
       "passed": true,
-      "ms": 16.05
+      "ms": 18.22
     },
     {
       "name": "workspace metadata excludes application personal data",
       "passed": true,
-      "ms": 5.72
+      "ms": 23.35
     },
     {
       "name": "workspace switching remains isolated",
       "passed": true,
-      "ms": 9.86
+      "ms": 10.52
     },
     {
       "name": "recursive region chapter counts",
       "passed": true,
-      "ms": 18.74
+      "ms": 24.42
     },
     {
       "name": "validated PNG upload",
       "passed": true,
-      "ms": 39.87
+      "ms": 61.9
     },
     {
       "name": "invalid image upload rejected",
       "passed": true,
-      "ms": 5.52
+      "ms": 12.48
     },
     {
       "name": "unauthorized image upload rejected",
       "passed": true,
-      "ms": 3.76
+      "ms": 9.39
     },
     {
       "name": "uploaded image strips metadata",
       "passed": true,
-      "ms": 14.98
+      "ms": 23.54
     },
     {
       "name": "cross-tenant image retrieval blocked",
       "passed": true,
-      "ms": 3.39
+      "ms": 6.94
     },
     {
       "name": "audit trail generation",
       "passed": true,
-      "ms": 19.58
+      "ms": 33.83
     },
     {
       "name": "PostgreSQL cycle and immutable-history guards",
       "passed": true,
-      "ms": 50.52
+      "ms": 64.78
     },
     {
       "name": "PostgreSQL migrations applied",
       "passed": true,
-      "ms": 35.05
+      "ms": 50.71
     },
     {
       "name": "one verified identity switches between two societies",
       "passed": true,
-      "ms": 95.13
+      "ms": 151.21
     },
     {
       "name": "logout",
       "passed": true,
-      "ms": 5.78
+      "ms": 5.76
     },
     {
       "name": "session revoked on logout",
       "passed": true,
-      "ms": 2.72
+      "ms": 2.54
     }
   ],
   "passed": 67,

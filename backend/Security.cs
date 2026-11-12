@@ -6,7 +6,7 @@ public class Access(AppDb db, IHttpContextAccessor accessor)
 {
     public Guid UserId => Guid.Parse(accessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier)!);
     public async Task<bool> Platform() => await db.Users.AnyAsync(x => x.Id == UserId && x.PlatformAdmin);
-    public async Task RequirePlatform() { if (!await Platform()) throw new AccessDeniedException(); }
+    public async Task RequirePlatform() { if (!await Platform()) throw new AccessDeniedException(); await SecurityCenter.Strong(this,db,accessor); }
     public async Task Member(Guid tenant) { if (!await db.Links.AnyAsync(x => x.TenantId == tenant && x.UserId == UserId && db.Tenants.Any(t => t.Id == tenant && t.Status != "Suspended"))) throw new AccessDeniedException(); }
     public IQueryable<Unit> Visible(Guid tenant, string permission = "units.read")
     {
@@ -33,9 +33,9 @@ public class Access(AppDb db, IHttpContextAccessor accessor)
         if (await grants.AnyAsync(a => a.UnitId == null)) return true;
         return unit != null && await Visible(tenant, permission).AnyAsync(x => x.Id == unit);
     }
-    public async Task Require(Guid tenant, string permission, Guid? unit = null) { if (!await Can(tenant, permission, unit)) throw new AccessDeniedException(); }
+    public async Task Require(Guid tenant, string permission, Guid? unit = null) { if (!await Can(tenant, permission, unit)) throw new AccessDeniedException(); if(SecurityCenter.HighRisk.Contains(permission))await SecurityCenter.Strong(this,db,accessor); }
     public void Audit(Guid tenant, string action, Guid resource, object? detail = null) => db.Audits.Add(new Audit { TenantId = tenant, ActorId = UserId, Action = action, ResourceId = resource, Details = System.Text.Json.JsonSerializer.Serialize(detail ?? new { }) });
-    public static readonly string[] Permissions = ["units.read", "units.write", "hierarchy.manage", "roles.manage", "settings.manage", "audit.read", "directory.chapter", "directory.region", "directory.society", "members.admin", "members.read", "members.write", "members.approve", "members.billing", "members.export", "members.transfer", "members.import", "membership.settings", "governance.manage", "committees.manage", "activities.read", "activities.official", "activities.broadcast", "activities.approve", "activities.moderate", "activities.settings", "activities.analytics", "events.manage", "events.approve", "events.invite", "events.checkin", "events.analytics"];
+    public static readonly string[] Permissions = ["units.read", "units.write", "hierarchy.manage", "roles.manage", "settings.manage", "audit.read", "directory.chapter", "directory.region", "directory.society", "members.admin", "members.read", "members.write", "members.approve", "members.billing", "members.export", "members.transfer", "members.import", "membership.settings", "governance.manage", "committees.manage", "activities.read", "activities.official", "activities.broadcast", "activities.approve", "activities.moderate", "activities.settings", "activities.analytics", "events.manage", "events.approve", "events.invite", "events.checkin", "events.analytics","communications.send","communications.approve","communications.inbox","communications.groups","communications.moderate","communications.templates","communications.accounts","communications.automations","communications.analytics","communications.settings","communications.highvolume","finance.read","finance.configure","finance.dues","finance.invoice","finance.collect","finance.approve","finance.post","finance.periods","finance.bank","finance.reconcile","finance.refund","finance.budget","finance.expense","finance.export","finance.highvalue","finance.providers","finance.interentity",..StudioService.Permissions];
 }
 public class AccessDeniedException : Exception;
 public class DomainException(string message) : Exception(message);

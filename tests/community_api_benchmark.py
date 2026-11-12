@@ -1,4 +1,5 @@
 """Authenticated community/event benchmark on a disposable isolated PostgreSQL database."""
+from api_runtime import API_DLL
 from pathlib import Path
 import os,json,uuid,subprocess,time,statistics,urllib.request,urllib.error,urllib.parse,http.cookiejar,ast,socket
 import psycopg
@@ -9,14 +10,14 @@ admin=psycopg.connect(host='127.0.0.1',port=55439,dbname='postgres',user='postgr
 try:
  admin.execute(sql.SQL('CREATE DATABASE {}').format(sql.Identifier(database)));created=True
  env={**os.environ,'ConnectionStrings__Database':f"Host=127.0.0.1;Port=55439;Database={database};Username=postgres;Password={c['password']}",'ASPNETCORE_ENVIRONMENT':'Development','Logging__LogLevel__Default':'Error'}
- subprocess.run(['dotnet',str(ROOT/'backend/bin/Debug/net10.0/Society.Api.dll'),'--migrate'],cwd=ROOT/'backend',env=env,check=True,stdout=subprocess.DEVNULL)
+ subprocess.run(['dotnet',str(API_DLL),'--migrate'],cwd=ROOT/'backend',env=env,check=True,stdout=subprocess.DEVNULL)
  db=psycopg.connect(host='127.0.0.1',port=55439,dbname=database,user='postgres',password=c['password'])
  tree=ast.parse((ROOT/'tests/membership_benchmark.py').read_text(encoding='utf-8-sig'))
  seed=next(n.args[0].value for n in ast.walk(tree) if isinstance(n,ast.Call) and isinstance(n.func,ast.Attribute) and n.func.attr=='execute' and n.args and isinstance(n.args[0],ast.Constant) and isinstance(n.args[0].value,str) and 'CREATE TEMP TABLE bench_tenant' in n.args[0].value)
  start=time.perf_counter();db.execute(seed);tenant,chapter=db.execute('SELECT tenant,id FROM bench_chapters ORDER BY i LIMIT 1').fetchone();db.commit();insert_ms=round((time.perf_counter()-start)*1000,2)
  with socket.socket() as probe:probe.bind(('127.0.0.1',0));port=probe.getsockname()[1]
  env['PublicUrl']=f'http://127.0.0.1:{port}'
- log=open(ROOT/'.local/community-api-benchmark.log','w',encoding='utf-8');server=subprocess.Popen(['dotnet',str(ROOT/'backend/bin/Debug/net10.0/Society.Api.dll'),'--urls',env['PublicUrl']],cwd=ROOT/'backend',env=env,stdout=log,stderr=log)
+ log=open(ROOT/'.local/community-api-benchmark.log','w',encoding='utf-8');server=subprocess.Popen(['dotnet',str(API_DLL),'--urls',env['PublicUrl']],cwd=ROOT/'backend',env=env,stdout=log,stderr=log)
  base=env['PublicUrl']+'/api/v1';op=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))
  def call(path,method='GET',body=None):
   headers={'Content-Type':'application/json'}

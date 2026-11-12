@@ -1,0 +1,7 @@
+{
+  "workers": 6,
+  "requests": 18,
+  "successful": 18,
+  "elapsed_ms": 588.45,
+  "scope": "Signed mock-gateway duplicate captures against PostgreSQL; exactly one payment and receipt. No external payment."
+}

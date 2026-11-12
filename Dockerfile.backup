@@ -1,0 +1,10 @@
+FROM postgres:17
+RUN apt-get update && apt-get install -y --no-install-recommends python3 python3-venv && rm -rf /var/lib/apt/lists/*
+WORKDIR /opt/assemblia-backup
+RUN python3 -m venv /opt/backup-venv && /opt/backup-venv/bin/pip install --no-cache-dir psycopg[binary]==3.3.8 cryptography==50.0.2
+COPY scripts/backup_restore.py scripts/backup_loop.py scripts/check_backup_health.py ./
+ENV PATH="/opt/backup-venv/bin:${PATH}" BACKUP_DESTINATION=/backups BACKUP_OBJECTS=/objects BACKUP_KEYS=/keys
+# Dedicated backup process needs read access to the API-owned private volumes.
+# Mount objects/keys read-only; never mount the Docker socket or host root.
+USER 0
+ENTRYPOINT ["python", "backup_loop.py"]

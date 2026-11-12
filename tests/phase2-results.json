@@ -1,251 +1,251 @@
 {
-  "passed": 95,
-  "total": 95,
+  "passed": 97,
+  "total": 97,
   "results": [
     {
       "name": "verified member saves a draft application",
       "passed": true,
-      "ms": 79.32
+      "ms": 110.54
     },
     {
       "name": "draft application cannot be approved",
       "passed": true,
-      "ms": 39.08
+      "ms": 102.76
     },
     {
       "name": "member submits chapter application",
       "passed": true,
-      "ms": 17.56
+      "ms": 60.38
     },
     {
       "name": "duplicate application is rejected",
       "passed": true,
-      "ms": 56.46
+      "ms": 86.38
     },
     {
       "name": "applicant cannot approve own membership",
       "passed": true,
-      "ms": 9.41
+      "ms": 14.6
     },
     {
       "name": "authorized chapter approval activates membership",
       "passed": true,
-      "ms": 276.55
+      "ms": 482.02
     },
     {
       "name": "duplicate approval is rejected",
       "passed": true,
-      "ms": 5.76
+      "ms": 27.74
     },
     {
       "name": "member can read own full private profile",
       "passed": true,
-      "ms": 109.03
+      "ms": 216.96
     },
     {
       "name": "administrator creates person without login",
       "passed": true,
-      "ms": 24.73
+      "ms": 44.44
     },
     {
       "name": "shared phone numbers do not merge people",
       "passed": true,
-      "ms": 29.64
+      "ms": 81.69
     },
     {
       "name": "ordinary member sees chapter peer directory",
       "passed": true,
-      "ms": 80.13
+      "ms": 143.67
     },
     {
       "name": "ordinary directory redacts contact and professional data",
       "passed": true,
-      "ms": 54.12
+      "ms": 116.4
     },
     {
       "name": "cross-chapter private member IDOR blocked",
       "passed": true,
-      "ms": 8.66
+      "ms": 18.41
     },
     {
       "name": "cross-society member access blocked",
       "passed": true,
-      "ms": 2.07
+      "ms": 7.2
     },
     {
       "name": "member edits own permitted profile",
       "passed": true,
-      "ms": 43.05
+      "ms": 54.55
     },
     {
       "name": "stale member revision rejected",
       "passed": true,
-      "ms": 8.84
+      "ms": 17.2
     },
     {
       "name": "member cannot self-activate status/category changes",
       "passed": true,
-      "ms": 7.97
+      "ms": 17.56
     },
     {
       "name": "unauthorized member export blocked",
       "passed": true,
-      "ms": 20.08
+      "ms": 41.37
     },
     {
       "name": "officer creates secure membership account claim",
       "passed": true,
-      "ms": 48.45
+      "ms": 113.97
     },
     {
       "name": "verified recipient claims imported/manual person",
       "passed": true,
-      "ms": 55.09
+      "ms": 99.13
     },
     {
       "name": "claim invitation cannot be replayed",
       "passed": true,
-      "ms": 5.49
+      "ms": 25.59
     },
     {
       "name": "claim preserves existing membership and person ID",
       "passed": true,
-      "ms": 12.89
+      "ms": 26.57
     },
     {
       "name": "expired membership invitation rejected",
       "passed": true,
-      "ms": 6.33
+      "ms": 14.88
     },
     {
       "name": "society configures contact opt-in policy",
       "passed": true,
-      "ms": 45.01
+      "ms": 86.72
     },
     {
       "name": "member explicitly opts into contact sharing",
       "passed": true,
-      "ms": 11.62
+      "ms": 21.03
     },
     {
       "name": "contacts require policy and member consent together",
       "passed": true,
-      "ms": 26.9
+      "ms": 58.54
     },
     {
       "name": "contact consent never exposes birth date or addresses",
       "passed": true,
-      "ms": 25.16
+      "ms": 49.73
     },
     {
       "name": "officer appointment proposed with explicit term",
       "passed": true,
-      "ms": 129.2
+      "ms": 415.15
     },
     {
       "name": "overlapping exclusive officer term rejected",
       "passed": true,
-      "ms": 37.71
+      "ms": 181.97
     },
     {
       "name": "approved term grants existing scoped permissions",
       "passed": true,
-      "ms": 61.81
+      "ms": 178.95
     },
     {
       "name": "chapter secretary sees authorized private records",
       "passed": true,
-      "ms": 38.34
+      "ms": 70.59
     },
     {
       "name": "chapter secretary cannot access other chapter private profile",
       "passed": true,
-      "ms": 15.32
+      "ms": 23.16
     },
     {
       "name": "officer cannot appoint themselves",
       "passed": true,
-      "ms": 8.43
+      "ms": 12.23
     },
     {
       "name": "committee creation",
       "passed": true,
-      "ms": 35.8
+      "ms": 44.88
     },
     {
       "name": "committee member and responsibilities assigned",
       "passed": true,
-      "ms": 41.93
+      "ms": 60.65
     },
     {
       "name": "committee roster visible within chapter directory scope",
       "passed": true,
-      "ms": 28.26
+      "ms": 59.97
     },
     {
       "name": "committee removal retains historical entry",
       "passed": true,
-      "ms": 16.85
+      "ms": 40.16
     },
     {
       "name": "committee membership history preserved",
       "passed": true,
-      "ms": 15.95
+      "ms": 29.72
     },
     {
       "name": "treasurer cannot read private administrative profile",
       "passed": true,
-      "ms": 22.26
+      "ms": 41.71
     },
     {
       "name": "treasurer cannot manage member records",
       "passed": true,
-      "ms": 8.48
+      "ms": 11.98
     },
     {
       "name": "officer revocation removes administrative privilege immediately",
       "passed": true,
-      "ms": 19.46
+      "ms": 28.37
     },
     {
       "name": "revoked officer no longer sees private peer data",
       "passed": true,
-      "ms": 23.23
+      "ms": 33.54
     },
     {
       "name": "leadership handover incoming review",
       "passed": true,
-      "ms": 36.57
+      "ms": 37.99
     },
     {
       "name": "authorized handover approval activates dated successor",
       "passed": true,
-      "ms": 47.15
+      "ms": 130.76
     },
     {
       "name": "incoming future term has no current private access",
       "passed": true,
-      "ms": 24.54
+      "ms": 43.84
     },
     {
       "name": "expired officer term grants no private access",
       "passed": true,
-      "ms": 24.77
+      "ms": 37.29
     },
     {
       "name": "chapter transfer request",
       "passed": true,
-      "ms": 46.01
+      "ms": 55.34
     },
     {
       "name": "source chapter review",
       "passed": true,
-      "ms": 23.4
+      "ms": 43.73
     },
     {
       "name": "destination review makes due transfer effective",
       "passed": true,
-      "ms": 60.57
+      "ms": 211.98
     },
     {
       "name": "transfer preserves person number and original joining history",
@@ -255,17 +255,17 @@
     {
       "name": "transferred member loses old chapter directory",
       "passed": true,
-      "ms": 14.44
+      "ms": 14.06
     },
     {
       "name": "transfer rejection preserves affiliation",
       "passed": true,
-      "ms": 10.22
+      "ms": 14.6
     },
     {
       "name": "bulk CSV upload validates preview without writing memberships",
       "passed": true,
-      "ms": 57.15
+      "ms": 76.07
     },
     {
       "name": "invalid and duplicate import rows reported",
@@ -275,7 +275,7 @@
     {
       "name": "confirmed import queued durably",
       "passed": true,
-      "ms": 16.62
+      "ms": 23.7
     },
     {
       "name": "background import completes valid rows",
@@ -290,192 +290,202 @@
     {
       "name": "Excel XLSX member preview supported",
       "passed": true,
-      "ms": 21.47
+      "ms": 23.65
     },
     {
       "name": "membership intelligence reports real database counts",
       "passed": true,
-      "ms": 236.68
+      "ms": 299.78
     },
     {
       "name": "membership migration applied",
       "passed": true,
-      "ms": 37.77
+      "ms": 40.47
     },
     {
       "name": "profile photograph upload is private by default",
       "passed": true,
-      "ms": 41.51
+      "ms": 66.47
     },
     {
       "name": "photograph retrieval enforces directory and consent",
       "passed": true,
-      "ms": 14.74
+      "ms": 15.06
     },
     {
       "name": "supporting PDF attachment stored securely",
       "passed": true,
-      "ms": 10.37
+      "ms": 14.13
     },
     {
       "name": "member document access blocked for ordinary peer",
       "passed": true,
-      "ms": 10.74
+      "ms": 12.1
     },
     {
       "name": "authorized member document downloads as an attachment",
       "passed": true,
-      "ms": 20.28
+      "ms": 22.82
     },
     {
       "name": "HTML document upload rejected",
       "passed": true,
-      "ms": 5.42
+      "ms": 7.63
     },
     {
       "name": "oversized member upload rejected",
       "passed": true,
-      "ms": 5.72
+      "ms": 8.56
     },
     {
       "name": "revoked grants disappear from workspace discovery",
       "passed": true,
-      "ms": 44.73
+      "ms": 64.26
     },
     {
       "name": "one person holds memberships across two societies",
       "passed": true,
-      "ms": 52.69
+      "ms": 52.78
     },
     {
       "name": "society administrator cannot browse another society membership",
       "passed": true,
-      "ms": 2.98
+      "ms": 6.13
     },
     {
       "name": "configurable two-stage approval policy",
       "passed": true,
-      "ms": 8.65
+      "ms": 12.75
     },
     {
       "name": "existing verified account securely claims imported affiliation",
       "passed": true,
-      "ms": 35.19
+      "ms": 48.04
     },
     {
       "name": "claim reuses canonical person instead of duplicating identity",
       "passed": true,
-      "ms": 29.71
+      "ms": 50.22
     },
     {
       "name": "canonical identity retains three authorized affiliations",
       "passed": true,
-      "ms": 2.95
+      "ms": 4.27
     },
     {
       "name": "invitation registration creates draft without activation",
       "passed": true,
-      "ms": 6.09
+      "ms": 15.3
     },
     {
       "name": "invitation cannot bypass required approval",
       "passed": true,
-      "ms": 2.47
+      "ms": 3.74
     },
     {
       "name": "draft application supporting evidence uploaded",
       "passed": true,
-      "ms": 13.36
+      "ms": 23.58
     },
     {
       "name": "unauthorized ordinary member cannot read application documents",
       "passed": true,
-      "ms": 10.99
+      "ms": 20.61
     },
     {
       "name": "reviewer can request changes",
       "passed": true,
-      "ms": 9.98
+      "ms": 21.79
     },
     {
       "name": "applicant resubmits returned application",
       "passed": true,
-      "ms": 4.8
+      "ms": 9.21
     },
     {
       "name": "first approval stage does not activate membership",
       "passed": true,
-      "ms": 8.58
+      "ms": 17.72
     },
     {
       "name": "duplicate stage decision rejected by revision",
       "passed": true,
-      "ms": 12.25
+      "ms": 9.44
     },
     {
       "name": "final approval stage activates member",
       "passed": true,
-      "ms": 17.25
+      "ms": 31.1
     },
     {
       "name": "approval history records role organization and document evidence",
       "passed": true,
-      "ms": 12.8
+      "ms": 31.32
     },
     {
       "name": "membership rejection does not activate person",
       "passed": true,
-      "ms": 8.22
+      "ms": 19.08
     },
     {
       "name": "ordinary directory never exposes global person identifier",
       "passed": true,
-      "ms": 21.72
+      "ms": 30.03
     },
     {
       "name": "chapter president reads permitted administrative profile",
       "passed": true,
-      "ms": 28.49
+      "ms": 49.43
     },
     {
       "name": "chapter president has no unrelated chapter authority",
       "passed": true,
-      "ms": 8.46
+      "ms": 15.91
     },
     {
       "name": "regional officer supervises assigned subordinate chapters",
       "passed": true,
-      "ms": 28.52
+      "ms": 43.88
     },
     {
       "name": "regional officer cannot access unrelated region members",
       "passed": true,
-      "ms": 8.91
+      "ms": 14.27
     },
     {
       "name": "society configures regional directory visibility",
       "passed": true,
-      "ms": 6.81
+      "ms": 12.64
     },
     {
       "name": "regional directory follows hierarchy ancestors",
       "passed": true,
-      "ms": 25.62
+      "ms": 39.81
     },
     {
       "name": "regional directory remains inside assigned region",
       "passed": true,
-      "ms": 11.15
+      "ms": 34.44
     },
     {
       "name": "authorized member export neutralizes spreadsheet formulas",
       "passed": true,
-      "ms": 23.76
+      "ms": 32.36
     },
     {
       "name": "member export never includes private contact values",
       "passed": true,
-      "ms": 14.24
+      "ms": 22.28
+    },
+    {
+      "name": "editing existing member retains a retired category without blocking profile updates",
+      "passed": true,
+      "ms": 25.05
+    },
+    {
+      "name": "retired category cannot be newly assigned to another member",
+      "passed": true,
+      "ms": 15.29
     }
   ]
 }

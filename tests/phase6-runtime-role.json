@@ -1,0 +1,51 @@
+{
+  "passed": 11,
+  "total": 11,
+  "results": [
+    {
+      "name": "runtime can read migrated schema history",
+      "passed": true
+    },
+    {
+      "name": "runtime can read canonical membership",
+      "passed": true
+    },
+    {
+      "name": "runtime can read credential queue",
+      "passed": true
+    },
+    {
+      "name": "runtime can execute canonical scope function",
+      "passed": true
+    },
+    {
+      "name": "runtime can update ordinary membership metadata",
+      "passed": true
+    },
+    {
+      "name": "runtime cannot rewrite audit rows",
+      "passed": true
+    },
+    {
+      "name": "runtime cannot delete audit rows",
+      "passed": true
+    },
+    {
+      "name": "runtime cannot rewrite published designs",
+      "passed": true
+    },
+    {
+      "name": "runtime cannot delete issued financial journal lines",
+      "passed": true
+    },
+    {
+      "name": "runtime cannot rewrite migration history",
+      "passed": true
+    },
+    {
+      "name": "runtime cannot create schema objects",
+      "passed": true
+    }
+  ],
+  "scope": "Shipped grants exercised using SET ROLE on the real test database. No production runtime identity or deployed API was used."
+}

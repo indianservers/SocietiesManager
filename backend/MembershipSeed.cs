@@ -8,7 +8,7 @@ public static class MembershipSeed
     public static readonly string[] SocietyPositions = ["Society President", "Society Vice President", "Society Secretary", "Society Treasurer", "Executive Director", "Executive Committee Member", "National President", "National Secretary", "National Treasurer", "National Director", "Society Membership Director", "Society Events Director", "Society Service Director", "Society Training Director"];
     public static async Task Ensure(AppDb db, Guid tenant)
     {
-        await CommunityService.Seed(db,tenant);
+        await CommunityService.Seed(db,tenant); await CommunicationService.Seed(db,tenant); FinanceCommunication.Seed(db,tenant); db.Add(new StudioPolicy{TenantId=tenant}); db.Add(new TenantBrand{TenantId=tenant}); db.Add(new TenantSubscription{TenantId=tenant});
         foreach (var name in RoleTemplates.MembershipCategories) db.MembershipCategories.Add(new MembershipCategory { TenantId = tenant, Name = name });
         db.MembershipPolicies.Add(new MembershipPolicyRecord { TenantId = tenant });
         foreach (var tuple in ChapterPositions.Select(n => (name: n, level: "Chapter")).Concat(RegionalPositions.Select(n => (name: n, level: "Region"))).Concat(SocietyPositions.Select(n => (name: n, level: "Society"))))

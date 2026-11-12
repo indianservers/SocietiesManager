@@ -1,0 +1,12 @@
+[
+  {
+    "kind": "invoice",
+    "pages": 1,
+    "text": "Assemblia\nInvoice\nAnnual membership fee\nISSUER\nSynthetic Finance Entity\nTAX REGISTRATION\nNot configured\nBILL TO\nSynthetic finance-member\nDOCUMENT\nINV-2026-0000001  |  Issued 11 Nov 2026  |  Due 11 Dec 2026\nANNUAL DUES 2026-11-11 TO 2027-11-10\nINR 120.00\nSUMMARY\nSubtotal: INR 120.00\nDiscount: 0.00\nTax: 0.00\nTOTAL: INR 120.00\nREFERENCE\nca9e20b0-7f95-4d7e-9341-257b3ba6a638\nIssued historical document \u2022 Payment status is maintained separately  |  1 / 1\n"
+  },
+  {
+    "kind": "receipt",
+    "pages": 1,
+    "text": "Assemblia\nPayment receipt\nConfirmed collection \u2022 RCT-2026-0000002\nRECEIVED BY\nSynthetic Finance Entity\nRECEIPT\nRCT-2026-0000002  |  2026-11-11\nRECEIVED FROM\nSynthetic finance member\nAMOUNT RECEIVED\nINR 100.00\nPAYMENT METHOD\nCash\nCONFIRMED REFERENCE\nmanual-1712f148346b\nIMPORTANT\nThis receipt records confirmed collection. Unapplied amounts remain advances.\nSubsequent refunds and invoice allocations are shown in the live statement. No\ntax-deductibility representation is made.\nINTERNAL REFERENCE\n67d4ae1f-9043-4afe-88a7-26eac6c4ef0f\nFinancial record \u2022 Generated from authorized source records  |  1 / 1\n"
+  }
+]

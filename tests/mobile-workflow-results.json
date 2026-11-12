@@ -1,0 +1,24 @@
+{
+  "passed": 18,
+  "checks": [
+    "Mobile navigation opens, shows tenant branding, and closes after navigation",
+    "INST-0001 saves organizational/contact metadata",
+    "INST-0001 preserves membership category and status",
+    "INST-0001 reloads persisted changes and restores original data",
+    "IND-0001 saves organizational/contact metadata",
+    "IND-0001 preserves membership category and status",
+    "IND-0001 reloads persisted changes and restores original data",
+    "CORP-0001 saves organizational/contact metadata",
+    "CORP-0001 preserves membership category and status",
+    "CORP-0001 reloads persisted changes and restores original data",
+    "All six event wizard steps remain usable on mobile",
+    "Mobile event submission reaches API successfully",
+    "Event date, chapter, capacity and IANA timezone survive persistence",
+    "Submitted event opens from its detail URL",
+    "Settings tabs remain inside 360px viewport",
+    "Settings tabs remain inside 390px viewport",
+    "Settings tabs remain inside 768px viewport",
+    "Mobile workflows have no uncaught JavaScript errors"
+  ],
+  "pageErrors": []
+}

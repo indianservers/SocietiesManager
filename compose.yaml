@@ -12,11 +12,13 @@ services:
       interval: 5s
       retries: 10
   api:
+    image: ${ASSEMBLIA_IMAGE:-assemblia-local:development}
     build: .
     environment:
       ASPNETCORE_ENVIRONMENT: Production
-      ConnectionStrings__Database: Host=database;Database=assemblia;Username=assemblia;Password=${POSTGRES_PASSWORD}
+      ConnectionStrings__Database: ${RUNTIME_DATABASE_CONNECTION:?Set a restricted runtime database connection}
       Storage__Root: /app/storage
+      DataProtection__KeyPath: /app/keys
       PublicUrl: ${PUBLIC_URL:?Set PUBLIC_URL}
       Smtp__Host: ${SMTP_HOST}
       Smtp__User: ${SMTP_USER}
@@ -24,7 +26,7 @@ services:
       Smtp__From: ${SMTP_FROM}
     ports: ["127.0.0.1:5080:8080"]
     volumes:
-      - data-protection:/home/app/.aspnet/DataProtection-Keys
+      - data-protection:/app/keys
       - object-data:/app/storage
     depends_on:
       database:

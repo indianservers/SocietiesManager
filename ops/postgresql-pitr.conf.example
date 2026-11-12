@@ -1,0 +1,11 @@
+# Configuration scaffold only. Requires an operator-provisioned, encrypted,
+# monitored WAL archive plus a tested base-backup and recovery workflow.
+# This file is not enabled by the local development setup.
+wal_level = replica
+archive_mode = on
+archive_timeout = 300
+# Supply a verified WAL-G/WAL-E or equivalent archival command; it must return
+# success only after the WAL segment is durably stored off-host.
+# archive_command = 'wal-g wal-push %p'
+# restore_command = 'wal-g wal-fetch %f %p'
+# Production PITR remains blocked until its actual point-in-time restore drill.

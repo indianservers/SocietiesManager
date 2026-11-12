@@ -1,0 +1,79 @@
+name: Operator-authorized container release
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        options: [staging, production]
+        required: true
+      release_tag:
+        description: Immutable reviewed release tag, for example v1.0.0
+        required: true
+permissions:
+  actions: read
+  contents: read
+  packages: write
+concurrency:
+  group: release-${{ inputs.environment }}
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # Configure required reviewers and protected branches for this GitHub
+    # environment before enabling production deployment. No push trigger exists.
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.release_tag }}
+      - name: Validate reviewed release identifier
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][A-Za-z0-9.-]+)?$ ]]
+          test "$(git describe --tags --exact-match HEAD)" = "$RELEASE_TAG"
+      - name: Require successful verification for this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/workflows/verify.yml/runs?head_sha=$COMMIT_SHA&status=success" --jq '.workflow_runs | length' > /tmp/verified-runs
+          test "$(cat /tmp/verified-runs)" -ge 1
+      - name: Build reviewed image
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}:$RELEASE_TAG"
+          docker build --pull -t "$IMAGE" .
+          docker save "$IMAGE" -o /tmp/assemblia-image.tar
+          sha256sum /tmp/assemblia-image.tar > /tmp/assemblia-image.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-container-image
+          path: |
+            /tmp/assemblia-image.tar
+            /tmp/assemblia-image.sha256
+      - name: Publish reviewed image
+        env:
+          REGISTRY_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          printf '%s' "$REGISTRY_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          docker push "ghcr.io/${GITHUB_REPOSITORY,,}:$RELEASE_TAG"
+      - name: Deploy on the explicitly provisioned host
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          test -n "$DEPLOY_HOST" && test -n "$DEPLOY_USER" && test -n "$DEPLOY_KNOWN_HOSTS"
+          [[ "$DEPLOY_HOST" =~ ^[A-Za-z0-9.-]+$ ]] && [[ "$DEPLOY_USER" =~ ^[A-Za-z0-9_-]+$ ]]
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          # The host script owns backup, migration identity, digest pinning,
+          # health checks and rollback. It must be provisioned and rehearsed.
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "/opt/assemblia/deploy-reviewed-release '$RELEASE_TAG'"

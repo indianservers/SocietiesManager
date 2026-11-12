@@ -1,10 +1,11 @@
 """Phase 3 real PostgreSQL/HTTP suite, including Phases 1–2 regression."""
+from api_runtime import API_DLL
 import membership_integration as m
 import json,time,subprocess,datetime,uuid,concurrent.futures,urllib.request,urllib.error,statistics
 import psycopg
 p=m.p;ROOT=p.ROOT
 log=open(ROOT/'.local/phase3-api.log','w',encoding='utf-8')
-server=subprocess.Popen(['dotnet',str(ROOT/'backend/bin/Debug/net10.0/Society.Api.dll'),'--urls','http://127.0.0.1:5089'],cwd=ROOT/'backend',env=p.env,stdout=log,stderr=log)
+server=subprocess.Popen(['dotnet',str(API_DLL),'--urls','http://127.0.0.1:5089'],cwd=ROOT/'backend',env=p.env,stdout=log,stderr=log)
 results=[];owner=p.owner;other=p.other;tenant=p.tenant;prefix='/societies/'+tenant;base=prefix+'/community'
 now=datetime.datetime.now(datetime.timezone.utc)
 def iso(hours):return (now+datetime.timedelta(hours=hours)).isoformat()

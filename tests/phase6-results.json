@@ -1,0 +1,486 @@
+{
+  "passed": 96,
+  "total": 96,
+  "results": [
+    {
+      "name": "one validated physical schema creates a card template",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "unprivileged member cannot author templates",
+      "passed": true,
+      "ms": 39.14
+    },
+    {
+      "name": "unknown executable template fields are rejected",
+      "passed": true,
+      "ms": 16.62
+    },
+    {
+      "name": "unapproved sensitive placeholders are rejected",
+      "passed": true,
+      "ms": 13.41
+    },
+    {
+      "name": "published template creates an immutable version",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "PostgreSQL prevents published version edits",
+      "passed": true,
+      "ms": 47.28
+    },
+    {
+      "name": "official issuance waits for independent approval",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "credential author cannot approve own issuance",
+      "passed": true,
+      "ms": 32.22
+    },
+    {
+      "name": "member cannot download another unissued official file",
+      "passed": true,
+      "ms": 64.77
+    },
+    {
+      "name": "approved card is durably generated and issued",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "holder downloads real front back and PDF files",
+      "passed": true,
+      "ms": 0.01
+    },
+    {
+      "name": "another member cannot access private credential file",
+      "passed": true,
+      "ms": 28.69
+    },
+    {
+      "name": "cross-tenant credential reference is denied",
+      "passed": true,
+      "ms": 11.34
+    },
+    {
+      "name": "opaque QR verifies issued current membership",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "actual printed QR decodes to the exact opaque verification URL",
+      "passed": true,
+      "ms": 0.34
+    },
+    {
+      "name": "card PDF preserves exact CR80 dimensions and both sides",
+      "passed": true,
+      "ms": 0.01
+    },
+    {
+      "name": "public verification omits contact identity and finance fields",
+      "passed": true,
+      "ms": 0.04
+    },
+    {
+      "name": "issued data snapshot cannot be silently changed",
+      "passed": true,
+      "ms": 200.13
+    },
+    {
+      "name": "draft template edits do not change issued historical PDF",
+      "passed": true,
+      "ms": 22.88
+    },
+    {
+      "name": "duplicate current card requires replacement workflow",
+      "passed": true,
+      "ms": 36.34
+    },
+    {
+      "name": "replacement preserves history and invalidates previous card",
+      "passed": true,
+      "ms": 30.29
+    },
+    {
+      "name": "holder lost report immediately revokes verification",
+      "passed": true,
+      "ms": 9.34
+    },
+    {
+      "name": "bulk selection snapshot is durable before rendering",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "bulk requester cannot self approve",
+      "passed": true,
+      "ms": 16.52
+    },
+    {
+      "name": "approved bulk job completes per-member official issuance",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "bulk export runs as a separate durable job",
+      "passed": true,
+      "ms": 896.09
+    },
+    {
+      "name": "authorized ZIP contains actual generated PDFs",
+      "passed": true,
+      "ms": 0.67
+    },
+    {
+      "name": "expiring download link is bound to its authorized user",
+      "passed": true,
+      "ms": 11.01
+    },
+    {
+      "name": "calibrated front/back A4 sheet generation completes",
+      "passed": true,
+      "ms": 809.86
+    },
+    {
+      "name": "certificate uses the shared designer and approval renderer",
+      "passed": true,
+      "ms": 1877.09
+    },
+    {
+      "name": "joint project reuses canonical chapters and membership manager",
+      "passed": true,
+      "ms": 163.38
+    },
+    {
+      "name": "project author cannot self approve",
+      "passed": true,
+      "ms": 32.96
+    },
+    {
+      "name": "volunteer registration reuses the existing membership",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "recorded hours are not yet verified impact",
+      "passed": true,
+      "ms": 142.18
+    },
+    {
+      "name": "attendance recorder cannot verify own record",
+      "passed": true,
+      "ms": 59.62
+    },
+    {
+      "name": "independent verification exposes exact recorded hours",
+      "passed": true,
+      "ms": 44.98
+    },
+    {
+      "name": "unverified outcomes do not enter verified totals",
+      "passed": true,
+      "ms": 32.41
+    },
+    {
+      "name": "impact author cannot self verify",
+      "passed": true,
+      "ms": 37.89
+    },
+    {
+      "name": "joint chapters share one verified canonical impact result",
+      "passed": true,
+      "ms": 32.31
+    },
+    {
+      "name": "duplicate outcome evidence key cannot be counted twice",
+      "passed": true,
+      "ms": 78.44
+    },
+    {
+      "name": "outside chapter member cannot see private joint project",
+      "passed": true,
+      "ms": 13.17
+    },
+    {
+      "name": "integrated intelligence counts canonical verified hours and impact",
+      "passed": true,
+      "ms": 0.01
+    },
+    {
+      "name": "intelligence preserves each legal entity and currency",
+      "passed": true,
+      "ms": 0.01
+    },
+    {
+      "name": "unprivileged member cannot query officer intelligence",
+      "passed": true,
+      "ms": 16.52
+    },
+    {
+      "name": "all seventeen unified report families query authorized original sources",
+      "passed": true,
+      "ms": 979.63
+    },
+    {
+      "name": "ordinary member cannot export private membership report",
+      "passed": true,
+      "ms": 12.71
+    },
+    {
+      "name": "saved scheduled report completes through a durable authorized job",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "private unified report download contains verified source hours",
+      "passed": true,
+      "ms": 0.01
+    },
+    {
+      "name": "another officer cannot download the private report artifact",
+      "passed": true,
+      "ms": 11.11
+    },
+    {
+      "name": "guided assistant uses own authorized finance services",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "assistant cannot retrieve another member private credential",
+      "passed": true,
+      "ms": 39.91
+    },
+    {
+      "name": "prompt injection cannot execute financial or database changes",
+      "passed": true,
+      "ms": 48.53
+    },
+    {
+      "name": "unconfigured external AI is not falsely claimed active",
+      "passed": true,
+      "ms": 63.8
+    },
+    {
+      "name": "society branding and terminology persist within the tenant",
+      "passed": true,
+      "ms": 6.5
+    },
+    {
+      "name": "other society cannot modify this tenant brand",
+      "passed": true,
+      "ms": 12.92
+    },
+    {
+      "name": "branding rejects executable colors and unknown modules",
+      "passed": true,
+      "ms": 14.49
+    },
+    {
+      "name": "custom hostname is not verified before DNS proof",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "verified-host routing resolves the expected public tenant identity",
+      "passed": true,
+      "ms": 25.11
+    },
+    {
+      "name": "verified host cannot route to a different protected society",
+      "passed": true,
+      "ms": 4.05
+    },
+    {
+      "name": "private asset IDs cannot be downloaded through public branding path",
+      "passed": true,
+      "ms": 10.96
+    },
+    {
+      "name": "platform usage exposes aggregate metadata without private contacts",
+      "passed": true,
+      "ms": 0.04
+    },
+    {
+      "name": "society administrator is not implicitly a platform administrator",
+      "passed": true,
+      "ms": 10.39
+    },
+    {
+      "name": "plan feature entitlements block disabled card module APIs",
+      "passed": true,
+      "ms": 5.77
+    },
+    {
+      "name": "platform plan billing metadata remains separate from member finance",
+      "passed": true,
+      "ms": 36.16
+    },
+    {
+      "name": "production readiness does not claim unverified external gates passed",
+      "passed": true,
+      "ms": 33.45
+    },
+    {
+      "name": "member achievements project authoritative verified records",
+      "passed": true,
+      "ms": 83.48
+    },
+    {
+      "name": "authenticator enrollment returns single-use recovery codes only once",
+      "passed": true,
+      "ms": 10.92
+    },
+    {
+      "name": "MFA account password alone does not establish a signed-in session",
+      "passed": true,
+      "ms": 4.89
+    },
+    {
+      "name": "valid authenticator completes an MFA-marked session",
+      "passed": true,
+      "ms": 5.29
+    },
+    {
+      "name": "unsafe null fields return validation errors instead of server crashes",
+      "passed": true,
+      "ms": 5.97
+    },
+    {
+      "name": "template gallery materializes immutable version lists",
+      "passed": true,
+      "ms": 57.76
+    },
+    {
+      "name": "chapter reader discovers society-published standard designs",
+      "passed": true,
+      "ms": 20.07
+    },
+    {
+      "name": "shared standard reader receives published content instead of later draft",
+      "passed": true,
+      "ms": 21.91
+    },
+    {
+      "name": "shared standard reader cannot modify owning society draft",
+      "passed": true,
+      "ms": 10.19
+    },
+    {
+      "name": "completed issuance job exports without manually selecting register pages",
+      "passed": true,
+      "ms": 661.76
+    },
+    {
+      "name": "public verification records a minimal non-contact audit event",
+      "passed": true,
+      "ms": 54.01
+    },
+    {
+      "name": "hours correction removes contribution until independent re-verification",
+      "passed": true,
+      "ms": 24.51
+    },
+    {
+      "name": "hours correction retains the previous verified record",
+      "passed": true,
+      "ms": 60.59
+    },
+    {
+      "name": "hours correction author cannot approve the corrected record",
+      "passed": true,
+      "ms": 20.83
+    },
+    {
+      "name": "independent corrected hours return to verified achievements",
+      "passed": true,
+      "ms": 19.67
+    },
+    {
+      "name": "issued recognition shares through the existing official community policy",
+      "passed": true,
+      "ms": 0.0
+    },
+    {
+      "name": "recognition sharing is idempotent for the issued certificate",
+      "passed": true,
+      "ms": 26.76
+    },
+    {
+      "name": "member cannot bypass official recognition publishing authority",
+      "passed": true,
+      "ms": 29.81
+    },
+    {
+      "name": "Production HTTPS rejects privileged password-only sessions",
+      "passed": true,
+      "ms": 378.7
+    },
+    {
+      "name": "Production HTTPS requires MFA before establishing the enrolled account session",
+      "passed": true,
+      "ms": 18.72
+    },
+    {
+      "name": "Production HTTPS recognizes the recent authenticator session",
+      "passed": true,
+      "ms": 52.88
+    },
+    {
+      "name": "Production HTTPS allows authorized high-risk action after recent MFA",
+      "passed": true,
+      "ms": 157.61
+    },
+    {
+      "name": "Production recovery code establishes an MFA session once",
+      "passed": true,
+      "ms": 134.77
+    },
+    {
+      "name": "used recovery code cannot be replayed",
+      "passed": true,
+      "ms": 49.73
+    },
+    {
+      "name": "A3 sheet PDF preserves requested physical dimensions",
+      "passed": true,
+      "ms": 0.66
+    },
+    {
+      "name": "custom sheet PDF preserves requested physical dimensions",
+      "passed": true,
+      "ms": 0.95
+    },
+    {
+      "name": "bleed export expands physical trim dimensions by the template allowance",
+      "passed": true,
+      "ms": 0.5
+    },
+    {
+      "name": "certificate revocation invalidates the same opaque verification engine",
+      "passed": true,
+      "ms": 6.88
+    },
+    {
+      "name": "PostgreSQL membership quota rejects positive growth without blocking existing records",
+      "passed": true,
+      "ms": 153.79
+    },
+    {
+      "name": "nested required export layout cannot be null",
+      "passed": true,
+      "ms": 11.25
+    },
+    {
+      "name": "nested required bulk selection cannot be null",
+      "passed": true,
+      "ms": 15.23
+    }
+  ]
+}

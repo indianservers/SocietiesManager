@@ -1,0 +1,5436 @@
+{
+  "screens": 339,
+  "roles": [
+    "Chapter Committee Chair",
+    "Chapter Manager",
+    "Chapter President",
+    "Chapter Secretary",
+    "Chapter Treasurer",
+    "Chapter Vice President",
+    "District Governor",
+    "District Secretary",
+    "District Treasurer",
+    "Member Directory",
+    "National Director",
+    "National President",
+    "National Secretary",
+    "National Treasurer",
+    "Platform Administrator",
+    "Regional Coordinator",
+    "Regional President",
+    "Regional Secretary",
+    "Regional Treasurer",
+    "Society Administrator",
+    "Society Executive Member",
+    "Society President",
+    "Society Secretary",
+    "Society Treasurer",
+    "Zone Chairperson"
+  ],
+  "pageErrors": [],
+  "results": [
+    {
+      "role": "Society Administrator",
+      "route": "/app",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Membership rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members/governance",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Membership rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/organization",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Membership rules"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members/operations",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Membership rules"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Bulk import"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/community",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Community rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/community/events",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Community rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/service/projects",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Community rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/communications",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/finance",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/account",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/studio",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/settings",
+      "width": 360,
+      "scrollWidth": 360,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Audit"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Health"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Directory & time zone"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Membership rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Membership rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Membership rules"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Membership rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Community rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Community rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Community rules"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Audit"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Health"
+        }
+      ]
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members/governance",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/organization",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/members/operations",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/community",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/community/events",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/service/projects",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/communications",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/finance",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/account",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/studio",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Administrator",
+      "route": "/app/settings",
+      "width": 768,
+      "scrollWidth": 768,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "circle",
+          "cls": {},
+          "text": ""
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Member Directory",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Governor",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Governor",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "circle",
+          "cls": {},
+          "text": ""
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Treasurer",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Society Executive Member",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "circle",
+          "cls": {},
+          "text": ""
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Secretary",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Zone Chairperson",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter President",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "District Secretary",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Director",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Director",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Director",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "National Director",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "circle",
+          "cls": {},
+          "text": ""
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Treasurer",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society President",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society President",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Society President",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society President",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional President",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional President",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Society Secretary",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Regional Secretary",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Chapter Manager",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National President",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National President",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Automations"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "National President",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National President",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/members",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/members/governance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/organization",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Chapter directory"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/members/operations",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Requests & imports"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/community",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/community/events",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/service/projects",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Results & reviews"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/communications",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Delivery"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Settings"
+        },
+        {
+          "tag": "svg",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "path",
+          "cls": {},
+          "text": ""
+        },
+        {
+          "tag": "circle",
+          "cls": {},
+          "text": ""
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/finance",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Accounts"
+        },
+        {
+          "tag": "A",
+          "cls": "",
+          "text": "Reports & settings"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/account",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Achievements"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Applications"
+        },
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Join"
+        }
+      ]
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/studio",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "National Treasurer",
+      "route": "/app/settings",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": []
+    },
+    {
+      "role": "Platform Administrator",
+      "route": "/app/platform",
+      "width": 390,
+      "scrollWidth": 390,
+      "alerts": [],
+      "overflow": [
+        {
+          "tag": "BUTTON",
+          "cls": "",
+          "text": "Society registry"
+        }
+      ]
+    }
+  ]
+}

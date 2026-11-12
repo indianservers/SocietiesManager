@@ -146,7 +146,7 @@ export function useLoad<T = any>(path: string, enabled = true) {
     queryFn: () => api<T>(path),
     enabled,
     refetchInterval:
-      path.includes("/membership") || path === "/workspaces" ? 30000 : false,
+      path.includes("/communications") || path.includes("/finance") || path.includes("/studio") || path.includes("/service") ? 5000 : path.includes("/membership") || path === "/workspaces" ? 30000 : false,
   });
 }
 export function useAction() {

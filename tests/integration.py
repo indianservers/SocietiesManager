@@ -1,4 +1,5 @@
 """Real PostgreSQL + HTTP integration suite. Uses a dedicated database ending _test."""
+from api_runtime import API_DLL
 import os,sys,json,time,uuid,subprocess,urllib.request,urllib.error,http.cookiejar,urllib.parse,traceback
 from pathlib import Path
 import psycopg,struct,zlib,statistics
@@ -9,9 +10,9 @@ DSN=f'host=127.0.0.1 port=55439 dbname=assemblia_test user=postgres password={pa
 with psycopg.connect(f'host=127.0.0.1 port=55439 dbname=postgres user=postgres password={password}',autocommit=True) as conn:
  if not conn.execute("SELECT 1 FROM pg_database WHERE datname='assemblia_test'").fetchone():conn.execute('CREATE DATABASE assemblia_test')
 env={**os.environ,'ConnectionStrings__Database':f'Host=127.0.0.1;Port=55439;Database=assemblia_test;Username=postgres;Password={password}','ASPNETCORE_ENVIRONMENT':'Development','PublicUrl':'http://127.0.0.1:5089','Logging__LogLevel__Default':'Warning'}
-subprocess.run(['dotnet','run','--project','backend','--no-launch-profile','--','--migrate'],cwd=ROOT,env=env,check=True,stdout=subprocess.DEVNULL)
+subprocess.run(['dotnet',str(API_DLL),'--migrate'],cwd=ROOT,env=env,check=True,stdout=subprocess.DEVNULL)
 log=open(ROOT/'.local/test-api.log','w',encoding='utf-8')
-server=subprocess.Popen(['dotnet',str(ROOT/'backend/bin/Debug/net10.0/Society.Api.dll'),'--urls','http://127.0.0.1:5089'],cwd=ROOT/'backend',env=env,stdout=log,stderr=log)
+server=subprocess.Popen(['dotnet',str(API_DLL),'--urls','http://127.0.0.1:5089'],cwd=ROOT/'backend',env=env,stdout=log,stderr=log)
 BASE='http://127.0.0.1:5089/api/v1'
 class Client:
  def __init__(self):self.opener=urllib.request.build_opener(urllib.request.HTTPCookieProcessor(http.cookiejar.CookieJar()))

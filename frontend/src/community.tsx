@@ -1,7 +1,8 @@
+import {AreaTabs} from './area-tabs';
+import {WorkspaceSections,WorkspaceAlias} from './workspace-navigation';
 import { useEffect, useRef, useState } from "react";
 import {
   Link,
-  NavLink,
   Route,
   Routes,
   useParams,
@@ -28,7 +29,7 @@ import {
   Users,
   Video,
 } from "lucide-react";
-import { api } from "./api";
+import { api, details } from "./api";
 import {
   Badge,
   DataState,
@@ -149,7 +150,7 @@ function Editor({ value, onChange }: any) {
   );
 }
 export default function Community() {
-  const { tenant, switchWorkspace, refresh } = useCommunity();
+  const { tenant, switchWorkspace, refresh, can } = useCommunity();
   const [entryParams] = useSearchParams();
   const inviteTenant = entryParams.get("tenant");
   const inviteToken = entryParams.get("invitation");
@@ -177,35 +178,18 @@ export default function Community() {
     return <p>Opening your recipient invitation…</p>;
   return tenant ? (
     <>
-      <nav className="membership-nav community-nav">
-        {[
-          ["", "Community"],
-          ["events", "Events"],
-          ["invitations", "My invitations"],
-          ["intelligence", "Intelligence"],
-          ["review", "Approvals"],
-          ["moderation", "Moderation"],
-          ["settings", "Policies"],
-        ].map(([path, label]) => (
-          <NavLink
-            key={path}
-            end
-            to={"/app/community" + (path ? "/" + path : "")}
-          >
-            {label}
-          </NavLink>
-        ))}
-      </nav>
+      <AreaTabs area="activities"/>
       <Routes>
         <Route index element={<Feed />} />
         <Route path="posts/:id" element={<PostDetail />} />
-        <Route path="events" element={<Events />} />
+        <Route path="events" element={<WorkspaceSections label="Events & invitations" sections={[{id:"events",label:"Calendar & events",content:<Events/>},{id:"invitations",label:"My invitations",content:<Invitations/>}]}/>} />
         <Route path="events/:id" element={<EventDetail />} />
-        <Route path="invitations" element={<Invitations />} />
-        <Route path="review" element={<ReviewCenter />} />
-        <Route path="moderation" element={<Moderation />} />
+        <Route path="invitations" element={<WorkspaceAlias to="/app/community/events" query={{view:"invitations"}}/>} />
+        <Route path="oversight" element={<WorkspaceSections label="Community oversight" sections={[{id:"review",label:"Approvals",content:<ReviewCenter/>,visible:can("activities.approve")||can("events.approve")},{id:"moderation",label:"Moderation",content:<Moderation/>,visible:can("activities.moderate")},{id:"intelligence",label:"Activity & event insights",content:<Intelligence/>,visible:can("activities.analytics")||can("events.analytics")}]}/>} />
+        <Route path="review" element={<WorkspaceAlias to="/app/community/oversight" query={{view:"review"}}/>} />
+        <Route path="moderation" element={<WorkspaceAlias to="/app/community/oversight" query={{view:"moderation"}}/>} />
         <Route path="settings" element={<Settings />} />
-        <Route path="intelligence" element={<Intelligence />} />
+        <Route path="intelligence" element={<WorkspaceAlias to="/app/community/oversight" query={{view:"intelligence"}}/>} />
         <Route path="chapters/:id" element={<Chapter />} />
       </Routes>
     </>
@@ -2126,9 +2110,10 @@ function QuestionBuilder({ value, onChange }: any) {
 
 function EventDetail() {
   const { id } = useParams();
-  const { base, notify } = useCommunity();
+  const { base, notify, tenant } = useCommunity();
   const q = useLoad(base + "/events/" + id),
     setup = useLoad(base + "/setup");
+  const pricing = useLoad('/societies/'+tenant+'/finance/events/'+id+'/pricing');
   const [tab, setTab] = useState("Overview"),
     [edit, setEdit] = useState(false),
     [pass, setPass] = useState<any>(null),
@@ -2169,7 +2154,7 @@ function EventDetail() {
             <MapPin size={17} />
             {e.venue || e.mode}
           </p>
-          <Badge>{e.status}</Badge>
+          <Badge>{e.status}</Badge>{pricing.data&&<p className="finance-event-pricing">Registration: {pricing.data.currency} {pricing.data.memberPrice} member · {pricing.data.currency} {pricing.data.guestPrice} guest/companion. Payment confirms registration.</p>}
         </div>
         <div className="event-hero-symbol">
           <Users size={65} />
@@ -2304,7 +2289,7 @@ function EventDetail() {
                 </p>
                 {reg && (
                   <>
-                    <Badge>{reg.status}</Badge>
+                    <Badge>{reg.status}</Badge>{reg.status==='Awaiting Payment'&&<div className="comms-callout"><p>This registration requires a verified payment or approved alternative settlement.</p><button className="primary" onClick={()=>action.run(async()=>{await api('/societies/'+tenant+'/finance/events/'+id+'/registration-invoice','POST');location.assign('/app/finance/my')},'Registration invoice prepared')}>View registration invoice</button></div>}
                     <p>Reference: {reg.id.slice(0, 8).toUpperCase()}</p>
                     {reg.status === "Confirmed" &&
                       q.data.canParticipate &&
@@ -2814,6 +2799,8 @@ function CheckIn({ event: e }: any) {
   );
 }
 function Pass({ pass: p, onClose }: any) {
+  const { workspace } = useApp();
+  const societyName = details(workspace?.profile).displayName || workspace?.name || "Society";
   const [qr, setQr] = useState("");
   useEffect(() => {
     import("qrcode")
@@ -2838,7 +2825,7 @@ function Pass({ pass: p, onClose }: any) {
     c.fillRect(0, 0, 1000, 190);
     c.fillStyle = "#fff";
     c.font = "bold 40px Arial";
-    c.fillText("ASSEMBLIA / EVENT PASS", 60, 110);
+    c.fillText(societyName + " / EVENT PASS", 60, 110, 880);
     c.fillStyle = "#183f39";
     c.font = "bold 38px Arial";
     const title = p.title.length > 38 ? p.title.slice(0, 38) + "…" : p.title;
@@ -2876,7 +2863,7 @@ function Pass({ pass: p, onClose }: any) {
   return (
     <Drawer title="Your digital event pass" onClose={onClose}>
       <div className="event-pass">
-        <div className="eyebrow">ASSEMBLIA / ADMIT BY VERIFIED PASS</div>
+        <div className="eyebrow">{societyName} / ADMIT BY VERIFIED PASS</div>
         <h2>{p.title}</h2>
         <p>
           {date(p.startsAt, p.timeZone)} · {clock(p.startsAt, p.timeZone)}

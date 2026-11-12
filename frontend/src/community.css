@@ -310,6 +310,12 @@ button.active {
   display: grid;
   gap: 20px;
 }
+.drawer > .drawer-body {
+  padding: 22px;
+}
+.drawer > .drawer-actions {
+  padding: 20px 22px;
+}
 .community-form .field {
   margin: 0;
 }

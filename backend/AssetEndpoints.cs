@@ -3,11 +3,17 @@ using System.Buffers.Binary;
 using System.IO.Compression;
 namespace Society.Api;
 
-public interface IObjectStore { Task Put(Guid tenant, Guid id, byte[] bytes); Stream Open(Guid tenant, Guid id); }
-public class LocalObjectStore(IConfiguration c, IHostEnvironment env) : IObjectStore
+public record StorageUsage(long Bytes,int Objects);
+public interface IObjectStore { Task Put(Guid tenant, Guid id, byte[] bytes); Stream Open(Guid tenant, Guid id); StorageUsage Usage(Guid tenant); }
+public class LocalObjectStore(IConfiguration c, IHostEnvironment env,IServiceScopeFactory factory) : IObjectStore
 {
     string Root => Path.GetFullPath(c["Storage:Root"] ?? Path.Combine(env.ContentRootPath, "../.local/assets"));
-    public async Task Put(Guid tenant, Guid id, byte[] bytes) { var dir = Path.Combine(Root, tenant.ToString()); Directory.CreateDirectory(dir); await File.WriteAllBytesAsync(Path.Combine(dir, id + ".png"), bytes); }
+    readonly System.Collections.Concurrent.ConcurrentDictionary<Guid,SemaphoreSlim> locks=new();
+    readonly System.Collections.Concurrent.ConcurrentDictionary<Guid,StorageUsage> usage=new();
+    public StorageUsage Usage(Guid tenant){var gate=locks.GetOrAdd(tenant,_=>new SemaphoreSlim(1,1));gate.Wait();try{return Measure(tenant);}finally{gate.Release();}}
+    StorageUsage Measure(Guid tenant){var directory=Path.Combine(Root,tenant.ToString());var files=Directory.Exists(directory)?new DirectoryInfo(directory).EnumerateFiles("*.png",SearchOption.TopDirectoryOnly).Where(f=>(f.Attributes&FileAttributes.ReparsePoint)==0).ToArray():[];var value=new StorageUsage(files.Sum(f=>f.Length),files.Length);usage[tenant]=value;return value;}
+    public async Task Put(Guid tenant,Guid id,byte[] bytes){var gate=locks.GetOrAdd(tenant,_=>new SemaphoreSlim(1,1));await gate.WaitAsync();try{var dir=Path.Combine(Root,tenant.ToString());Directory.CreateDirectory(dir);var file=Path.Combine(dir,id+".png");var previous=File.Exists(file)?new FileInfo(file).Length:0;var current=usage.GetOrAdd(tenant,_=>Measure(tenant));using var scope=factory.CreateScope();var limit=await scope.ServiceProvider.GetRequiredService<AppDb>().Set<TenantSubscription>().Where(s=>s.TenantId==tenant).Select(s=>(long?)s.StorageLimit).SingleOrDefaultAsync();if(limit!=null&&current.Bytes+bytes.Length-previous>limit&&bytes.Length>previous)throw new DomainException("This society has reached its object-storage allowance; an authorized platform administrator must review its plan");var temp=Path.Combine(dir,id+"."+Guid.NewGuid()+".tmp");try{await File.WriteAllBytesAsync(temp,bytes);File.Move(temp,file,true);}finally{if(File.Exists(temp))File.Delete(temp);}usage[tenant]=new(current.Bytes+bytes.Length-previous,current.Objects+(previous==0?1:0));}finally{gate.Release();}}
+
     public Stream Open(Guid tenant, Guid id) => File.OpenRead(Path.Combine(Root, tenant.ToString(), id + ".png"));
 }
 public static class AssetEndpoints

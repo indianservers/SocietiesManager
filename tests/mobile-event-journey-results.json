@@ -1,0 +1,15 @@
+{
+  "passed": 8,
+  "checks": [
+    "Independent officer approves event on mobile",
+    "Ordinary member has no approval or check-in controls",
+    "Member RSVP persists",
+    "Member registration confirms a seat",
+    "Tenant-branded QR pass renders and PDF downloads",
+    "Authorized operator checks in the opaque pass",
+    "Duplicate check-in is rejected without counting twice",
+    "No uncaught browser errors"
+  ],
+  "pageErrors": [],
+  "event": "2a5ba738-671d-4767-9f17-1c870ee2a99f"
+}

@@ -1,0 +1,39 @@
+{
+  "passed": 8,
+  "total": 8,
+  "results": [
+    {
+      "name": "AES-GCM round trip returns exact bytes",
+      "passed": true
+    },
+    {
+      "name": "ciphertext authentication rejects a modified tag",
+      "passed": true
+    },
+    {
+      "name": "wrong encryption key cannot decrypt an archive",
+      "passed": true
+    },
+    {
+      "name": "restore rejects parent-traversal before database creation",
+      "passed": true
+    },
+    {
+      "name": "restore rejects symbolic-link before database creation",
+      "passed": true
+    },
+    {
+      "name": "fresh backup status is healthy",
+      "passed": true
+    },
+    {
+      "name": "later backup failure makes health fail",
+      "passed": true
+    },
+    {
+      "name": "stale backup status makes health fail",
+      "passed": true
+    }
+  ],
+  "scope": "Synthetic authenticated archives and health status. Invalid archives rejected before database creation. No production key or target."
+}

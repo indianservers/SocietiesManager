@@ -1,0 +1,33 @@
+# Install a valid certificate before using this configuration. Do not use a
+# self-signed browser exception as production acceptance evidence.
+map $http_upgrade $connection_upgrade { default upgrade; '' close; }
+upstream assemblia_api { server api:8080; }
+server {
+    listen 80 default_server;
+    server_name _;
+    return 444;
+}
+server {
+    listen 80;
+    server_name members.example.org;
+    return 301 https://$host$request_uri;
+}
+server {
+    listen 443 ssl;
+    server_name members.example.org;
+    # Add custom hostnames only after their DNS ownership verification.
+    ssl_certificate /run/secrets/tls_fullchain;
+    ssl_certificate_key /run/secrets/tls_private_key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    client_max_body_size 3m;
+    location / {
+        proxy_pass http://assemblia_api;
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+}

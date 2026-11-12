@@ -1,0 +1,252 @@
+{
+  "scenario": {
+    "Memberships": 100000,
+    "Units": 10001,
+    "FinanceInvoice": 100000,
+    "JournalEntry": 100000,
+    "JournalLine": 200000,
+    "chapters": 10000,
+    "persons": 100000
+  },
+  "fixture_insert_ms": 8247.23,
+  "accounting_fixture_ms": 57473.42,
+  "timings": {
+    "invoice_register": {
+      "median_ms": 239.243,
+      "p95_ms": 276.018,
+      "samples": 12,
+      "local_target_p95_ms": 2000,
+      "target_met": true
+    },
+    "chapter_filter": {
+      "median_ms": 57.102,
+      "p95_ms": 66.396,
+      "samples": 12,
+      "local_target_p95_ms": 2000,
+      "target_met": true
+    },
+    "dashboard": {
+      "median_ms": 955.755,
+      "p95_ms": 1183.795,
+      "samples": 12,
+      "local_target_p95_ms": 2000,
+      "target_met": true
+    },
+    "ledger_cursor": {
+      "median_ms": 461.536,
+      "p95_ms": 510.43,
+      "samples": 12,
+      "local_target_p95_ms": 2000,
+      "target_met": true
+    },
+    "trial_balance": {
+      "median_ms": 341.578,
+      "p95_ms": 394.777,
+      "samples": 12,
+      "local_target_p95_ms": 2000,
+      "target_met": true
+    },
+    "ageing": {
+      "median_ms": 440.903,
+      "p95_ms": 745.035,
+      "samples": 12,
+      "local_target_p95_ms": 2000,
+      "target_met": true
+    }
+  },
+  "annual_billing": {
+    "cohort_members": 1000,
+    "state": "Completed",
+    "processed": 1000,
+    "error": "",
+    "elapsed_ms": 21165.24,
+    "invoices_per_second": 47.25,
+    "scope": "Actual assessment and pending-review invoice creation; not issued-journal/PDF/payment throughput for 100000 recipients"
+  },
+  "concurrent_reads": {
+    "overlapping_readers": 6,
+    "requests": 24,
+    "failures": 0,
+    "p95_ms": 535.038
+  },
+  "explain_analyze_buffers": {
+    "invoice_due_index": [
+      {
+        "Plan": {
+          "Node Type": "Limit",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Startup Cost": 0.29,
+          "Total Cost": 7.44,
+          "Plan Rows": 50,
+          "Plan Width": 20,
+          "Actual Startup Time": 0.029,
+          "Actual Total Time": 0.24,
+          "Actual Rows": 50,
+          "Actual Loops": 1,
+          "Shared Hit Blocks": 0,
+          "Shared Read Blocks": 52,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Index Scan",
+              "Parent Relationship": "Outer",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Scan Direction": "Forward",
+              "Index Name": "IX_FinanceInvoice_TenantId_EntityId_Status_DueOn",
+              "Relation Name": "FinanceInvoice",
+              "Alias": "FinanceInvoice",
+              "Startup Cost": 0.29,
+              "Total Cost": 14302.48,
+              "Plan Rows": 100000,
+              "Plan Width": 20,
+              "Actual Startup Time": 0.028,
+              "Actual Total Time": 0.236,
+              "Actual Rows": 50,
+              "Actual Loops": 1,
+              "Index Cond": "((\"TenantId\" = '1b9ba8da-7897-457b-8818-1d846b8594ba'::uuid) AND (\"EntityId\" = 'fc13ed69-a9f6-4207-a845-5bb742259ae8'::uuid) AND (\"Status\" = 'Issued'::text))",
+              "Rows Removed by Index Recheck": 0,
+              "Shared Hit Blocks": 0,
+              "Shared Read Blocks": 52,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 0,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 0,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 38,
+          "Shared Read Blocks": 1,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.24,
+        "Triggers": [],
+        "Execution Time": 0.251
+      }
+    ],
+    "member_statement": [
+      {
+        "Plan": {
+          "Node Type": "Index Scan",
+          "Parallel Aware": false,
+          "Async Capable": false,
+          "Scan Direction": "Forward",
+          "Index Name": "finance_statement_member",
+          "Relation Name": "JournalLine",
+          "Alias": "JournalLine",
+          "Startup Cost": 0.44,
+          "Total Cost": 10.23,
+          "Plan Rows": 2,
+          "Plan Width": 23,
+          "Actual Startup Time": 0.08,
+          "Actual Total Time": 0.082,
+          "Actual Rows": 2,
+          "Actual Loops": 1,
+          "Index Cond": "((\"TenantId\" = '1b9ba8da-7897-457b-8818-1d846b8594ba'::uuid) AND (\"MembershipId\" = (InitPlan 1).col1))",
+          "Rows Removed by Index Recheck": 0,
+          "Shared Hit Blocks": 2,
+          "Shared Read Blocks": 3,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 1,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 3,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0,
+          "Plans": [
+            {
+              "Node Type": "Limit",
+              "Parent Relationship": "InitPlan",
+              "Subplan Name": "InitPlan 1",
+              "Parallel Aware": false,
+              "Async Capable": false,
+              "Startup Cost": 0.0,
+              "Total Cost": 0.02,
+              "Plan Rows": 1,
+              "Plan Width": 16,
+              "Actual Startup Time": 0.06,
+              "Actual Total Time": 0.061,
+              "Actual Rows": 1,
+              "Actual Loops": 1,
+              "Shared Hit Blocks": 0,
+              "Shared Read Blocks": 0,
+              "Shared Dirtied Blocks": 0,
+              "Shared Written Blocks": 0,
+              "Local Hit Blocks": 0,
+              "Local Read Blocks": 1,
+              "Local Dirtied Blocks": 0,
+              "Local Written Blocks": 3,
+              "Temp Read Blocks": 0,
+              "Temp Written Blocks": 0,
+              "Plans": [
+                {
+                  "Node Type": "Seq Scan",
+                  "Parent Relationship": "Outer",
+                  "Parallel Aware": false,
+                  "Async Capable": false,
+                  "Relation Name": "finance_fixture",
+                  "Alias": "finance_fixture",
+                  "Startup Cost": 0.0,
+                  "Total Cost": 2472.0,
+                  "Plan Rows": 100000,
+                  "Plan Width": 16,
+                  "Actual Startup Time": 0.06,
+                  "Actual Total Time": 0.06,
+                  "Actual Rows": 1,
+                  "Actual Loops": 1,
+                  "Shared Hit Blocks": 0,
+                  "Shared Read Blocks": 0,
+                  "Shared Dirtied Blocks": 0,
+                  "Shared Written Blocks": 0,
+                  "Local Hit Blocks": 0,
+                  "Local Read Blocks": 1,
+                  "Local Dirtied Blocks": 0,
+                  "Local Written Blocks": 3,
+                  "Temp Read Blocks": 0,
+                  "Temp Written Blocks": 0
+                }
+              ]
+            }
+          ]
+        },
+        "Planning": {
+          "Shared Hit Blocks": 30,
+          "Shared Read Blocks": 0,
+          "Shared Dirtied Blocks": 0,
+          "Shared Written Blocks": 0,
+          "Local Hit Blocks": 0,
+          "Local Read Blocks": 0,
+          "Local Dirtied Blocks": 0,
+          "Local Written Blocks": 0,
+          "Temp Read Blocks": 0,
+          "Temp Written Blocks": 0
+        },
+        "Planning Time": 0.167,
+        "Triggers": [],
+        "Execution Time": 0.094
+      }
+    ]
+  },
+  "scope": "Freshly migrated disposable PostgreSQL database; source-linked 100000 issued invoices, 100000 balanced posted journals and 200000 immutable lines. Synthetic SQL load fixtures remain distinct from measured actual API billing. No network payment provider or real recipient."
+}

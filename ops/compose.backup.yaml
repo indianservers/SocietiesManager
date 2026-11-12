@@ -1,0 +1,42 @@
+# Opt-in only: docker compose -f compose.yaml -f ops/compose.backup.yaml --profile backup up -d
+services:
+  api:
+    environment:
+      Operations__BackupStatusRoot: /app/backup-status
+    volumes:
+      - backup-data:/app/backup-status:ro
+  backup:
+    profiles: [backup]
+    build:
+      context: .
+      dockerfile: Dockerfile.backup
+    environment:
+      PGHOST: database
+      PGPORT: 5432
+      PGDATABASE: assemblia
+      PGUSER: ${BACKUP_DB_USER:?Set a dedicated backup/restore role}
+      PGPASSWORD: ${BACKUP_DB_PASSWORD:?Set the backup role secret}
+      BACKUP_ENCRYPTION_KEY_FILE: /run/secrets/backup_key
+      BACKUP_INTERVAL_SECONDS: 86400
+      BACKUP_RETENTION_DAYS: 7
+      BACKUP_VERIFY_EVERY: 7
+    volumes:
+      - object-data:/objects:ro
+      - data-protection:/keys:ro
+      - backup-data:/backups
+    secrets: [backup_key]
+    healthcheck:
+      test: [CMD, python, check_backup_health.py]
+      interval: 5m
+      timeout: 10s
+      start_period: 10m
+      retries: 2
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: unless-stopped
+secrets:
+  backup_key:
+    file: ${BACKUP_KEY_FILE:?Provide the protected base64 AES key file outside the repository}
+volumes:
+  backup-data:
