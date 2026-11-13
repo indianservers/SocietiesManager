@@ -1,5 +1,5 @@
 {
-  "passed": 11,
+  "passed": 19,
   "checks": [
     "same account displays institutional member ID alongside Individual membership",
     "institution controller can open member roster on mobile",
@@ -8,6 +8,14 @@
     "roster and IDs fit mobile width 390",
     "roster and IDs fit mobile width 768",
     "removing student retains their ID in history",
+    "institution admin can download an Excel upload template",
+    "Excel upload previews valid and duplicate rows before import",
+    "skipping invalid rows requires explicit acknowledgment",
+    "bulk import preview fits mobile width 360",
+    "bulk import preview fits mobile width 390",
+    "bulk import preview fits mobile width 768",
+    "confirming upload adds the valid student and retains their previewed ID",
+    "re-uploading the same Excel file cannot silently add duplicate people",
     "faculty sees their own institutional ID without administrator access",
     "faculty cannot see private organization roster",
     "faculty can open eligible institutional resources end to end",

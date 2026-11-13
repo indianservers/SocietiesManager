@@ -80,6 +80,9 @@ public class OrganizationMember
     public string Number { get; set; } = "";
     public string FullName { get; set; } = "";
     public string? Email { get; set; }
+    public string? Mobile { get; set; }
+    public string? ReferenceKey { get; set; }
+    public string? NumberKey { get; set; }
     public string Role { get; set; } = "Student";
     public string Reference { get; set; } = "";
     public DateTimeOffset AddedAt { get; set; } = DateTimeOffset.UtcNow;
@@ -87,7 +90,19 @@ public class OrganizationMember
 }
 public record OrganizationMemberWrite([property: Required, MaxLength(160)] string FullName,
     [property: EmailAddress, MaxLength(254)] string? Email, [property: Required, MaxLength(40)] string Role,
-    [property: MaxLength(100)] string Reference = "");
+    [property: MaxLength(100)] string Reference = "", [property: MaxLength(30)] string? Mobile = null,
+    [property: MaxLength(254)] string? MemberId = null);
+
+public class OrganizationRosterImport
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid TenantId { get; set; }
+    public Guid MembershipId { get; set; }
+    public Guid ActorId { get; set; }
+    public DateTimeOffset ExpiresAt { get; set; } = DateTimeOffset.UtcNow.AddHours(24);
+    public DateTimeOffset? CommittedAt { get; set; }
+    public string Rows { get; set; } = "[]";
+}
 
 public record RepresentativeWrite([Required, EmailAddress] string Email, string Role = "Controller", DateTimeOffset? EndsAt = null);
 public record ResourceWrite([Required, MaxLength(180)] string Title, [MaxLength(2000)] string Description,
@@ -99,14 +114,21 @@ public static class MembershipExperienceModel
     public static void Configure(ModelBuilder b)
     {
         b.Entity<OrganizationMember>().HasOne<Membership>().WithMany().HasForeignKey(x => new { x.TenantId, x.MembershipId }).HasPrincipalKey(x => new { x.TenantId, x.Id }).OnDelete(DeleteBehavior.Restrict);
-        b.Entity<OrganizationMember>().HasIndex(x => new { x.TenantId, x.Number }).IsUnique();
+        b.Entity<OrganizationMember>().HasIndex(x => new { x.TenantId, x.MembershipId, x.NumberKey }).IsUnique();
+        b.Entity<OrganizationMember>().HasIndex(x => new { x.TenantId, x.MembershipId, x.Mobile }).IsUnique().HasFilter("\"RevokedAt\" IS NULL AND \"Mobile\" IS NOT NULL");
+        b.Entity<OrganizationMember>().HasIndex(x => new { x.TenantId, x.MembershipId, x.ReferenceKey }).IsUnique().HasFilter("\"RevokedAt\" IS NULL AND \"ReferenceKey\" IS NOT NULL");
         b.Entity<OrganizationMember>().HasIndex(x => new { x.TenantId, x.MembershipId, x.Email }).IsUnique().HasFilter("\"RevokedAt\" IS NULL AND \"Email\" IS NOT NULL");
         b.Entity<OrganizationMember>().HasIndex(x => x.Email);
-        b.Entity<OrganizationMember>().Property(x => x.Number).HasMaxLength(40);
+        b.Entity<OrganizationMember>().Property(x => x.Number).HasMaxLength(254);
+        b.Entity<OrganizationMember>().Property(x => x.NumberKey).HasMaxLength(254);
+        b.Entity<OrganizationMember>().Property(x => x.Mobile).HasMaxLength(20);
+        b.Entity<OrganizationMember>().Property(x => x.ReferenceKey).HasMaxLength(100);
         b.Entity<OrganizationMember>().Property(x => x.FullName).HasMaxLength(160);
         b.Entity<OrganizationMember>().Property(x => x.Email).HasMaxLength(254);
         b.Entity<OrganizationMember>().Property(x => x.Role).HasMaxLength(40);
         b.Entity<OrganizationMember>().Property(x => x.Reference).HasMaxLength(100);
+        b.Entity<OrganizationRosterImport>().HasOne<Membership>().WithMany().HasForeignKey(x => new { x.TenantId, x.MembershipId }).HasPrincipalKey(x => new { x.TenantId, x.Id }).OnDelete(DeleteBehavior.Restrict);
+        b.Entity<OrganizationRosterImport>().HasOne<Account>().WithMany().HasForeignKey(x => x.ActorId).OnDelete(DeleteBehavior.Restrict);
         b.Entity<MembershipOffer>().HasKey(x => new { x.TenantId, x.CategoryId });
         b.Entity<MembershipOffer>().HasOne<MembershipCategory>().WithMany().HasForeignKey(x => new { x.TenantId, x.CategoryId }).HasPrincipalKey(x => new { x.TenantId, x.Id }).OnDelete(DeleteBehavior.Restrict);
         b.Entity<MembershipOffer>().HasOne<FinancialEntity>().WithMany().HasForeignKey(x => new { x.TenantId, x.EntityId }).HasPrincipalKey(x => new { x.TenantId, x.Id }).OnDelete(DeleteBehavior.Restrict);

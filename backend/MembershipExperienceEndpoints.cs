@@ -93,14 +93,47 @@ public static class MembershipExperienceEndpoints
         t.MapPost("/members/{id:guid}/roster", async (Guid tenant, Guid id, OrganizationMemberWrite r, AppDb db, Access a) =>
         {
             await using var tx = await db.Database.BeginTransactionAsync(); await MembershipService.Lock(db, tenant);
-            var member = await ManageRoster(db, a, tenant, id);
-            if (string.IsNullOrWhiteSpace(r.FullName) || string.IsNullOrWhiteSpace(r.Role)) throw new DomainException("Enter a name and member type");
-            var email = string.IsNullOrWhiteSpace(r.Email) ? null : r.Email.Trim().ToUpperInvariant();
-            if (email != null && await db.Set<OrganizationMember>().AnyAsync(x => x.TenantId == tenant && x.MembershipId == id && x.Email == email && x.RevokedAt == null)) throw new DomainException("This email already has a current membership in this organization");
-            var row = new OrganizationMember { TenantId = tenant, MembershipId = id, FullName = r.FullName.Trim(), Email = email, Role = r.Role.Trim(), Reference = r.Reference?.Trim() ?? "" };
-            row.Number = "ORG-" + row.Id.ToString("N").ToUpperInvariant();
+            await ManageRoster(db, a, tenant, id);
+            var row = OrganizationRoster.Create(tenant, id, r);
+            var errors = (await OrganizationRoster.Existing(db, tenant, id)).Check(row);
+            if (errors.Length != 0) throw new DomainException(string.Join("; ", errors));
             db.Add(row); a.Audit(tenant, "organization.member.added", row.Id, new { membershipId = id, row.Number });
             await db.SaveChangesAsync(); await tx.CommitAsync(); return Results.Ok(row);
+        });
+        t.MapGet("/members/{id:guid}/roster/template", async (Guid tenant, Guid id, AppDb db, Access a) =>
+        {
+            await ManageRoster(db, a, tenant, id, requireActive: false);
+            return Results.File(RosterWorkbook.Template(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "organization-members.xlsx");
+        });
+        t.MapPost("/members/{id:guid}/roster/imports/preview", async (Guid tenant, Guid id, RosterUpload r, AppDb db, Access a) =>
+        {
+            await using var tx = await db.Database.BeginTransactionAsync(); await MembershipService.Lock(db, tenant);
+            await ManageRoster(db, a, tenant, id);
+            var rows = await OrganizationRoster.Preview(db, tenant, id, r);
+            var job = new OrganizationRosterImport { TenantId = tenant, MembershipId = id, ActorId = a.UserId, Rows = OrganizationRoster.Serialize(rows) };
+            db.Add(job); a.Audit(tenant, "organization.import.preview", job.Id, new { membershipId = id, total = rows.Count });
+            await db.SaveChangesAsync(); await tx.CommitAsync(); return Results.Ok(OrganizationRoster.View(job, rows));
+        });
+        t.MapPost("/members/{id:guid}/roster/imports/{jobId:guid}/commit", async (Guid tenant, Guid id, Guid jobId, AppDb db, Access a) =>
+        {
+            await using var tx = await db.Database.BeginTransactionAsync(); await MembershipService.Lock(db, tenant);
+            await ManageRoster(db, a, tenant, id);
+            var job = await db.Set<OrganizationRosterImport>().SingleOrDefaultAsync(j => j.Id == jobId && j.TenantId == tenant && j.MembershipId == id && j.ActorId == a.UserId) ?? throw new AccessDeniedException();
+            var rows = OrganizationRoster.Deserialize(job.Rows);
+            if (job.CommittedAt != null) return Results.Ok(OrganizationRoster.View(job, rows));
+            if (job.ExpiresAt < DateTimeOffset.UtcNow) throw new DomainException("Preview expired. Upload the workbook again");
+            var valid = rows.Where(r => r.Errors.Length == 0).ToList();
+            if (valid.Count == 0) throw new DomainException("Correct the highlighted rows before importing");
+            var existing = await OrganizationRoster.Existing(db, tenant, id);
+            if (valid.Any(r => existing.Check(r.Member).Length != 0)) return Results.Conflict(new { title = "The roster changed after preview. Preview your file again to review new duplicates." });
+            foreach (var row in valid)
+            {
+                row.Member.AddedAt = DateTimeOffset.UtcNow;
+                db.Add(row.Member);
+            }
+            job.CommittedAt = DateTimeOffset.UtcNow;
+            a.Audit(tenant, "organization.import.committed", job.Id, new { membershipId = id, imported = valid.Count, skipped = rows.Count - valid.Count });
+            await db.SaveChangesAsync(); await tx.CommitAsync(); return Results.Ok(OrganizationRoster.View(job, rows));
         });
         t.MapDelete("/members/{id:guid}/roster/{roster:guid}", async (Guid tenant, Guid id, Guid roster, AppDb db, Access a) =>
         {

@@ -5675,13 +5675,25 @@ namespace Society.Api.Migrations
                     b.Property<Guid>("MembershipId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Mobile")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
                     b.Property<string>("Number")
                         .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("character varying(40)");
+                        .HasMaxLength(254)
+                        .HasColumnType("character varying(254)");
+
+                    b.Property<string>("NumberKey")
+                        .HasMaxLength(254)
+                        .HasColumnType("character varying(254)");
 
                     b.Property<string>("Reference")
                         .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("ReferenceKey")
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
@@ -5700,14 +5712,56 @@ namespace Society.Api.Migrations
 
                     b.HasIndex("Email");
 
-                    b.HasIndex("TenantId", "Number")
-                        .IsUnique();
-
                     b.HasIndex("TenantId", "MembershipId", "Email")
                         .IsUnique()
                         .HasFilter("\"RevokedAt\" IS NULL AND \"Email\" IS NOT NULL");
 
+                    b.HasIndex("TenantId", "MembershipId", "Mobile")
+                        .IsUnique()
+                        .HasFilter("\"RevokedAt\" IS NULL AND \"Mobile\" IS NOT NULL");
+
+                    b.HasIndex("TenantId", "MembershipId", "NumberKey")
+                        .IsUnique();
+
+                    b.HasIndex("TenantId", "MembershipId", "ReferenceKey")
+                        .IsUnique()
+                        .HasFilter("\"RevokedAt\" IS NULL AND \"ReferenceKey\" IS NOT NULL");
+
                     b.ToTable("OrganizationMember");
+                });
+
+            modelBuilder.Entity("Society.Api.OrganizationRosterImport", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ActorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("CommittedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MembershipId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Rows")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ActorId");
+
+                    b.HasIndex("TenantId", "MembershipId");
+
+                    b.ToTable("OrganizationRosterImport");
                 });
 
             modelBuilder.Entity("Society.Api.Outbox", b =>
@@ -9256,6 +9310,22 @@ namespace Society.Api.Migrations
 
             modelBuilder.Entity("Society.Api.OrganizationMember", b =>
                 {
+                    b.HasOne("Society.Api.Membership", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "MembershipId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Society.Api.OrganizationRosterImport", b =>
+                {
+                    b.HasOne("Society.Api.Account", null)
+                        .WithMany()
+                        .HasForeignKey("ActorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Society.Api.Membership", null)
                         .WithMany()
                         .HasForeignKey("TenantId", "MembershipId")

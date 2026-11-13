@@ -135,7 +135,7 @@ try:
  person.request(roster+'/'+faculty['id'],'DELETE',expected=204)
  check('roster removal immediately removes institutional resource access',lambda:faculty_client.request(base+'/resources/'+resource,expected=403))
  check('removed ID is retained in organization history',lambda:yes(any(r['number']==faculty['number'] and r['revokedAt'] for r in person.request(roster)) and faculty_client.request('/membership/affiliations')==[]))
- replacement=person.request(roster,'POST',{'fullName':'Faculty Later','email':faculty_email,'role':'Faculty'})
+ replacement=person.request(roster,'POST',{'fullName':'Faculty Later','email':faculty_email,'role':'Faculty','memberId':'REJOIN-'+uuid.uuid4().hex})
  check('new enrollment never reuses a removed membership ID',lambda:yes(replacement['number']!=faculty['number']))
  (ROOT/'.local/roster-browser-fixture.json').write_text(json.dumps({'tenant':tenant,'institution':institution,'controller':{'email':email,'password':'Test-Password-2026!'},'faculty':{'email':faculty_email,'password':'Test-Password-2026!'},'studentNumber':student['number'],'facultyNumber':replacement['number']}),encoding='utf-8')
  check('active institution controller can read the institutional resource',lambda:yes(person.request(base+'/resources/'+resource)['content']=='Restricted institute resource content'))
