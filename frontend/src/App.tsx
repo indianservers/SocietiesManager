@@ -1,3 +1,4 @@
+import {MembershipKindPicker} from "./membership-kind-picker";
 import {FormTabs} from './form-tabs';
 import {AreaTabs} from './area-tabs';
 import {WorkspaceSections,WorkspaceAlias} from './workspace-navigation';
@@ -118,6 +119,9 @@ const MyAchievements = lazy(()=>import('./service').then(m=>({default:m.MyAchiev
 const MyMemberships = lazy(()=>import('./membership').then(m=>({default:m.SelfService})));
 const CredentialVerification = lazy(() => import("./studio").then(m => ({default:m.CredentialVerification})));
 const FinanceModule = lazy(() => import("./finance"));
+const MemberPortal = lazy(() => import("./member-portal"));
+const MemberResourceAdmin = lazy(() => import("./member-portal").then(m=>({default:m.MemberResourceAdmin})));
+const MembershipPricing = lazy(() => import("./member-portal").then(m=>({default:m.MembershipPricing})));
 const CommunicationsModule = lazy(() => import("./communications"));
 
 const CommunicationNotifications = lazy(() => import("./communications").then(m => ({default:m.CommunicationNotifications})));
@@ -183,6 +187,8 @@ export default function App() {
   const scopes = workspace?.scopes || [];
 
   const branding = details(workspace?.profile);
+  const publicBrand = useLoad<any>("/branding/resolve");
+  useEffect(()=>{document.title=(branding.displayName||workspace?.name||publicBrand.data?.displayName||"Society")+" — Member Portal"},[branding.displayName,workspace?.name,publicBrand.data?.displayName]);
 
   useEffect(() => {
 
@@ -292,7 +298,7 @@ export default function App() {
 
                   refresh();
 
-                  nav("/app");
+                  nav("/app/membership");
 
                 }}
 
@@ -402,10 +408,10 @@ export default function App() {
 
             </select>
 
-            <nav aria-label="Main workspace navigation"><span className="nav-label">MAIN MENU</span>
+            <nav aria-label="Main workspace navigation"><span className="nav-label">MAIN MENU</span><NavLink to="/app/membership" end><Users/>Membership & resources</NavLink>
               <NavLink end to="/app" className={()=>loc.pathname==='/app'||loc.pathname.startsWith('/app/intelligence')?'active':''}><LayoutDashboard/>Home</NavLink>
               {tenant&&<>
-                <NavLink to="/app/members" className={()=>['/app/members','/app/organization','/app/units'].some(p=>loc.pathname.startsWith(p))?'active':''}><Users/>People</NavLink>
+                <NavLink to="/app/members" className={()=>['/app/members','/app/organization','/app/units'].some(p=>loc.pathname===p||loc.pathname.startsWith(p+"/"))?'active':''}><Users/>People</NavLink>
                 {(enabled('community')||enabled('service'))&&<NavLink to={enabled('community')?'/app/community':'/app/service/projects'} className={()=>loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'active':''}><Globe/>Activities</NavLink>}
                 {enabled('communications')&&<NavLink to="/app/communications"><MessageCircle/>Messages</NavLink>}
                 {enabled('finance')&&<NavLink to="/app/finance"><Wallet/>Finance</NavLink>}
@@ -469,7 +475,7 @@ export default function App() {
 
               <span className="breadcrumb">
 
-                {loc.pathname.startsWith('/app/finance')?'Finance':loc.pathname.startsWith('/app/members')||loc.pathname.startsWith('/app/organization')||loc.pathname.startsWith('/app/units')?'People':loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'Activities':loc.pathname.startsWith('/app/communications')?'Messages':loc.pathname.startsWith('/app/studio')?'Documents':loc.pathname.startsWith('/app/settings')?'Settings':loc.pathname.startsWith('/app/account')?'My account':'Home'} <ChevronRight size={13} />{" "}
+                {loc.pathname==='/app/membership'?'Membership & resources':loc.pathname.startsWith('/app/finance')?'Finance':loc.pathname.startsWith('/app/members')||loc.pathname.startsWith('/app/organization')||loc.pathname.startsWith('/app/units')?'People':loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'Activities':loc.pathname.startsWith('/app/communications')?'Messages':loc.pathname.startsWith('/app/studio')?'Documents':loc.pathname.startsWith('/app/settings')?'Settings':loc.pathname.startsWith('/app/account')?'My account':'Home'} <ChevronRight size={13} />{" "}
 
                 <strong>{workspace?.name || "Get started"}</strong>
 
@@ -516,7 +522,7 @@ export default function App() {
 
             <main key={tenant + scope}>
 
-              <Routes><Route path="/app/intelligence/*" element={<Suspense fallback={<p>Loading intelligence…</p>}><IntelligenceModule/></Suspense>}/><Route path="/app/branding" element={<WorkspaceAlias to="/app/settings" query={{view:"branding"}}/>}/><Route path="/app/security" element={<WorkspaceAlias to="/app/account" query={{view:"security"}}/>}/><Route path="/app/saas" element={<WorkspaceAlias to="/app/platform" query={{view:"operations"}}/>}/><Route path="/app/system-health" element={<WorkspaceAlias to="/app/settings" query={{view:"readiness"}}/>}/><Route path="/app/service/*" element={<Suspense fallback={<p>Opening service workspace…</p>}><ServiceModule/></Suspense>}/><Route path="/app/studio/*" element={<Suspense fallback={<p>Opening document studio…</p>}><StudioModule/></Suspense>}/><Route path="/app/finance/*" element={<Suspense fallback={<p>Loading finance…</p>}><FinanceModule/></Suspense>}/><Route path="/app/communications/*" element={<Suspense fallback={<p>Loading communications…</p>}><CommunicationsModule/></Suspense>}/>
+              <Routes><Route path="/app/membership" element={<HubContent><MemberPortal/></HubContent>}/><Route path="/app/intelligence/*" element={<Suspense fallback={<p>Loading intelligence…</p>}><IntelligenceModule/></Suspense>}/><Route path="/app/branding" element={<WorkspaceAlias to="/app/settings" query={{view:"branding"}}/>}/><Route path="/app/security" element={<WorkspaceAlias to="/app/account" query={{view:"security"}}/>}/><Route path="/app/saas" element={<WorkspaceAlias to="/app/platform" query={{view:"operations"}}/>}/><Route path="/app/system-health" element={<WorkspaceAlias to="/app/settings" query={{view:"readiness"}}/>}/><Route path="/app/service/*" element={<Suspense fallback={<p>Opening service workspace…</p>}><ServiceModule/></Suspense>}/><Route path="/app/studio/*" element={<Suspense fallback={<p>Opening document studio…</p>}><StudioModule/></Suspense>}/><Route path="/app/finance/*" element={<Suspense fallback={<p>Loading finance…</p>}><FinanceModule/></Suspense>}/><Route path="/app/communications/*" element={<Suspense fallback={<p>Loading communications…</p>}><CommunicationsModule/></Suspense>}/>
 
                 <Route path="/app/join" element={<WorkspaceAlias to="/app/account" query={{view:'join'}}/>}/>
                 <Route path="/app/account" element={<AccountWorkspace me={me.data}/>}/>
@@ -647,7 +653,7 @@ export default function App() {
 
             <footer className="page-footer">
 
-              <span>Assemblia · Built for stronger communities</span>
+              <span>{branding.displayName || workspace?.name || "Your society"} · Membership & chapter community</span>
 
               <span>Organization management / Phase 06</span>
 
@@ -683,11 +689,12 @@ export default function App() {
 
 function HubContent({children}:any){return <Suspense fallback={<p>Opening workspace section…</p>}>{children}</Suspense>}
 function OrganizationWorkspace(){const {workspace}=useApp();const branding=details(workspace?.profile);return <><AreaTabs area="people"/><WorkspaceSections label="Organization" sections={[{id:'hierarchy',label:'Hierarchy & structure',content:<Hierarchy/>},{id:'regions',label:(branding.regionTerm||'Region')+' directory',content:<Directory kind="Region"/>},{id:'chapters',label:(branding.chapterTerm||'Chapter')+' directory',content:<Directory kind="Chapter"/>}]}/></>}
-function AdministrationWorkspace(){const {can}=useApp();return <WorkspaceSections label="Society administration" sections={[{id:'society',label:'General',content:<SocietySettings/>,visible:can('settings.manage')},{id:'branding',label:'Branding',content:<HubContent><WhiteLabelSettings/></HubContent>,visible:can('branding.manage')},{id:'roles',label:'Permissions',content:<Roles/>,visible:can('roles.manage')},{id:'setup',label:'Setup',content:<Setup/>,visible:can('settings.manage')},{id:'audit',label:'Audit',content:<AuditLog/>,visible:can('audit.read')},{id:'readiness',label:'Health',content:<HubContent><HealthWorkspace/></HubContent>,visible:can('settings.manage')}]}/>}
+function AdministrationWorkspace(){const {can}=useApp();return <WorkspaceSections label="Society administration" sections={[{id:'society',label:'General',content:<SocietySettings/>,visible:can('settings.manage')},{id:'branding',label:'Branding',content:<HubContent><WhiteLabelSettings/></HubContent>,visible:can('branding.manage')},{id:'roles',label:'Permissions',content:<Roles/>,visible:can('roles.manage')},{id:'setup',label:'Setup',content:<Setup/>,visible:can('settings.manage')},{id:'audit',label:'Audit',content:<AuditLog/>,visible:can('audit.read')},{id:'resources',label:'Member resources',content:<HubContent><MemberResourceAdmin/></HubContent>,visible:can('membership.settings')},{id:'readiness',label:'Health',content:<HubContent><HealthWorkspace/></HubContent>,visible:can('settings.manage')}]}/>}
 function AccountWorkspace({me}:any){const {tenant,workspace}=useApp();const enabled=(m:string)=>!!tenant&&(!workspace?.modules||workspace.modules.includes(m));return <WorkspaceSections label="My account & memberships" sections={[{id:'profile',label:'Profile',content:<Profile me={me}/>},{id:'security',label:'Security',content:<WorkspaceSections label="Account security" queryKey="securityTab" sections={[{id:'authenticator',label:'Authenticator',content:<HubContent><SecurityWorkspace/></HubContent>},{id:'password',label:'Password',content:<Profile me={me} mode="password"/>}]}/>},{id:'memberships',label:'Memberships',content:<HubContent><MyMemberships/></HubContent>},{id:'documents',label:'Documents',content:<HubContent><MyDocuments/></HubContent>,visible:enabled('studio')},{id:'achievements',label:'Achievements',content:<HubContent><MyAchievements/></HubContent>,visible:enabled('service')},{id:'applications',label:'Applications',content:<Applications platform={false}/>,visible:!me.platformAdmin},{id:'join',label:'Join',content:<HubContent><JoinMembership/></HubContent>}]}/>}
-function PlatformHub(){return <WorkspaceSections label="Platform administration" sections={[{id:'operations',label:'SaaS operations & health',content:<HubContent><PlatformWorkspace/></HubContent>},{id:'approvals',label:'Society approvals',content:<Applications platform/>},{id:'registry',label:'Society registry',content:<Platform/>}]}/>}
+function PlatformHub(){return <WorkspaceSections label="Platform administration" sections={[{id:'operations',label:'SaaS operations & health',content:<HubContent><PlatformWorkspace/></HubContent>},{id:'membership-pricing',label:'Membership pricing',content:<HubContent><MembershipPricing/></HubContent>},{id:'approvals',label:'Society approvals',content:<Applications platform/>},{id:'registry',label:'Society registry',content:<Platform/>}]}/>}
 
 function Landing() {
+  const brand = useLoad<any>("/branding/resolve");
 
   return (
 
@@ -703,7 +710,7 @@ function Landing() {
 
           </span>
 
-          Assemblia
+          {brand.data?.displayName || "Your society"}
 
         </Link>
 
@@ -721,7 +728,7 @@ function Landing() {
 
         <h1>
 
-          Great organizations.
+          {brand.data?.displayName || "Great organizations."}
 
           <br />
 
@@ -731,7 +738,7 @@ function Landing() {
 
         <p>
 
-          A thoughtful workspace for your society, regions, and chapters. Bring
+          Membership, learning resources and chapter opportunities in one place. Bring
 
           structure to your organization and give every community a place to
 
@@ -775,7 +782,7 @@ function Landing() {
 
           <Network />
 
-          <strong>Your society</strong>
+          <strong>{brand.data?.displayName || "Your society"}</strong>
 
           <small>Connected at every level</small>
 
@@ -839,18 +846,22 @@ function Auth({ onLogin }: any) {
 
   const [message, setMessage] = useState("");
   const [twoFactor,setTwoFactor] = useState(false);
+  const [membershipKind,setMembershipKind] = useState(params.get("kind")||"Individual");
   const brand=useLoad<any>("/branding/resolve"+(params.get("society")?"?society="+encodeURIComponent(params.get("society")!):""));
   useEffect(()=>{if(brand.data?.primaryColor)document.documentElement.style.setProperty("--brand-color",brand.data.primaryColor);if(brand.data?.language)document.documentElement.lang=brand.data.language;const icon=document.querySelector<HTMLLinkElement>("link[rel=icon]");if(icon&&brand.data?.favicon){const previous=icon.href;icon.href=brand.data.favicon;return()=>{icon.href=previous}}},[brand.data]);
 
+  const resend = path === "/resend";
   const signup = path === "/signup",
 
-    forgot = path === "/forgot",
+    forgot = path === "/forgot" || resend,
 
     reset = path === "/reset",
 
     verify = path === "/verify";
 
-  const title = signup
+  const signupCatalog=useLoad<any>("/membership/catalog?tenant="+brand.data?.tenantId,signup&&!!brand.data?.tenantId);
+
+  const title = resend ? "Resend verification email" : signup
 
     ? "Start something meaningful"
 
@@ -913,11 +924,11 @@ function Auth({ onLogin }: any) {
 
         r = await api(
 
-          "/auth/" + (signup ? "signup" : forgot ? "forgot" : "login"),
+          "/auth/" + (signup ? "signup" : resend ? "resend-verification" : forgot ? "forgot" : "login"),
 
           "POST",
 
-          { ...f, password: f.password || "" },
+          { ...f, password: f.password || "", ...(signup?{membershipKind,societyId:brand.data?.tenantId||null}:{}) },
 
         );
 
@@ -1002,7 +1013,7 @@ function Auth({ onLogin }: any) {
 
             {signup
 
-              ? "Create one identity for all your society workspaces."
+              ? "Choose your membership. One account can represent you and your organization."
 
               : "Your organization. Your people. Your workspace."}
 
@@ -1015,6 +1026,7 @@ function Auth({ onLogin }: any) {
               <Check />
 
               {message}
+              <Link to="/resend">Request a fresh verification email →</Link>
 
               <Link to="/login">Continue to sign in →</Link>
 
@@ -1023,6 +1035,7 @@ function Auth({ onLogin }: any) {
           ) : (
 
             <form onSubmit={submit}>
+              {signup&&<MembershipKindPicker value={membershipKind} onChange={setMembershipKind} offers={signupCatalog.data?.categories}/>}
               {twoFactor&&<><Field label="Authenticator or recovery code" name="code" autoComplete="one-time-code" required/><label><input type="checkbox" name="recovery"/>Use a single-use recovery code</label></>}
 
               {signup && (

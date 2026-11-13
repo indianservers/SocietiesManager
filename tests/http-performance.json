@@ -1,6 +1,6 @@
 {
   "scope": "20 warm authenticated HTTP directory reads, small integration fixture, single client",
-  "median_ms": 13.331,
-  "p95_ms": 15.944,
+  "median_ms": 9.456,
+  "p95_ms": 12.103,
   "samples": 20
 }

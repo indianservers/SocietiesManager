@@ -5,67 +5,67 @@
     {
       "name": "member creates permitted chapter draft",
       "passed": true,
-      "ms": 255.06
+      "ms": 115.81
     },
     {
       "name": "draft is excluded from peer feed",
       "passed": true,
-      "ms": 170.75
+      "ms": 91.73
     },
     {
       "name": "draft direct URL remains private",
       "passed": true,
-      "ms": 98.9
+      "ms": 40.13
     },
     {
       "name": "member cannot impersonate chapter organization",
       "passed": true,
-      "ms": 30.7
+      "ms": 11.65
     },
     {
       "name": "member cannot post into unrelated chapter",
       "passed": true,
-      "ms": 14.1
+      "ms": 9.78
     },
     {
       "name": "member cannot expand audience to society",
       "passed": true,
-      "ms": 36.28
+      "ms": 11.58
     },
     {
       "name": "member submits content for approval",
       "passed": true,
-      "ms": 84.69
+      "ms": 30.46
     },
     {
       "name": "author cannot approve own post",
       "passed": true,
-      "ms": 39.26
+      "ms": 17.7
     },
     {
       "name": "authorized post approval publishes content",
       "passed": true,
-      "ms": 92.2
+      "ms": 112.92
     },
     {
       "name": "chapter peer sees approved feed post",
       "passed": true,
-      "ms": 45.75
+      "ms": 18.16
     },
     {
       "name": "private post denied to unrelated chapter",
       "passed": true,
-      "ms": 21.23
+      "ms": 14.15
     },
     {
       "name": "cross-society feed denied",
       "passed": true,
-      "ms": 14.92
+      "ms": 4.19
     },
     {
       "name": "cross-society post URL denied",
       "passed": true,
-      "ms": 13.7
+      "ms": 6.23
     },
     {
       "name": "official publishing preserves actual author and organization",
@@ -75,17 +75,17 @@
     {
       "name": "official post requires independent approval",
       "passed": true,
-      "ms": 27.17
+      "ms": 13.24
     },
     {
       "name": "regional feed aggregates subordinate chapter activity",
       "passed": true,
-      "ms": 26.91
+      "ms": 26.49
     },
     {
       "name": "society feed aggregates official and member activity",
       "passed": true,
-      "ms": 45.28
+      "ms": 22.32
     },
     {
       "name": "rich text blocks executable HTML and attributes",
@@ -95,22 +95,22 @@
     {
       "name": "material edit restarts approval",
       "passed": true,
-      "ms": 34.82
+      "ms": 25.27
     },
     {
       "name": "post versions retain immutable snapshots",
       "passed": true,
-      "ms": 53.46
+      "ms": 30.0
     },
     {
       "name": "stale edits rejected",
       "passed": true,
-      "ms": 10.7
+      "ms": 5.31
     },
     {
       "name": "post rejection retained",
       "passed": true,
-      "ms": 28.72
+      "ms": 10.96
     },
     {
       "name": "approved future post remains scheduled",
@@ -120,97 +120,97 @@
     {
       "name": "background scheduler publishes approved due post",
       "passed": true,
-      "ms": 26.68
+      "ms": 21.21
     },
     {
       "name": "reaction created",
       "passed": true,
-      "ms": 24.82
+      "ms": 17.19
     },
     {
       "name": "duplicate reactions are idempotent",
       "passed": true,
-      "ms": 19.32
+      "ms": 13.78
     },
     {
       "name": "one reaction row per account and post",
       "passed": true,
-      "ms": 19.89
+      "ms": 12.56
     },
     {
       "name": "comments and replies work",
       "passed": true,
-      "ms": 29.88
+      "ms": 19.09
     },
     {
       "name": "comment moderation retains history",
       "passed": true,
-      "ms": 37.19
+      "ms": 22.68
     },
     {
       "name": "hidden comment excluded from public conversation",
       "passed": true,
-      "ms": 36.41
+      "ms": 20.73
     },
     {
       "name": "bookmark saved privately",
       "passed": true,
-      "ms": 23.46
+      "ms": 13.55
     },
     {
       "name": "bookmark feed returns saved post",
       "passed": true,
-      "ms": 67.64
+      "ms": 39.02
     },
     {
       "name": "post reporting works",
       "passed": true,
-      "ms": 71.62
+      "ms": 35.0
     },
     {
       "name": "moderation queue scoped to authorized officer",
       "passed": true,
-      "ms": 38.83
+      "ms": 15.34
     },
     {
       "name": "chapter profile respects directory scope",
       "passed": true,
-      "ms": 156.87
+      "ms": 106.4
     },
     {
       "name": "unauthorized chapter profile denied",
       "passed": true,
-      "ms": 31.66
+      "ms": 20.78
     },
     {
       "name": "photo upload uses private storage",
       "passed": true,
-      "ms": 117.53
+      "ms": 62.38
     },
     {
       "name": "media edit resets publication",
       "passed": true,
-      "ms": 42.11
+      "ms": 20.0
     },
     {
       "name": "invalid media upload rejected",
       "passed": true,
-      "ms": 23.09
+      "ms": 13.33
     },
     {
       "name": "private media IDOR blocked",
       "passed": true,
-      "ms": 26.28
+      "ms": 16.93
     },
     {
       "name": "member mention validates existing directory identity",
       "passed": true,
-      "ms": 33.55
+      "ms": 17.94
     },
     {
       "name": "cross-tenant mention identifier rejected",
       "passed": true,
-      "ms": 35.73
+      "ms": 14.36
     },
     {
       "name": "event creation snapshots approval policy",
@@ -220,52 +220,52 @@
     {
       "name": "ordinary member cannot create event",
       "passed": true,
-      "ms": 12.41
+      "ms": 10.87
     },
     {
       "name": "event cannot approve itself",
       "passed": true,
-      "ms": 19.71
+      "ms": 15.47
     },
     {
       "name": "event approval publishes",
       "passed": true,
-      "ms": 19.24
+      "ms": 15.54
     },
     {
       "name": "bounded calendar contains published event",
       "passed": true,
-      "ms": 69.26
+      "ms": 56.34
     },
     {
       "name": "calendar rejects excessive date range",
       "passed": true,
-      "ms": 6.84
+      "ms": 5.22
     },
     {
       "name": "unrelated chapter event denied",
       "passed": true,
-      "ms": 36.34
+      "ms": 23.57
     },
     {
       "name": "cross-tenant event denied",
       "passed": true,
-      "ms": 6.18
+      "ms": 3.67
     },
     {
       "name": "RSVP Going is recorded",
       "passed": true,
-      "ms": 45.41
+      "ms": 28.57
     },
     {
       "name": "RSVP does not reserve a seat",
       "passed": true,
-      "ms": 71.22
+      "ms": 55.57
     },
     {
       "name": "RSVP can be edited",
       "passed": true,
-      "ms": 21.52
+      "ms": 16.36
     },
     {
       "name": "audience builder deduplicates and reports eligibility",
@@ -280,17 +280,17 @@
     {
       "name": "member sees personal invitation",
       "passed": true,
-      "ms": 18.63
+      "ms": 14.8
     },
     {
       "name": "invalid invitation rejected",
       "passed": true,
-      "ms": 17.78
+      "ms": 12.41
     },
     {
       "name": "expired invitation rejected",
       "passed": true,
-      "ms": 8.54
+      "ms": 6.35
     },
     {
       "name": "member registration confirmed independently",
@@ -305,22 +305,22 @@
     {
       "name": "duplicate registration rejected",
       "passed": true,
-      "ms": 18.33
+      "ms": 14.93
     },
     {
       "name": "private registrations blocked for ordinary peers",
       "passed": true,
-      "ms": 32.4
+      "ms": 18.41
     },
     {
       "name": "participant cancellation frees capacity",
       "passed": true,
-      "ms": 89.42
+      "ms": 48.16
     },
     {
       "name": "waitlist promotes in order",
       "passed": true,
-      "ms": 60.39
+      "ms": 28.98
     },
     {
       "name": "digital pass contains opaque secure QR reference",
@@ -330,42 +330,42 @@
     {
       "name": "ordinary member cannot check in",
       "passed": true,
-      "ms": 34.44
+      "ms": 18.08
     },
     {
       "name": "QR check-in records actual attendance",
       "passed": true,
-      "ms": 110.34
+      "ms": 57.72
     },
     {
       "name": "duplicate check-in is idempotent",
       "passed": true,
-      "ms": 54.52
+      "ms": 20.84
     },
     {
       "name": "invalid QR rejected",
       "passed": true,
-      "ms": 23.78
+      "ms": 16.59
     },
     {
       "name": "wrong event QR rejected",
       "passed": true,
-      "ms": 55.51
+      "ms": 13.22
     },
     {
       "name": "pass revocation enforced",
       "passed": true,
-      "ms": 104.71
+      "ms": 20.63
     },
     {
       "name": "revoked pass rejected",
       "passed": true,
-      "ms": 31.18
+      "ms": 12.76
     },
     {
       "name": "attendance correction retains reason",
       "passed": true,
-      "ms": 35.39
+      "ms": 24.07
     },
     {
       "name": "event analytics separates registrations from attendance",
@@ -390,12 +390,12 @@
     {
       "name": "guest securely accepts recipient-bound invitation",
       "passed": true,
-      "ms": 25.91
+      "ms": 13.89
     },
     {
       "name": "invited guest registration allowed without duplicate person master",
       "passed": true,
-      "ms": 40.02
+      "ms": 20.04
     },
     {
       "name": "registration approval remains distinct from RSVP",
@@ -405,7 +405,7 @@
     {
       "name": "organizer approves registration",
       "passed": true,
-      "ms": 43.73
+      "ms": 26.82
     },
     {
       "name": "large feed cursor pagination has no duplicated rows",
@@ -415,67 +415,67 @@
     {
       "name": "chapter activity metrics use actual published posts",
       "passed": true,
-      "ms": 204.12
+      "ms": 107.13
     },
     {
       "name": "regional intelligence stays in assigned branch",
       "passed": true,
-      "ms": 124.05
+      "ms": 67.92
     },
     {
       "name": "member cannot read administrative intelligence",
       "passed": true,
-      "ms": 9.91
+      "ms": 7.5
     },
     {
       "name": "post block hides author from reader",
       "passed": true,
-      "ms": 36.16
+      "ms": 22.66
     },
     {
       "name": "blocked author posts excluded",
       "passed": true,
-      "ms": 19.54
+      "ms": 13.86
     },
     {
       "name": "unblock restores permission-filtered content",
       "passed": true,
-      "ms": 13.01
+      "ms": 9.71
     },
     {
       "name": "tenant-scope media cannot be retrieved cross-society",
       "passed": true,
-      "ms": 5.85
+      "ms": 5.05
     },
     {
       "name": "PostgreSQL retains canonical activity history",
       "passed": true,
-      "ms": 59.67
+      "ms": 32.18
     },
     {
       "name": "cross-tenant co-host reference rejected",
       "passed": true,
-      "ms": 14.74
+      "ms": 11.7
     },
     {
       "name": "explicitly permitted public post is readable anonymously",
       "passed": true,
-      "ms": 27.82
+      "ms": 24.03
     },
     {
       "name": "private post never leaks through public URL",
       "passed": true,
-      "ms": 5.05
+      "ms": 4.78
     },
     {
       "name": "private media never leaks through public URL",
       "passed": true,
-      "ms": 11.38
+      "ms": 9.17
     },
     {
       "name": "disabling public policy closes public read access",
       "passed": true,
-      "ms": 2.3
+      "ms": 2.29
     },
     {
       "name": "first stage leaves content unpublished",
@@ -485,77 +485,77 @@
     {
       "name": "same reviewer cannot approve both stages",
       "passed": true,
-      "ms": 8.31
+      "ms": 7.28
     },
     {
       "name": "second independent reviewer completes approval",
       "passed": true,
-      "ms": 12.69
+      "ms": 12.19
     },
     {
       "name": "required registration answer enforced",
       "passed": true,
-      "ms": 17.08
+      "ms": 15.09
     },
     {
       "name": "companion registration reserves whole party capacity",
       "passed": true,
-      "ms": 29.25
+      "ms": 20.47
     },
     {
       "name": "pass reissue revokes previous QR",
       "passed": true,
-      "ms": 18.21
+      "ms": 16.59
     },
     {
       "name": "check-in rejects attendance exceeding registered party",
       "passed": true,
-      "ms": 22.36
+      "ms": 16.86
     },
     {
       "name": "check-in records physically present party size",
       "passed": true,
-      "ms": 26.2
+      "ms": 21.29
     },
     {
       "name": "actual attendance does not assume all companions arrived",
       "passed": true,
-      "ms": 31.05
+      "ms": 17.25
     },
     {
       "name": "existing membership communication opt-out prevents invitations",
       "passed": true,
-      "ms": 50.12
+      "ms": 16.92
     },
     {
       "name": "unconfigured SMS channel makes no delivery claim",
       "passed": true,
-      "ms": 55.26
+      "ms": 10.72
     },
     {
       "name": "regional officer cannot manage unrelated event",
       "passed": true,
-      "ms": 32.19
+      "ms": 9.95
     },
     {
       "name": "own event drafts remain recoverable",
       "passed": true,
-      "ms": 35.28
+      "ms": 22.04
     },
     {
       "name": "member activity history filters posts by viewer authority",
       "passed": true,
-      "ms": 65.45
+      "ms": 41.76
     },
     {
       "name": "participant can still view cancellation in original audience",
       "passed": true,
-      "ms": 71.15
+      "ms": 26.61
     },
     {
       "name": "cancelled event denies pass check-in",
       "passed": true,
-      "ms": 25.1
+      "ms": 12.28
     },
     {
       "name": "authenticated feed meets documented local target",

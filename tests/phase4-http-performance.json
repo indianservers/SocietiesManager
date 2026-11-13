@@ -1,7 +1,7 @@
 {
   "scope": "20 authenticated warm inbox reads on integration fixtures",
-  "median_ms": 38.398,
-  "p95_ms": 97.889,
+  "median_ms": 14.458,
+  "p95_ms": 23.827,
   "target_p95_ms": 500,
   "target_met": true
 }

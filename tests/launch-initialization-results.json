@@ -1,0 +1,19 @@
+{
+  "passed": 14,
+  "checks": [
+    "production initialization creates the approved society",
+    "production initialization creates only configured chapters",
+    "production initialization never imports synthetic members",
+    "production initialization never invents payments or receipts",
+    "receiving entity is explicitly configured",
+    "all membership offers have a receiving entity and annual term",
+    "fee policy is INR 500 individual and INR 10000 institutional and corporate",
+    "owner identity is linked to the society with explicit administration",
+    "member welcome resources cover all membership kinds",
+    "domain verification is never fabricated",
+    "reinitialization preserves one receiving entity and three offers",
+    "production signup clearly states that email delivery is awaiting setup",
+    "verification resend does not disclose whether an account exists",
+    "missing SMTP keeps verification email queued without consuming attempts or marking uncertain delivery"
+  ]
+}

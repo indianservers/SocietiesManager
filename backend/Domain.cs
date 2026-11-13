@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 namespace Society.Api;
 
-public class Account : IdentityUser<Guid> { public string FullName { get; set; } = ""; public bool PlatformAdmin { get; set; } }
+public class Account : IdentityUser<Guid> { public string FullName { get; set; } = ""; public bool PlatformAdmin { get; set; } public string PreferredMembershipKind { get; set; } = "Individual"; public Guid? SignupTenantId { get; set; } }
 public class Tenant { public Guid Id { get; set; } = Guid.NewGuid(); public string Name { get; set; } = ""; public string Status { get; set; } = "Setup"; public string Profile { get; set; } = "{}"; public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow; }
 public class Application { public Guid Id { get; set; } = Guid.NewGuid(); public Guid ApplicantId { get; set; } public string Name { get; set; } = ""; public string Fingerprint { get; set; } = ""; public string Details { get; set; } = "{}"; public string Status { get; set; } = "Pending"; public string? ReviewNote { get; set; } public Guid? TenantId { get; set; } public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow; }
 public class Link { public Guid TenantId { get; set; } public Guid UserId { get; set; } }
@@ -26,7 +26,7 @@ public partial class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext<
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b);
-        MembershipModel.Configure(b); CommunityModel.Configure(b); CommunicationModel.Configure(b); FinanceModel.Configure(b); StudioModel.Configure(b);
+        MembershipModel.Configure(b); MembershipExperienceModel.Configure(b); CommunityModel.Configure(b); CommunicationModel.Configure(b); FinanceModel.Configure(b); StudioModel.Configure(b);
         b.Entity<Asset>().HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict);
         b.Entity<Invitation>().HasIndex(x => x.TokenHash).IsUnique(); b.Entity<Invitation>().HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict);
         b.Entity<Link>().HasKey(x => new { x.TenantId, x.UserId }); b.Entity<Link>().HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict); b.Entity<Link>().HasOne<Account>().WithMany().HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
@@ -40,7 +40,7 @@ public partial class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext<
         foreach (var e in b.Model.GetEntityTypes()) foreach (var prop in e.GetProperties()) if (prop.ClrType == typeof(string) && prop.Name is "Details" or "Profile" or "Data") prop.SetColumnType("jsonb");
     }
 }
-public record RegisterRequest([Required, EmailAddress] string Email, [Required, MinLength(12)] string Password, [Required, MaxLength(160)] string FullName);
+public record RegisterRequest([Required, EmailAddress] string Email, [Required, MinLength(12)] string Password, [Required, MaxLength(160)] string FullName, string MembershipKind = "Individual", Guid? SocietyId = null);
 public record LoginRequest([Required, EmailAddress] string Email, [Required] string Password);
 public record UnitRequest(Guid LevelId, Guid? ParentId, [Required, MaxLength(160)] string Name, [Required, RegularExpression("^[A-Za-z0-9_-]{2,40}$")] string Code, [Required] string Status, [Required] string Details, int Revision = 0);
 public record LevelRequest([Required] string Name, [Required] string Kind, [Required] Guid[] AllowedParents, bool AllowRoot);

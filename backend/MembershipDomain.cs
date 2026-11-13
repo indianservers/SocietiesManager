@@ -14,6 +14,7 @@ public class Person
 }
 public class MembershipCategory
 {
+    public string Kind { get; set; } = "Individual";
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid TenantId { get; set; }
     public string Name { get; set; } = "";
@@ -22,6 +23,8 @@ public class MembershipCategory
 }
 public class Membership
 {
+    public bool RenewalReminders { get; set; }
+    public bool PendingPayment { get; set; }
     public Guid Id { get; set; } = Guid.NewGuid();
     public Guid TenantId { get; set; }
     public Guid PersonId { get; set; }
@@ -252,7 +255,7 @@ public record MemberWriteRequest([Required, MaxLength(160)] string FullName, Gui
 public record MemberApplyRequest(Guid TenantId, Guid ChapterId, Guid CategoryId, [Required] string Profile, bool Submit, int Revision = 0);
 public record MemberDecisionRequest([Required] string Decision, [Required(AllowEmptyStrings=true)] string Comment, int Revision);
 public record MemberInviteRequest(Guid ChapterId, Guid CategoryId, [Required, EmailAddress] string Email, Guid? PersonId, int Days = 7, int UsageLimit = 1);
-public record MemberCategoryRequest([Required, MaxLength(80)] string Name, string Description, bool Active = true);
+public record MemberCategoryRequest([Required, MaxLength(80)] string Name, string Description, bool Active = true, string? Kind = null);
 public record TransferRequest(Guid MembershipId, Guid DestinationId, DateTimeOffset EffectiveAt, string Notes);
 public record OfficerPositionRequest([Required,MaxLength(100)] string Name, [Required,MaxLength(80)] string Level, Guid? RoleId, bool AllowConcurrent, [Required(AllowEmptyStrings=true)] string Responsibilities, bool Active = true,bool Required=false);
 public record OfficerAppointmentRequest(Guid MembershipId, Guid? UnitId, Guid PositionId, DateTimeOffset StartsAt, DateTimeOffset EndsAt, [Required,MaxLength(80)] string Method, [Required(AllowEmptyStrings=true)] string Notes, Guid[]? DocumentIds = null);

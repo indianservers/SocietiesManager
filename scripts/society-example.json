@@ -1,13 +1,15 @@
 {
   "name": "AIMER Society",
+  "launchDomain": "members.aimersociety.com",
+  "platformOwnerEmail": "saisatish@indianservers.com",
   "category": "Professional society",
   "country": "India",
   "state": "Andhra Pradesh",
   "city": "Vijayawada",
   "chapters": ["Vijayawada", "Guntur", "Visakhapatnam", "Tirupati", "Kurnool", "Nellore", "Rajahmundry", "Kakinada", "Anantapur", "Hyderabad", "Warangal", "Karimnagar", "Bengaluru", "Chennai", "Pune"],
   "memberships": [
-    {"category": "Institute Membership", "count": 105, "holder": "Example Institute", "prefix": "INST"},
-    {"category": "Individual Membership", "count": 30, "holder": "Example Individual", "prefix": "IND"},
-    {"category": "Corporate Membership", "count": 15, "holder": "Example Company", "prefix": "CORP"}
+    {"category": "Institute Membership", "kind": "Institutional", "annualPrice": 10000, "count": 105, "holder": "Example Institute", "prefix": "INST"},
+    {"category": "Individual Membership", "kind": "Individual", "annualPrice": 500, "count": 30, "holder": "Example Individual", "prefix": "IND"},
+    {"category": "Corporate Membership", "kind": "Corporate", "annualPrice": 10000, "count": 15, "holder": "Example Company", "prefix": "CORP"}
   ]
 }

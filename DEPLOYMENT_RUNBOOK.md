@@ -1,6 +1,16 @@
 # Deployment runbook
 
-Status: supplied and locally syntax-reviewed; no staging/production deployment executed. Docker is unavailable on the current Windows verification machine. Deployment requires explicit approval for the reviewed release and host.
+Status: the user explicitly authorized and completed the AIMER Society deployment on 13 November 2026. The original container procedure remains available below. This host uses an isolated native .NET/Apache deployment on its additional disk; see the installation record in README.md. Live payment and SMTP activation are deferred at the owner's request.
+
+## Current native installation
+
+Application root: `/mnt/volume_sfo3_1785477034157/aimer-members`. Services: `aimer-members` and `aimer-members-db`. Apache site: `/etc/apache2/sites-available/aimer-members.conf`. Public URL: `https://members.aimersociety.com`. The API listens on 127.0.0.1:5188 and the dedicated PostgreSQL cluster on 127.0.0.1:5544. Existing sites and the database instance on 5432 must not be stopped or migrated for this application.
+
+Secrets and runtime configuration are root-only files beneath the additional-volume `secrets/` directory. Never print them into deployment logs or commit them. The app runs as its own unprivileged system user, and only its private storage, key and temporary directories are writable. Native binaries and static assets are published locally, checksum-verified after upload, placed in an immutable release directory, and selected through the `current` symlink. Check `/health/ready` through both the private listener (with the correct Host header) and public HTTPS before accepting a release. Retain the previous release for application-only rollback; do not downgrade the database automatically.
+
+For a new empty installation, run migrations and `--bootstrap-admin` with protected operator environment variables, then `--initialize-society-launch` with `SOCIETY_LAUNCH_CONFIG` and `SOCIETY_LAUNCH_TENANT`. This creates only the configured chapters, resources, offers and receiving entity. It does not import the optional demonstration members. The initializer and rerun behavior are covered by `tests/launch_initialization.py`.
+
+The initial authenticated backup was restored to a separate scratch database and validated, then the scratch database was removed. The daily backup helper briefly quiesces only the membership API; other services remain running. Certificate renewal and backup timers keep all working files and logs on the additional disk. Back up the encryption key separately from encrypted snapshots. Before enabling real collections or sending email, configure the provider/SMTP settings and perform controlled end-to-end acceptance for those external services.
 
 ## Release prerequisites
 

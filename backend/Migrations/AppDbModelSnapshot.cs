@@ -202,8 +202,15 @@ namespace Society.Api.Migrations
                     b.Property<bool>("PlatformAdmin")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("PreferredMembershipKind")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("SignupTenantId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("boolean");
@@ -4240,6 +4247,24 @@ namespace Society.Api.Migrations
                     b.ToTable("ImpactResult", (string)null);
                 });
 
+            modelBuilder.Entity("Society.Api.InstitutionChapter", b =>
+                {
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ChapterId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MembershipId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("TenantId", "ChapterId");
+
+                    b.HasIndex("TenantId", "MembershipId");
+
+                    b.ToTable("InstitutionChapter");
+                });
+
             modelBuilder.Entity("Society.Api.InterEntityObligation", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4725,11 +4750,11 @@ namespace Society.Api.Migrations
 
                     b.HasIndex("TenantId", "MembershipId");
 
-                    b.HasIndex("TenantId", "UserId", "ChapterId")
+                    b.HasIndex("TenantId", "ChapterId", "Status", "CreatedAt");
+
+                    b.HasIndex("TenantId", "UserId", "ChapterId", "CategoryId")
                         .IsUnique()
                         .HasFilter("\"Status\" NOT IN ('Rejected','Withdrawn')");
-
-                    b.HasIndex("TenantId", "ChapterId", "Status", "CreatedAt");
 
                     b.ToTable("MemberApplications");
                 });
@@ -4922,6 +4947,53 @@ namespace Society.Api.Migrations
                     b.ToTable("MemberInvitations");
                 });
 
+            modelBuilder.Entity("Society.Api.MemberResource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.PrimitiveCollection<string[]>("Audiences")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Published")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("Revision")
+                        .IsConcurrencyToken()
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId", "Published");
+
+                    b.ToTable("MemberResource");
+                });
+
             modelBuilder.Entity("Society.Api.MemberSavedView", b =>
                 {
                     b.Property<Guid>("Id")
@@ -4974,6 +5046,9 @@ namespace Society.Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("PendingPayment")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uuid");
 
@@ -4984,6 +5059,9 @@ namespace Society.Api.Migrations
                     b.Property<string>("Profile")
                         .IsRequired()
                         .HasColumnType("jsonb");
+
+                    b.Property<bool>("RenewalReminders")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Revision")
                         .IsConcurrencyToken()
@@ -5024,6 +5102,10 @@ namespace Society.Api.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Kind")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -5133,6 +5215,52 @@ namespace Society.Api.Migrations
                     b.ToTable("MembershipHistories");
                 });
 
+            modelBuilder.Entity("Society.Api.MembershipOffer", b =>
+                {
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("EntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IncomeCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PaymentRequired")
+                        .HasColumnType("boolean");
+
+                    b.Property<decimal?>("Price")
+                        .HasPrecision(18, 3)
+                        .HasColumnType("numeric(18,3)");
+
+                    b.Property<int>("ReminderDays")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Revision")
+                        .IsConcurrencyToken()
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TermMonths")
+                        .HasColumnType("integer");
+
+                    b.HasKey("TenantId", "CategoryId");
+
+                    b.HasIndex("TenantId", "EntityId");
+
+                    b.ToTable("MembershipOffer");
+                });
+
             modelBuilder.Entity("Society.Api.MembershipPolicyRecord", b =>
                 {
                     b.Property<Guid>("Id")
@@ -5185,6 +5313,130 @@ namespace Society.Api.Migrations
                     b.HasIndex("TenantId", "DirectoryLevelId");
 
                     b.ToTable("MembershipPolicies");
+                });
+
+            modelBuilder.Entity("Society.Api.MembershipRenewal", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Amount")
+                        .HasPrecision(18, 3)
+                        .HasColumnType("numeric(18,3)");
+
+                    b.Property<DateTimeOffset?>("AppliedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("EndsAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MembershipId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("RequestedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("RequestedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("StartsAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("TermMonths")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId")
+                        .IsUnique();
+
+                    b.HasIndex("TenantId", "InvoiceId");
+
+                    b.HasIndex("TenantId", "MembershipId")
+                        .IsUnique()
+                        .HasFilter("\"State\"='Pending'");
+
+                    b.ToTable("MembershipRenewal");
+                });
+
+            modelBuilder.Entity("Society.Api.MembershipRenewalNotice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MembershipId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset>("TermEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId", "MembershipId", "TermEnd")
+                        .IsUnique();
+
+                    b.ToTable("MembershipRenewalNotice");
+                });
+
+            modelBuilder.Entity("Society.Api.MembershipRepresentative", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("EndsAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MembershipId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTimeOffset?>("RevokedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset>("StartsAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "TenantId");
+
+                    b.HasIndex("TenantId", "MembershipId", "UserId")
+                        .IsUnique()
+                        .HasFilter("\"RevokedAt\" IS NULL");
+
+                    b.ToTable("MembershipRepresentative");
                 });
 
             modelBuilder.Entity("Society.Api.MembershipTransfer", b =>
@@ -8302,6 +8554,23 @@ namespace Society.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Society.Api.InstitutionChapter", b =>
+                {
+                    b.HasOne("Society.Api.Unit", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "ChapterId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Society.Api.Membership", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "MembershipId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Society.Api.InterEntityObligation", b =>
                 {
                     b.HasOne("Society.Api.Tenant", null)
@@ -8650,6 +8919,15 @@ namespace Society.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Society.Api.MemberResource", b =>
+                {
+                    b.HasOne("Society.Api.Tenant", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Society.Api.MemberSavedView", b =>
                 {
                     b.HasOne("Society.Api.Tenant", null)
@@ -8736,6 +9014,22 @@ namespace Society.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Society.Api.MembershipOffer", b =>
+                {
+                    b.HasOne("Society.Api.MembershipCategory", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "CategoryId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Society.Api.FinancialEntity", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "EntityId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("Society.Api.MembershipPolicyRecord", b =>
                 {
                     b.HasOne("Society.Api.Tenant", null)
@@ -8755,6 +9049,49 @@ namespace Society.Api.Migrations
                         .HasForeignKey("TenantId", "DirectoryLevelId")
                         .HasPrincipalKey("TenantId", "Id")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Society.Api.MembershipRenewal", b =>
+                {
+                    b.HasOne("Society.Api.FinanceInvoice", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "InvoiceId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Society.Api.Membership", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "MembershipId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Society.Api.MembershipRenewalNotice", b =>
+                {
+                    b.HasOne("Society.Api.Membership", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "MembershipId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Society.Api.MembershipRepresentative", b =>
+                {
+                    b.HasOne("Society.Api.Account", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Society.Api.Membership", null)
+                        .WithMany()
+                        .HasForeignKey("TenantId", "MembershipId")
+                        .HasPrincipalKey("TenantId", "Id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Society.Api.MembershipTransfer", b =>

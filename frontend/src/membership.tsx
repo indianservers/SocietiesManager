@@ -1,3 +1,4 @@
+import {MembershipKindPicker} from "./membership-kind-picker";
 import {AreaTabs} from './area-tabs';
 import {WorkspaceSections,WorkspaceAlias} from './workspace-navigation';
 import { useState, useEffect } from "react";
@@ -166,7 +167,7 @@ function ProfileData(form: FormData, existing: any = {}) {
   const p = { ...existing, professional: { ...existing.professional } };
   for (const [key, value] of form) {
     if (key.startsWith("pro_")) p.professional[key.slice(4)] = value;
-    else if (fields.some(([f]) => f === key)) p[key] = value;
+    else if (key === "organizationName" || fields.some(([f]) => f === key)) p[key] = value;
     else if (key === "mobiles" || key === "addresses")
       p[key] = String(value)
         .split("\n")
@@ -1494,6 +1495,11 @@ export function JoinMembership() {
   const params = new URLSearchParams(useLocation().search);
   const nav = useNavigate();
   const [tenant, setTenant] = useState("");
+  const brand=useLoad<any>("/branding/resolve");
+  const me=useLoad<any>("/users/me");
+  const [kind,setKind]=useState(params.get("kind")||"");
+  const preferredKind=kind||me.data?.preferredMembershipKind||"Individual";
+  useEffect(()=>{if(!tenant&&brand.data?.tenantId)setTenant(me.data?.signupTenantId||brand.data.tenantId)},[brand.data?.tenantId,me.data?.signupTenantId,tenant]);
   const [chapterSearch, setChapterSearch] = useState("");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState("");
@@ -1577,7 +1583,7 @@ export function JoinMembership() {
                   chapterId: application?.chapterId || f.get("chapterId"),
                   categoryId: application?.categoryId || f.get("categoryId"),
                   profile: JSON.stringify(
-                    ProfileData(f, details(application?.profile)),
+                    {...ProfileData(f, details(application?.profile)), renewalReminders:f.has("renewalReminders")},
                   ),
                   submit,
                   revision: application?.revision || 0,
@@ -1604,6 +1610,9 @@ export function JoinMembership() {
             }}
           >
             <div className="form-section">CHOOSE YOUR COMMUNITY</div>
+            <label className="checkbox"><input type="checkbox" name="renewalReminders" defaultChecked={details(application?.profile).renewalReminders??true}/>Email me membership expiry and renewal reminders. No automatic charge.</label>
+            {!application&&<MembershipKindPicker value={preferredKind} onChange={setKind} offers={catalog.data?.categories}/>}
+            {preferredKind!=="Individual"&&<Field label="Institution / company name" name="organizationName" defaultValue={details(application?.profile).organizationName||""} required maxLength={160}/>}
             <Field
               label="Find society"
               value={search}
@@ -1651,10 +1660,11 @@ export function JoinMembership() {
                     <select
                       required
                       name="categoryId"
+                      key={preferredKind+":"+(catalog.data?.categories?.length||0)}
                       defaultValue={application?.categoryId}
                       disabled={!!application}
                     >
-                      {catalog.data?.categories.map((c: any) => (
+                      {catalog.data?.categories.filter((c:any)=>application||c.kind===preferredKind).map((c: any) => (
                         <option key={c.id} value={c.id}>
                           {c.name}
                         </option>
@@ -2058,6 +2068,7 @@ function MembershipSettings() {
                       name: f.get("name"),
                       description: f.get("description"),
                       active: f.has("active"),
+                      kind: f.get("kind"),
                     },
                   ),
                 )
@@ -2072,6 +2083,7 @@ function MembershipSettings() {
               required
               maxLength={80}
             />
+            <Field label="Membership type"><select name="kind" defaultValue={cat?.kind||"Individual"}>{["Individual","Institutional","Corporate"].map(kind=><option key={kind}>{kind}</option>)}</select></Field>
             <Field label="Description">
               <textarea name="description" defaultValue={cat?.description} />
             </Field>

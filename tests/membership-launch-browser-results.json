@@ -1,0 +1,25 @@
+{
+  "passed": 19,
+  "checks": [
+    "launch society brands the signup page",
+    "signup offers exactly Individual, Institutional and Corporate options",
+    "signup displays annual INR prices from platform-owner settings",
+    "each signup option is selectable on mobile",
+    "institution signup posts successfully",
+    "signup saves Institutional intent without granting administrator access",
+    "verified signup choice carries into the membership application",
+    "institution application cannot silently choose a free legacy individual category",
+    "institution membership application submits on mobile",
+    "approved unpaid institution clearly awaits payment and has no resource access",
+    "one account sees its Individual membership and Institutional controller card",
+    "360px member portal has no horizontal page overflow",
+    "390px member portal has no horizontal page overflow",
+    "768px member portal has no horizontal page overflow",
+    "institution controller can inspect organization team and linked chapter",
+    "institution-only resource opens for the verified controller",
+    "platform pricing editor shows configured annual Individual fee",
+    "platform owner can save membership pricing on mobile",
+    "no uncaught browser runtime errors"
+  ],
+  "pageErrors": []
+}

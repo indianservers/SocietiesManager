@@ -1,7 +1,7 @@
 {
   "scope": "20 warm authenticated local feed requests on integration fixture",
-  "median_ms": 36.281,
-  "p95_ms": 44.354,
+  "median_ms": 13.987,
+  "p95_ms": 17.01,
   "target_p95_ms": 500,
   "target_met": true
 }

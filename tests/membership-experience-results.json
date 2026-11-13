@@ -1,0 +1,210 @@
+{
+  "passed": 51,
+  "total": 51,
+  "results": [
+    {
+      "name": "configured launch society resolves before login without hardcoded application branding",
+      "passed": true
+    },
+    {
+      "name": "only platform owners can change membership prices",
+      "passed": true
+    },
+    {
+      "name": "public signup catalog includes three kinds and configured annual prices",
+      "passed": true
+    },
+    {
+      "name": "public signup does not advertise legacy unpriced categories when launch offers are configured",
+      "passed": true
+    },
+    {
+      "name": "direct application cannot bypass launch pricing through a legacy category",
+      "passed": true
+    },
+    {
+      "name": "approval does not activate an unpaid paid-membership offer",
+      "passed": true
+    },
+    {
+      "name": "unpaid membership has no resource entitlement",
+      "passed": true
+    },
+    {
+      "name": "manual membership edit cannot bypass payment activation",
+      "passed": true
+    },
+    {
+      "name": "renewal fee comes from owner pricing rather than client input",
+      "passed": true
+    },
+    {
+      "name": "repeated renewal requests reuse a single pending invoice",
+      "passed": true
+    },
+    {
+      "name": "forged payment webhook cannot activate membership",
+      "passed": true
+    },
+    {
+      "name": "wrong captured amount cannot activate membership",
+      "passed": true
+    },
+    {
+      "name": "verified full capture activates annual membership",
+      "passed": true
+    },
+    {
+      "name": "renewed validity is approximately one year from confirmed initial payment",
+      "passed": true
+    },
+    {
+      "name": "early renewal carries remaining paid time forward",
+      "passed": true
+    },
+    {
+      "name": "concurrent duplicate capture never grants extra membership time",
+      "passed": true
+    },
+    {
+      "name": "one human can hold individual membership and control separate institution and corporate memberships in the same chapter",
+      "passed": true
+    },
+    {
+      "name": "organization approval does not merge personal and institution identities",
+      "passed": true
+    },
+    {
+      "name": "category edits cannot merge a personal identity into an institutional membership",
+      "passed": true
+    },
+    {
+      "name": "organization controller is not automatically a society administrator",
+      "passed": true
+    },
+    {
+      "name": "active institution controller can read the institutional resource",
+      "passed": true
+    },
+    {
+      "name": "resource publication rejects unsafe external URLs",
+      "passed": true
+    },
+    {
+      "name": "cross-society resource reference cannot be read",
+      "passed": true
+    },
+    {
+      "name": "verified organization admin can access delegated institution membership",
+      "passed": true
+    },
+    {
+      "name": "verified organization admin can read its institutional resource",
+      "passed": true
+    },
+    {
+      "name": "organization admin cannot grant controller or society authority",
+      "passed": true
+    },
+    {
+      "name": "revocation immediately removes institution resource access",
+      "passed": true
+    },
+    {
+      "name": "revocation never changes the controller individual membership",
+      "passed": true
+    },
+    {
+      "name": "organization coordinator may read member resources without acquiring billing authority",
+      "passed": true
+    },
+    {
+      "name": "organization coordinator cannot read private billing records",
+      "passed": true
+    },
+    {
+      "name": "organization coordinator cannot renew or edit the organization profile as an administrator",
+      "passed": true
+    },
+    {
+      "name": "organization coordinator sees no private editable profile",
+      "passed": true
+    },
+    {
+      "name": "institution chapter relationship is explicit and independent of personal membership",
+      "passed": true
+    },
+    {
+      "name": "an Individual member can explicitly coordinate the chapter linked to their institution without merging memberships",
+      "passed": true
+    },
+    {
+      "name": "institution controller cannot assign chapter governance roles by itself",
+      "passed": true
+    },
+    {
+      "name": "expired institutional membership loses resources even with an active individual membership",
+      "passed": true
+    },
+    {
+      "name": "expired membership can still request a renewal invoice",
+      "passed": true
+    },
+    {
+      "name": "renewal reminders persist and are sent once per term, not once per worker restart",
+      "passed": true
+    },
+    {
+      "name": "reminder is delivered through the durable private outbox",
+      "passed": true
+    },
+    {
+      "name": "opted-in reminder actually dispatches through the email adapter rather than failing as an unconfigured campaign",
+      "passed": true
+    },
+    {
+      "name": "verified chargeback blocks paid membership benefits without deleting history",
+      "passed": true
+    },
+    {
+      "name": "personal membership payment hold also removes its dated chapter governance authority",
+      "passed": true
+    },
+    {
+      "name": "renewal snapshots remain available after payment reversal",
+      "passed": true
+    },
+    {
+      "name": "confirmed partial payment does not activate a corporate membership",
+      "passed": true
+    },
+    {
+      "name": "membership activates automatically when independently confirmed allocations reach the full fee",
+      "passed": true
+    },
+    {
+      "name": "capture on a suspended membership records funds without silently lifting the officer hold",
+      "passed": true
+    },
+    {
+      "name": "suspension prevents automatic benefit extension while retaining the captured payment",
+      "passed": true
+    },
+    {
+      "name": "explicit officer reinstatement applies the already verified paid term once",
+      "passed": true
+    },
+    {
+      "name": "signup rejects invented membership types",
+      "passed": true
+    },
+    {
+      "name": "signup records the chosen membership type without granting platform privileges",
+      "passed": true
+    },
+    {
+      "name": "platform pricing preserves the three configured annual fees",
+      "passed": true
+    }
+  ]
+}
