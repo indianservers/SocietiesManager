@@ -1,6 +1,6 @@
 {
-  "passed": 51,
-  "total": 51,
+  "passed": 71,
+  "total": 71,
   "results": [
     {
       "name": "configured launch society resolves before login without hardcoded application branding",
@@ -83,6 +83,82 @@
       "passed": true
     },
     {
+      "name": "multiple students and faculty receive different durable IDs",
+      "passed": true
+    },
+    {
+      "name": "Individual and institutional member IDs remain separate under one login",
+      "passed": true
+    },
+    {
+      "name": "roster enrollment never grants administrative representative authority",
+      "passed": true
+    },
+    {
+      "name": "duplicate institutional email is rejected case insensitively",
+      "passed": true
+    },
+    {
+      "name": "roster rejects malformed email",
+      "passed": true
+    },
+    {
+      "name": "roster rejects empty names",
+      "passed": true
+    },
+    {
+      "name": "personal memberships cannot hold an organization roster",
+      "passed": true
+    },
+    {
+      "name": "unpaid organization cannot enroll members",
+      "passed": true
+    },
+    {
+      "name": "faculty registering after enrollment discovers their existing institutional ID",
+      "passed": true
+    },
+    {
+      "name": "roster-only member can read institutional resources without an admin role",
+      "passed": true
+    },
+    {
+      "name": "roster-only member cannot list private organization roster",
+      "passed": true
+    },
+    {
+      "name": "roster-only member cannot add other people",
+      "passed": true
+    },
+    {
+      "name": "roster-only member cannot access institution billing",
+      "passed": true
+    },
+    {
+      "name": "cross-society organization roster cannot be accessed",
+      "passed": true
+    },
+    {
+      "name": "institution expiry blocks roster resource entitlement",
+      "passed": true
+    },
+    {
+      "name": "institution renewal restores roster entitlement without changing member IDs",
+      "passed": true
+    },
+    {
+      "name": "roster removal immediately removes institutional resource access",
+      "passed": true
+    },
+    {
+      "name": "removed ID is retained in organization history",
+      "passed": true
+    },
+    {
+      "name": "new enrollment never reuses a removed membership ID",
+      "passed": true
+    },
+    {
       "name": "active institution controller can read the institutional resource",
       "passed": true
     },
@@ -116,6 +192,10 @@
     },
     {
       "name": "organization coordinator may read member resources without acquiring billing authority",
+      "passed": true
+    },
+    {
+      "name": "organization coordinator cannot add organization roster members",
       "passed": true
     },
     {

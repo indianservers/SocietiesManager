@@ -14,6 +14,15 @@ public static class MembershipExperience
              db.Set<MembershipRepresentative>().Any(r => r.TenantId == m.TenantId && r.MembershipId == m.Id && r.UserId == user && (!administratorsOnly || r.Role != "Coordinator") && r.RevokedAt == null && r.StartsAt <= now && (r.EndsAt == null || r.EndsAt > now))));
     }
 
+    public static IQueryable<Membership> Entitled(AppDb db, Guid user)
+    {
+        var organizations = db.Set<OrganizationMember>().Where(r => r.RevokedAt == null && r.Email != null &&
+            db.Users.Any(u => u.Id == user && u.EmailConfirmed && u.NormalizedEmail == r.Email)).Select(r => r.MembershipId);
+        var owned = Owned(db, user).Select(x => x.Id);
+        return db.Memberships.Where(m => owned.Contains(m.Id) ||
+            organizations.Contains(m.Id) && db.Tenants.Any(t => t.Id == m.TenantId && t.Status != "Suspended"));
+    }
+
     public static bool Current(Membership m) => m.Status == "Active" && !m.PendingPayment && m.EffectiveFrom <= DateTimeOffset.UtcNow && (m.EndsAt == null || m.EndsAt > DateTimeOffset.UtcNow);
     public static string State(Membership m) => m.Status is not ("Active" or "Inactive") ? m.Status : m.PendingPayment ? "Payment required" : m.Status != "Active" ? m.Status : m.EffectiveFrom > DateTimeOffset.UtcNow ? "Upcoming" : m.EndsAt <= DateTimeOffset.UtcNow ? "Expired" : m.EndsAt <= DateTimeOffset.UtcNow.AddDays(30) ? "Expiring soon" : "Active";
 

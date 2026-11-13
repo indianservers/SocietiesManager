@@ -1,0 +1,17 @@
+{
+  "passed": 11,
+  "checks": [
+    "same account displays institutional member ID alongside Individual membership",
+    "institution controller can open member roster on mobile",
+    "adding student generates a distinct membership ID",
+    "roster and IDs fit mobile width 360",
+    "roster and IDs fit mobile width 390",
+    "roster and IDs fit mobile width 768",
+    "removing student retains their ID in history",
+    "faculty sees their own institutional ID without administrator access",
+    "faculty cannot see private organization roster",
+    "faculty can open eligible institutional resources end to end",
+    "no uncaught browser errors"
+  ],
+  "errors": []
+}

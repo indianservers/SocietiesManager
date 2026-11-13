@@ -20,6 +20,19 @@ public static class MembershipExperienceEndpoints
                 r.member.RenewalReminders, r.Kind, r.category, r.holder, r.society, r.chapter, r.relationship, state = MembershipExperience.State(r.member), active = MembershipExperience.Current(r.member), r.offer }));
         }).RequireAuthorization();
 
+        api.MapGet("/membership/affiliations", async (AppDb db, Access a) =>
+        {
+            var rows = await (from r in db.Set<OrganizationMember>()
+                join m in db.Memberships on r.MembershipId equals m.Id
+                join p in db.Persons on m.PersonId equals p.Id
+                join tenant in db.Tenants on m.TenantId equals tenant.Id
+                where r.RevokedAt == null && r.Email != null && tenant.Status != "Suspended" &&
+                    db.Users.Any(u => u.Id == a.UserId && u.EmailConfirmed && u.NormalizedEmail == r.Email)
+                select new { r.Id, r.Number, r.FullName, r.Role, r.TenantId, organization = p.FullName, society = tenant.Name, member = m }).ToListAsync();
+            return Results.Ok(rows.Select(r => new { r.Id, r.Number, r.FullName, r.Role, r.TenantId, r.organization, r.society,
+                r.member.EndsAt, state = MembershipExperience.State(r.member), active = MembershipExperience.Current(r.member) }));
+        }).RequireAuthorization();
+
         var t = api.MapGroup("/societies/{tenant:guid}/membership").RequireAuthorization();
         t.MapGet("/offers", async (Guid tenant, AppDb db, Access a) => { await a.Member(tenant); return await db.Set<MembershipOffer>().Where(o => o.TenantId == tenant).ToListAsync(); });
         t.MapPost("/members/{id:guid}/renew", async (Guid tenant, Guid id, AppDb db, Access a, FinanceService finance) =>
@@ -71,6 +84,32 @@ public static class MembershipExperienceEndpoints
             if (r.Role == "Controller" && !await db.Set<MembershipRepresentative>().AnyAsync(x => x.TenantId == tenant && x.MembershipId == id && x.Id != representative && x.Role == "Controller" && x.RevokedAt == null && x.StartsAt <= DateTimeOffset.UtcNow && (x.EndsAt == null || x.EndsAt > DateTimeOffset.UtcNow))) throw new DomainException("Keep at least one current controller");
             r.RevokedAt = DateTimeOffset.UtcNow; a.Audit(tenant, "membership.representative.revoked", representative); await db.SaveChangesAsync(); await tx.CommitAsync(); return Results.NoContent();
         });
+        t.MapGet("/members/{id:guid}/roster", async (Guid tenant, Guid id, AppDb db, Access a) =>
+        {
+            await ManageMember(db, a, tenant, id);
+            return await db.Set<OrganizationMember>().Where(r => r.TenantId == tenant && r.MembershipId == id)
+                .OrderBy(r => r.FullName).ToListAsync();
+        });
+        t.MapPost("/members/{id:guid}/roster", async (Guid tenant, Guid id, OrganizationMemberWrite r, AppDb db, Access a) =>
+        {
+            await using var tx = await db.Database.BeginTransactionAsync(); await MembershipService.Lock(db, tenant);
+            var member = await ManageRoster(db, a, tenant, id);
+            if (string.IsNullOrWhiteSpace(r.FullName) || string.IsNullOrWhiteSpace(r.Role)) throw new DomainException("Enter a name and member type");
+            var email = string.IsNullOrWhiteSpace(r.Email) ? null : r.Email.Trim().ToUpperInvariant();
+            if (email != null && await db.Set<OrganizationMember>().AnyAsync(x => x.TenantId == tenant && x.MembershipId == id && x.Email == email && x.RevokedAt == null)) throw new DomainException("This email already has a current membership in this organization");
+            var row = new OrganizationMember { TenantId = tenant, MembershipId = id, FullName = r.FullName.Trim(), Email = email, Role = r.Role.Trim(), Reference = r.Reference?.Trim() ?? "" };
+            row.Number = "ORG-" + row.Id.ToString("N").ToUpperInvariant();
+            db.Add(row); a.Audit(tenant, "organization.member.added", row.Id, new { membershipId = id, row.Number });
+            await db.SaveChangesAsync(); await tx.CommitAsync(); return Results.Ok(row);
+        });
+        t.MapDelete("/members/{id:guid}/roster/{roster:guid}", async (Guid tenant, Guid id, Guid roster, AppDb db, Access a) =>
+        {
+            await using var tx = await db.Database.BeginTransactionAsync(); await MembershipService.Lock(db, tenant);
+            await ManageRoster(db, a, tenant, id, requireActive: false);
+            var row = await db.Set<OrganizationMember>().SingleOrDefaultAsync(r => r.TenantId == tenant && r.MembershipId == id && r.Id == roster) ?? throw new AccessDeniedException();
+            row.RevokedAt ??= DateTimeOffset.UtcNow;
+            a.Audit(tenant, "organization.member.removed", row.Id); await db.SaveChangesAsync(); await tx.CommitAsync(); return Results.NoContent();
+        });
         t.MapGet("/members/{id:guid}/chapters", async (Guid tenant, Guid id, AppDb db, Access a) =>
         {
             await ManageMember(db, a, tenant, id);
@@ -89,19 +128,17 @@ public static class MembershipExperienceEndpoints
 
         t.MapGet("/resources", async (Guid tenant, AppDb db, Access a) =>
         {
-            await a.Member(tenant);
             var now = DateTimeOffset.UtcNow;
-            var kinds = await (from m in MembershipExperience.Owned(db, a.UserId) join c in db.MembershipCategories on m.CategoryId equals c.Id
+            var kinds = await (from m in MembershipExperience.Entitled(db, a.UserId) join c in db.MembershipCategories on m.CategoryId equals c.Id
                 where m.TenantId == tenant && m.Status == "Active" && !m.PendingPayment && m.EffectiveFrom <= now && (m.EndsAt == null || m.EndsAt > now) select c.Kind).Distinct().ToArrayAsync();
             return await db.Set<MemberResource>().Where(r => r.TenantId == tenant && r.Published && r.Audiences.Any(k => kinds.Contains(k)))
                 .OrderBy(r => r.Title).Select(r => new { r.Id, r.Title, r.Description, r.Kind, r.Audiences }).Take(200).ToListAsync();
         });
         t.MapGet("/resources/{id:guid}", async (Guid tenant, Guid id, AppDb db, Access a) =>
         {
-            await a.Member(tenant);
             var resource = await db.Set<MemberResource>().SingleOrDefaultAsync(r => r.TenantId == tenant && r.Id == id && r.Published) ?? throw new AccessDeniedException();
             var now = DateTimeOffset.UtcNow;
-            if (!await (from m in MembershipExperience.Owned(db, a.UserId) join c in db.MembershipCategories on m.CategoryId equals c.Id
+            if (!await (from m in MembershipExperience.Entitled(db, a.UserId) join c in db.MembershipCategories on m.CategoryId equals c.Id
                 where m.TenantId == tenant && m.Status == "Active" && !m.PendingPayment && m.EffectiveFrom <= now && (m.EndsAt == null || m.EndsAt > now) && resource.Audiences.Contains(c.Kind) select m.Id).AnyAsync()) throw new AccessDeniedException();
             return Results.Ok(resource);
         });
@@ -139,6 +176,14 @@ public static class MembershipExperienceEndpoints
             offer.PaymentRequired = r.PaymentRequired; offer.ReminderDays = r.ReminderDays; offer.Revision++;
             a.Audit(tenant, "membership.pricing.updated", category, new { offer.Price, offer.Currency, offer.TermMonths }); await db.SaveChangesAsync(); return Results.Ok(offer);
         });
+    }
+    static async Task<Membership> ManageRoster(AppDb db, Access a, Guid tenant, Guid id, bool requireActive = true)
+    {
+        var member = await ManageMember(db, a, tenant, id);
+        if (!await db.MembershipCategories.AnyAsync(c => c.TenantId == tenant && c.Id == member.CategoryId && c.Kind != "Individual")) throw new DomainException("Choose an institutional or corporate membership");
+        if (!await MembershipExperience.Owned(db, a.UserId, true).AnyAsync(m => m.Id == id && m.TenantId == tenant)) await a.Require(tenant, "members.write", member.ChapterId);
+        if (requireActive && !MembershipExperience.Current(member)) throw new DomainException("Activate or renew the organization membership before changing its roster");
+        return member;
     }
     static async Task<Membership> ManageMember(AppDb db, Access a, Guid tenant, Guid id, bool controller = false)
     {

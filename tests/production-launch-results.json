@@ -1,6 +1,6 @@
 {
   "url": "https://members.aimersociety.com",
-  "passed": 26,
+  "passed": 28,
   "checks": [
     "origin certificate is publicly trusted and covers the launch hostname",
     "public HTTPS readiness reports a migrated connected database",
@@ -10,6 +10,7 @@
     "live annual fees are INR 500 and INR 10000",
     "anonymous visitors cannot inspect private account data",
     "anonymous visitors cannot read the member resource library",
+    "anonymous visitors cannot read institutional member IDs",
     "browser tab title uses the configured society name",
     "live mobile signup shows all three membership choices",
     "live signup displays configured annual pricing",
@@ -22,6 +23,7 @@
     "production session cookie is Secure HttpOnly and SameSite Strict",
     "owner has an explicit society administrator workspace",
     "launch did not import fictional member accounts as real memberships",
+    "live institution roster schema is available without fabricated student records",
     "production enforces recent MFA for protected owner operations",
     "pricing changes remain inaccessible until owner MFA is enrolled",
     "membership administrators can configure membership kinds without changing application code",

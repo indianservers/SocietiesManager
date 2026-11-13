@@ -71,6 +71,24 @@ public class InstitutionChapter
     public Guid ChapterId { get; set; }
     public Guid MembershipId { get; set; }
 }
+// Roster membership is a benefit of an organization membership, never an admin role.
+public class OrganizationMember
+{
+    public Guid Id { get; set; } = Guid.NewGuid();
+    public Guid TenantId { get; set; }
+    public Guid MembershipId { get; set; }
+    public string Number { get; set; } = "";
+    public string FullName { get; set; } = "";
+    public string? Email { get; set; }
+    public string Role { get; set; } = "Student";
+    public string Reference { get; set; } = "";
+    public DateTimeOffset AddedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset? RevokedAt { get; set; }
+}
+public record OrganizationMemberWrite([property: Required, MaxLength(160)] string FullName,
+    [property: EmailAddress, MaxLength(254)] string? Email, [property: Required, MaxLength(40)] string Role,
+    [property: MaxLength(100)] string Reference = "");
+
 public record RepresentativeWrite([Required, EmailAddress] string Email, string Role = "Controller", DateTimeOffset? EndsAt = null);
 public record ResourceWrite([Required, MaxLength(180)] string Title, [MaxLength(2000)] string Description,
     [Required] string Kind, [Required] string[] Audiences, [Required(AllowEmptyStrings = true), MaxLength(40000)] string Content,
@@ -80,6 +98,15 @@ public static class MembershipExperienceModel
 {
     public static void Configure(ModelBuilder b)
     {
+        b.Entity<OrganizationMember>().HasOne<Membership>().WithMany().HasForeignKey(x => new { x.TenantId, x.MembershipId }).HasPrincipalKey(x => new { x.TenantId, x.Id }).OnDelete(DeleteBehavior.Restrict);
+        b.Entity<OrganizationMember>().HasIndex(x => new { x.TenantId, x.Number }).IsUnique();
+        b.Entity<OrganizationMember>().HasIndex(x => new { x.TenantId, x.MembershipId, x.Email }).IsUnique().HasFilter("\"RevokedAt\" IS NULL AND \"Email\" IS NOT NULL");
+        b.Entity<OrganizationMember>().HasIndex(x => x.Email);
+        b.Entity<OrganizationMember>().Property(x => x.Number).HasMaxLength(40);
+        b.Entity<OrganizationMember>().Property(x => x.FullName).HasMaxLength(160);
+        b.Entity<OrganizationMember>().Property(x => x.Email).HasMaxLength(254);
+        b.Entity<OrganizationMember>().Property(x => x.Role).HasMaxLength(40);
+        b.Entity<OrganizationMember>().Property(x => x.Reference).HasMaxLength(100);
         b.Entity<MembershipOffer>().HasKey(x => new { x.TenantId, x.CategoryId });
         b.Entity<MembershipOffer>().HasOne<MembershipCategory>().WithMany().HasForeignKey(x => new { x.TenantId, x.CategoryId }).HasPrincipalKey(x => new { x.TenantId, x.Id }).OnDelete(DeleteBehavior.Restrict);
         b.Entity<MembershipOffer>().HasOne<FinancialEntity>().WithMany().HasForeignKey(x => new { x.TenantId, x.EntityId }).HasPrincipalKey(x => new { x.TenantId, x.Id }).OnDelete(DeleteBehavior.Restrict);
