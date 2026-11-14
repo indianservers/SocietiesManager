@@ -1,0 +1,31 @@
+{
+  "passed": 25,
+  "checks": [
+    "header uses a loaded PNG logo",
+    "hero artwork is a loaded PNG",
+    "reference heading, navigation, banner and four benefits are present",
+    "desktop has two columns matching the supplied reference",
+    "all three membership options and owner-configured prices remain available",
+    "Individual, Institutional and Corporate are selectable",
+    "Login and Sign Up tabs switch functional forms",
+    "saved dark-theme preference does not obscure the reference login controls",
+    "/login fits 360px without horizontal overflow",
+    "/signup fits 360px without horizontal overflow",
+    "/login fits 390px without horizontal overflow",
+    "/signup fits 390px without horizontal overflow",
+    "/login fits 768px without horizontal overflow",
+    "/signup fits 768px without horizontal overflow",
+    "terms and privacy controls open accessible information dialogs",
+    "password visibility toggle works without changing the password",
+    "mobile signup submits successfully",
+    "signup preserves membership choice and optional phone without granting authority or claiming phone verification",
+    "email verification remains functional",
+    "email/password login opens the member workspace",
+    "forgot-password and reset-password workflows remain functional",
+    "authenticator login still completes end to end",
+    "single-use recovery-code login still completes end to end",
+    "same page serves another organization through configurable branding",
+    "no uncaught browser errors"
+  ],
+  "errors": []
+}

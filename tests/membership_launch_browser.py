@@ -41,18 +41,19 @@ with sync_playwright() as p:
   page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto(url+'/signup');page.wait_for_load_state('networkidle')
   check('launch society brands the signup page',launch['name'] in page.locator('body').inner_text())
-  check('signup offers exactly Individual, Institutional and Corporate options',page.get_by_role('radio').count()==3)
+  check('signup offers exactly Individual, Institutional and Corporate options',page.locator('select[name=membershipKind] option').count()==3)
   check('signup displays annual INR prices from platform-owner settings','₹500' in page.locator('body').inner_text() and page.locator('body').inner_text().count('₹10,000')==2)
   for kind in ['Individual','Institutional','Corporate']:
-   page.get_by_role('radio',name=re.compile('^'+kind)).check()
-   expect(page.get_by_role('radio',name=re.compile('^'+kind))).to_be_checked()
+   page.locator('select[name=membershipKind]').select_option(kind)
+   expect(page.locator('select[name=membershipKind]')).to_have_value(kind)
   check('each signup option is selectable on mobile')
-  page.get_by_role('radio',name=re.compile('^Institutional')).check()
+  page.locator('select[name=membershipKind]').select_option('Institutional')
   email='launch-ui-'+secrets.token_hex(5)+'@example.test';password=secrets.token_urlsafe(22)+'!Aa1'
   page.get_by_label('Full name',exact=True).fill('Synthetic Mobile Applicant')
   page.get_by_label('Email address',exact=True).fill(email)
   page.get_by_label('Password',exact=True).fill(password)
   page.screenshot(path=str(ROOT/'tests/membership-launch-signup-mobile.png'),full_page=True)
+  page.locator('input[name=terms]').check()
   with page.expect_response(lambda r:r.request.method=='POST' and r.url.endswith('/auth/signup')) as signup:
    page.locator('form button[type=submit],form button.primary').last.click()
   check('institution signup posts successfully',signup.value.ok)

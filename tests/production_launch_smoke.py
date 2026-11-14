@@ -37,14 +37,14 @@ with sync_playwright() as p:
   check('anonymous visitors cannot read the member resource library',context.request.get(url+'/api/v1/societies/'+tenant+'/membership/resources').status==401)
   check('anonymous visitors cannot read institutional member IDs',context.request.get(url+'/api/v1/membership/affiliations').status==401)
   page.goto(url+'/signup');page.wait_for_load_state('networkidle')
-  expect(page.get_by_role('radio')).to_have_count(3)
+  expect(page.locator('select[name=membershipKind] option')).to_have_count(3)
   check('browser tab title uses the configured society name','AIMER Society' in page.title())
   check('live mobile signup shows all three membership choices')
   expect(page.locator('body')).to_contain_text('₹500 / year')
   check('live signup displays configured annual pricing')
   for kind in ['Individual','Institutional','Corporate']:
-   page.get_by_role('radio',name=re.compile('^'+kind)).check()
-   expect(page.get_by_role('radio',name=re.compile('^'+kind))).to_be_checked()
+   page.locator('select[name=membershipKind]').select_option(kind)
+   expect(page.locator('select[name=membershipKind]')).to_have_value(kind)
   check('all live signup options are selectable without submitting fake production accounts')
   for width in [360,390,768]:
    page.set_viewport_size({'width':width,'height':844})
