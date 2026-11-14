@@ -1,0 +1,18 @@
+{
+  "url": "https://members.aimersociety.com",
+  "passed": 11,
+  "checks": [
+    "deployed signup uses the society-specific reference copy",
+    "live logo is served as an actual PNG",
+    "live PNG logo and hero artwork finish loading",
+    "live signup retains Individual, Institutional and Corporate options",
+    "configured country calling code is used",
+    "reference banner and feature strip are present",
+    "live login tab opens the real sign-in form",
+    "live login fits 360px",
+    "live login fits 390px",
+    "live login fits 768px",
+    "no uncaught runtime errors on the live auth pages"
+  ],
+  "errors": []
+}
