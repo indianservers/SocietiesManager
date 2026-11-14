@@ -1,0 +1,19 @@
+{
+  "passed": 9,
+  "checks": [
+    "live Firebase configuration enables both providers",
+    "Google opens the real provider sign-in page",
+    "Microsoft opens the real provider sign-in page",
+    "live login fits 360px",
+    "live login fits 390px",
+    "live login fits 768px",
+    "live login fits 1586px",
+    "auth provider initialization produces no page errors",
+    "portal CSP permits Firebase sign-in initialization"
+  ],
+  "errors": [],
+  "cspViolations": [
+    "Loading the script 'https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092' violates the following Content Security Policy directive: \"script-src 'self' https://checkout.razorpay.com https://apis.google.com\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The action has been blocked."
+  ],
+  "externalConsent": "Provider login pages opened; no real user consent submitted"
+}
