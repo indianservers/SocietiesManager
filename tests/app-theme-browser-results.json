@@ -1,0 +1,3929 @@
+{
+  "checks": [
+    "public landing page shares the purple palette",
+    "shared theme loads on every administrative workspace, including lazy modules",
+    "dark appearance uses the matching purple palette across workspaces",
+    "print output keeps a white document surface even in dark mode",
+    "all administrative workspaces fit 360px, 390px and 768px",
+    "mobile navigation opens and closes through real navigation",
+    "mobile themed form saves contact metadata without changing category or status",
+    "mobile form tabs preserve data across save/reload and restore the test edit",
+    "drawers keep form controls inside the mobile viewport",
+    "platform-owner dashboard shares the same mobile theme",
+    "personal and institutional member access retains the shared palette",
+    "every configured society role was exercised",
+    "no uncaught browser errors"
+  ],
+  "screenCount": 388,
+  "roles": [
+    "Chapter Committee Chair",
+    "Chapter Manager",
+    "Chapter President",
+    "Chapter Secretary",
+    "Chapter Treasurer",
+    "Chapter Vice President",
+    "District Governor",
+    "District Secretary",
+    "District Treasurer",
+    "Individual & Institution Controller",
+    "Member Directory",
+    "National Director",
+    "National President",
+    "National Secretary",
+    "National Treasurer",
+    "Platform Owner",
+    "Regional Coordinator",
+    "Regional President",
+    "Regional Secretary",
+    "Regional Treasurer",
+    "Society Administrator",
+    "Society Executive Member",
+    "Society President",
+    "Society Secretary",
+    "Society Treasurer",
+    "Zone Chairperson"
+  ],
+  "pageErrors": [],
+  "screens": [
+    {
+      "role": "Society Administrator",
+      "path": "/app",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/membership",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members/governance",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/organization",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members/operations",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/community",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/community/events",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/service/projects",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/communications",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/finance",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/account",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/studio",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/settings",
+      "width": 1440,
+      "mode": "light",
+      "scroll": 1440,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app",
+      "width": 1440,
+      "mode": "dark",
+      "scroll": 1440,
+      "primary": "#c88afa",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/finance",
+      "width": 1440,
+      "mode": "dark",
+      "scroll": 1440,
+      "primary": "#c88afa",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/studio",
+      "width": 1440,
+      "mode": "dark",
+      "scroll": 1440,
+      "primary": "#c88afa",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/communications",
+      "width": 1440,
+      "mode": "dark",
+      "scroll": 1440,
+      "primary": "#c88afa",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/membership",
+      "width": 1440,
+      "mode": "dark",
+      "scroll": 1440,
+      "primary": "#c88afa",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/account",
+      "width": 1440,
+      "mode": "dark",
+      "scroll": 1440,
+      "primary": "#c88afa",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/membership",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members/governance",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/organization",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members/operations",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/community",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/community/events",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/service/projects",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/communications",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/finance",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/account",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/studio",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/settings",
+      "width": 360,
+      "mode": "light",
+      "scroll": 360,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/membership",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members/governance",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/organization",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/members/operations",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/community",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/community/events",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/service/projects",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/communications",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/finance",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/account",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/studio",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Administrator",
+      "path": "/app/settings",
+      "width": 768,
+      "mode": "light",
+      "scroll": 768,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Treasurer",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Member Directory",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Secretary",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Governor",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Treasurer",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Executive Member",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Treasurer",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Secretary",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Zone Chairperson",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter President",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Coordinator",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "District Secretary",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Committee Chair",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Director",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Vice President",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Treasurer",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society President",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional President",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Society Secretary",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Regional Secretary",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Chapter Manager",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National President",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/members",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/members/governance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/organization",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/members/operations",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/community",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/community/events",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/service/projects",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/communications",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/finance",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/studio",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "National Treasurer",
+      "path": "/app/settings",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Platform Owner",
+      "path": "/app/platform",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Individual & Institution Controller",
+      "path": "/app/membership",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Individual & Institution Controller",
+      "path": "/app/finance/my",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    },
+    {
+      "role": "Individual & Institution Controller",
+      "path": "/app/account",
+      "width": 390,
+      "mode": "light",
+      "scroll": 390,
+      "primary": "#7e12bf",
+      "surface": "none",
+      "alerts": []
+    }
+  ]
+}
