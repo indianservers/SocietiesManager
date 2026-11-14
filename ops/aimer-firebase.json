@@ -1,0 +1,12 @@
+{
+  "Authentication": {
+    "Firebase": {
+      "Enabled": true,
+      "ApiKey": "AIzaSyDKiPMjAuHqmFFm1l6tW3YMCkF7xQlsoMw",
+      "AuthDomain": "mlvisualizationsaimersweb.firebaseapp.com",
+      "ProjectId": "mlvisualizationsaimersweb",
+      "AppId": "1:593351107909:web:e2ba110eb27a8ef6830a2c",
+      "Providers": ["google.com", "microsoft.com"]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "passed": 27,
+  "checks": [
+    "provider configuration advertises both providers and local passwords",
+    "matching email alone requests account confirmation rather than signing in",
+    "unconfirmed social identity cannot obtain the existing owner session",
+    "link endpoint rejects unauthenticated requests",
+    "social sign-in requires the existing CSRF protection",
+    "username/password signs in case insensitively",
+    "confirmed account can connect its social identity",
+    "Google sign-in preserves the existing user and platform-owner flag",
+    "linking preserves society assignments",
+    "Microsoft sign-in to the connected Firebase UID retains the same account",
+    "Google and Microsoft do not duplicate the local account",
+    "email/password still works for an account with a separate username",
+    "a different provider email cannot replace or attach to the current account",
+    "repeating account linking is idempotent",
+    "social sign-in still requires the existing account authenticator",
+    "social sign-in does not issue a full session before MFA",
+    "MFA completes social sign-in and records an MFA session",
+    "a recent full MFA session may connect another owned provider identity",
+    "locked accounts cannot bypass lockout through social sign-in",
+    "google.com creates a regular verified account without granting owner privileges",
+    "google.com signup grants no membership or governance access",
+    "microsoft.com creates a regular verified account without granting owner privileges",
+    "microsoft.com signup grants no membership or governance access",
+    "unverified provider email still requires local email verification",
+    "unverified social signup queues an actual verification request",
+    "ordinary email/password registration remains backward compatible",
+    "provider-supplied roles never grant platform privileges"
+  ]
+}

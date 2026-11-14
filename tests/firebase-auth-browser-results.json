@@ -1,0 +1,15 @@
+{
+  "passed": 10,
+  "checks": [
+    "provider and password controls fit viewport 360",
+    "provider and password controls fit viewport 390",
+    "provider and password controls fit viewport 768",
+    "provider and password controls fit viewport 1586",
+    "Google matching email requires confirmation",
+    "browser username confirmation links original account",
+    "Google browser sign-in preserves linked account",
+    "Microsoft browser sign-in preserves linked account",
+    "cancelled popup leaves email/password login working",
+    "browser has no uncaught errors"
+  ]
+}
