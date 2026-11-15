@@ -2676,6 +2676,50 @@ namespace Society.Api.Migrations
                     b.ToTable("DuesPlan", (string)null);
                 });
 
+            modelBuilder.Entity("Society.Api.EmailLoginChallenge", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTimeOffset>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("IdentifierHash")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProtectedCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecurityStamp")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTimeOffset?>("UsedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExpiresAt");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("IdentifierHash", "CreatedAt");
+
+                    b.ToTable("EmailLoginChallenge");
+                });
+
             modelBuilder.Entity("Society.Api.EventAttendance", b =>
                 {
                     b.Property<Guid>("Id")
@@ -8164,6 +8208,14 @@ namespace Society.Api.Migrations
                         .HasForeignKey("TenantId", "UnitId")
                         .HasPrincipalKey("TenantId", "Id")
                         .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("Society.Api.EmailLoginChallenge", b =>
+                {
+                    b.HasOne("Society.Api.Account", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Society.Api.EventAttendance", b =>

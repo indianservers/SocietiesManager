@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "membership live desktop/mobile",
+    "account live desktop/mobile",
+    "clubs live desktop/mobile",
+    "resources live desktop/mobile",
+    "Individual account uses official logo",
+    "Login page and favicon use official logo"
+  ],
+  "errors": [],
+  "mode": "Existing live accounts; read-only verification apart from login/logout"
+}

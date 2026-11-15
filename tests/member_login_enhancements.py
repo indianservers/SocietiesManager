@@ -70,7 +70,7 @@ try:
         check('session expiry is available',call(a,'/security/session')['persistent'])
         with psycopg.connect(**dsn) as db:
             alerts=db.execute('select count(*) from "Outbox" where "Recipient"=%s and "Subject"=\'New device signed in\'',(email,)).fetchone()[0]
-        check('new device alerts queued',alerts==2)
+        check('sign-ins do not queue automatic email alerts',alerts==0)
         victim=next(s for s in sessions if not s['current'])
         call(other,'/security/sessions/'+victim['id'],'DELETE',status=404)
         check('cannot revoke another account session')

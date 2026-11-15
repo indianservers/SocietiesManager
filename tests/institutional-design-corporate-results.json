@@ -1,0 +1,9 @@
+{
+  "checks": [
+    "Corporate representative creates a login account",
+    "unverified account cannot sign in",
+    "queued verification link confirms the individual account",
+    "Four institutional pages at desktop/mobile; name permissions, PDF download, reviewed chapter requests, resource lock/open/save/search and Individual application verified"
+  ],
+  "errors": []
+}

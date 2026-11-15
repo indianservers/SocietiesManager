@@ -1,0 +1,13 @@
+{
+  "checks": [
+    "OTP opens the existing account, conceals unknown accounts, throttles resend and rejects replay",
+    "Five incorrect OTP attempts invalidate the challenge without locking the account",
+    "Expired OTP and concurrent reuse are rejected",
+    "Password reset uses a fragment link, invalidates old passwords, sessions and OTPs, and rejects token replay",
+    "Google, Microsoft, verified SMS and verified-mobile password login resolve to one existing account; cross-account linking and unverified phone login are blocked",
+    "Explicit provider signup works; unconnected provider login does not silently create an account",
+    "Email OTP cannot bypass MFA",
+    "Browser OTP sign-in works and switching away from open work requires an explicit safe action"
+  ],
+  "externalProviderMode": "Test-only verifier stub; production verifier is checked separately"
+}

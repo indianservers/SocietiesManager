@@ -1,0 +1,12 @@
+{
+  "checks": [
+    {
+      "background503RetainsEditor": true
+    },
+    {
+      "mobileAccountPreserved": true
+    }
+  ],
+  "errors": [],
+  "recordsSaved": 0
+}

@@ -21,9 +21,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddInMemoryCollection(new Dictionary<string,string?> {
     ["Authentication:Firebase:Enabled"]="true",["Authentication:Firebase:ProjectId"]="test-project",["Authentication:Firebase:ApiKey"]="test-api-key",
     ["Authentication:Firebase:AuthDomain"]="test-project.firebaseapp.com",["Authentication:Firebase:AppId"]="test-app",
-    ["Authentication:Firebase:Providers:0"]="google.com",["Authentication:Firebase:Providers:1"]="microsoft.com" });
+    ["Authentication:Firebase:Providers:0"]="google.com",["Authentication:Firebase:Providers:1"]="microsoft.com",["Authentication:Firebase:Providers:2"]="phone" });
 builder.Services.AddDbContext<AppDb>(o=>o.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
 builder.Services.AddIdentity<Account,IdentityRole<Guid>>(o=>{o.Password.RequiredLength=12;o.User.RequireUniqueEmail=true;o.SignIn.RequireConfirmedEmail=true;o.Lockout.MaxFailedAccessAttempts=5;}).AddEntityFrameworkStores<AppDb>().AddDefaultTokenProviders();
+builder.Services.Configure<DataProtectionTokenProviderOptions>(o=>o.TokenLifespan=TimeSpan.FromMinutes(30));
 builder.Services.ConfigureApplicationCookie(o=>{o.Cookie.Name="test.social.session";o.Cookie.HttpOnly=true;o.Cookie.SameSite=SameSiteMode.Strict;o.Events.OnSigningIn=MemberLogin.SigningIn;o.Events.OnValidatePrincipal=MemberLogin.Validate;o.Events.OnRedirectToLogin=c=>{c.Response.StatusCode=401;return Task.CompletedTask;};});
 builder.Services.AddAntiforgery(o=>o.HeaderName="X-CSRF-TOKEN");builder.Services.AddAuthorization();builder.Services.AddHttpContextAccessor();builder.Services.AddScoped<Access>();builder.Services.AddScoped<MembershipService>();
 builder.Services.AddSingleton<IFirebaseIdentityVerifier,FakeVerifier>();
@@ -32,7 +33,7 @@ var app=builder.Build();app.UseAuthentication();
 app.Use(async(context,next)=>{try{if(context.Request.Path.StartsWithSegments("/api")&&!HttpMethods.IsGet(context.Request.Method))await context.RequestServices.GetRequiredService<IAntiforgery>().ValidateRequestAsync(context);await next();}catch(AntiforgeryValidationException){context.Response.StatusCode=400;}catch(DomainException e){await Results.Problem(statusCode:400,title:e.Message).ExecuteAsync(context);}catch(AccessDeniedException){context.Response.StatusCode=403;}});
 app.UseRateLimiter();app.UseAuthorization();var api=app.MapGroup("/api/v1");
 api.AddEndpointFilter(async(ctx,next)=>{foreach(var arg in ctx.Arguments){if(arg==null||arg.GetType().Namespace!="Society.Api")continue;var errors=new List<ValidationResult>();if(!Validator.TryValidateObject(arg,new ValidationContext(arg),errors,true))return Results.ValidationProblem(errors.GroupBy(e=>e.MemberNames.FirstOrDefault()??"request").ToDictionary(g=>g.Key,g=>g.Select(e=>e.ErrorMessage!).ToArray()));}return await next(ctx);});
-api.MapGet("/auth/csrf",(HttpContext c,IAntiforgery a)=>new{token=a.GetAndStoreTokens(c).RequestToken});AuthEndpoints.Map(api);SecurityCenter.Map(api);MemberLogin.Map(api);
+api.MapGet("/auth/csrf",(HttpContext c,IAntiforgery a)=>new{token=a.GetAndStoreTokens(c).RequestToken});AuthEndpoints.Map(api);SecurityCenter.Map(api);MemberLogin.Map(api);EmailLogin.Map(api);PersonalAccount.Map(api);
 api.MapGet("/branding/resolve",(IConfiguration c)=>new{tenantId=c["Test:Tenant"],displayName="AIMER Society",chapterTerm="Chapter",authLanding=new{communityName="AIMER",defaultDialCode="+91",loginHeading="Welcome to the AIMER community"}});
 api.MapGet("/membership/catalog",()=>new{chapters=Array.Empty<object>(),categories=new[]{new{id="individual",kind="Individual",offer=new{price=500,currency="INR",termMonths=12}},new{id="institutional",kind="Institutional",offer=new{price=10000,currency="INR",termMonths=12}},new{id="corporate",kind="Corporate",offer=new{price=10000,currency="INR",termMonths=12}}}});
 foreach(var path in new[]{"/workspaces","/membership/portfolio","/membership/affiliations"})api.MapGet(path,()=>Array.Empty<object>()).RequireAuthorization();
@@ -44,10 +45,10 @@ sealed class FakeVerifier:IFirebaseIdentityVerifier
     {
         // Deliberately test-host-only. No test-token path exists in the app verifier.
         var value=JsonSerializer.Deserialize<TestIdentity>(token)??throw new DomainException("Missing test identity");
-        if(value.Provider is not("google.com" or "microsoft.com"))throw new DomainException("Unsupported test provider");
-        return Task.FromResult(new FirebaseIdentity(value.Uid,value.Email,value.Verified,"Synthetic Provider User",value.Provider,DateTimeOffset.UtcNow.ToUnixTimeSeconds()));
+        if(value.Provider is not("google.com" or "microsoft.com" or "phone"))throw new DomainException("Unsupported test provider");
+        return Task.FromResult(new FirebaseIdentity(value.Uid,value.Email,value.Verified,"Synthetic Provider User",value.Provider,DateTimeOffset.UtcNow.ToUnixTimeSeconds(),value.PhoneNumber));
     }
-    record TestIdentity(string Uid,string Email,bool Verified,string Provider);
+    record TestIdentity(string Uid,string Email,bool Verified,string Provider,string? PhoneNumber=null);
 }
 static class VerifierChecks
 {
@@ -84,7 +85,20 @@ static class VerifierChecks
         await Check("revoked authentication is rejected",Token(),false,since:now+1);
         await Check("malformed tokens are rejected","not-a-token",false);
         if(FirebaseAuthEndpoints.Recent(new ClaimsPrincipal(),false))throw new Exception("Anonymous principal was considered recent");passed++;
+        var phoneSettings=settings with{Providers=["google.com","microsoft.com","phone"]};
+        async Task CheckPhone(string name,string? claimed,string? lookedUp,bool valid,bool configured=true){
+            var token=Token(new(){{"firebase",new{sign_in_provider="phone"}},{"phone_number",claimed}});using var client=new HttpClient(new PhoneLookup(lookedUp));
+            try{var result=await FirebaseTokenVerifier.Verify(token,configured?phoneSettings:settings,CancellationToken.None,client);if(!valid)throw new Exception("Accepted unsafe mobile token");if(result.PhoneNumber!=lookedUp||result.Email!="")throw new Exception("Phone identity mismatch");}catch(DomainException){if(valid)throw;}
+            passed++;Console.WriteLine("PASS VERIFY "+name);
+        }
+        await CheckPhone("verified mobile must match the upstream project user","+19995550123","+19995550123",true);
+        await CheckPhone("mismatched mobile claim is rejected","+19995550124","+19995550123",false);
+        await CheckPhone("missing verified mobile is rejected",null,null,false);
+        await CheckPhone("disabled phone provider is rejected","+19995550123","+19995550123",false,false);
         Console.WriteLine("VERIFY_TOTAL="+passed);
+    }
+    sealed class PhoneLookup(string? phone):HttpMessageHandler {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,CancellationToken token)=>Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK){Content=JsonContent.Create(new{users=new[]{new{localId="test-uid",phoneNumber=phone,emailVerified=false,disabled=false,validSince="0",providerUserInfo=new[]{new{providerId="phone"}}}}})});
     }
     sealed class Lookup(string uid,bool disabled,long? since,bool reject):HttpMessageHandler
     {

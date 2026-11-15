@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "Institutional consistent menu: /app/membership",
+    "Institutional consistent menu: /app/clubs",
+    "Institutional consistent menu: /app/resources",
+    "Institutional consistent menu: /app/finance/my",
+    "Institutional consistent menu: /app/account",
+    "Individual consistent menu: /app/membership",
+    "Individual consistent menu: /app/clubs",
+    "Individual consistent menu: /app/resources",
+    "Individual consistent menu: /app/finance/my",
+    "Individual consistent menu: /app/account"
+  ],
+  "errors": []
+}

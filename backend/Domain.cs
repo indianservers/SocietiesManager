@@ -25,7 +25,7 @@ public partial class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext<
     [DbFunction("descendant_chapter_count")] public static int ChapterCount(Guid tenant, Guid unit) => throw new NotSupportedException();
     protected override void OnModelCreating(ModelBuilder b)
     {
-        base.OnModelCreating(b); MemberLogin.ConfigureModel(b);
+        base.OnModelCreating(b); EmailLogin.Model(b); MemberLogin.ConfigureModel(b);
         MembershipModel.Configure(b); MembershipExperienceModel.Configure(b); CommunityModel.Configure(b); CommunicationModel.Configure(b); FinanceModel.Configure(b); StudioModel.Configure(b);
         b.Entity<Asset>().HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict);
         b.Entity<Invitation>().HasIndex(x => x.TokenHash).IsUnique(); b.Entity<Invitation>().HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict);

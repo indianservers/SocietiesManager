@@ -1,0 +1,12 @@
+{
+  "checks": [
+    "Google, Microsoft and verified-mobile providers advertised",
+    "Password-reset request accepted through live UI",
+    "Email OTP requested through live UI",
+    "Live mobile verification UI available without sending an unsolicited SMS",
+    "Invalid OTP refused on production"
+  ],
+  "errors": [],
+  "emailTestRecipient": "saisatish@indianservers.com",
+  "smsDeliveryTested": false
+}

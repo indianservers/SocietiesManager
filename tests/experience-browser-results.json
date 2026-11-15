@@ -1,0 +1,27 @@
+{
+  "checks": [
+    "Root URL renders sign-in directly",
+    "No separate landing page",
+    "One create-account invitation",
+    "Legacy login redirects to root and retains return destination",
+    "Login fits 360px",
+    "Login fits 390px",
+    "Login fits 768px",
+    "Login fits 1280px",
+    "Hindi labels available",
+    "Signup preserved",
+    "Recovery preserved",
+    "Authenticated platform shell and workspace tools",
+    "Favorite page can be saved",
+    "Compact density persists",
+    "Command palette finds authorized destinations",
+    "Command palette closes with Escape",
+    "Notification center accessible",
+    "Mobile bottom navigation visible",
+    "Dashboard fits mobile",
+    "Mobile More opens accessible page navigation",
+    "Reduced-motion animations disabled",
+    "No uncaught browser errors"
+  ],
+  "errors": []
+}

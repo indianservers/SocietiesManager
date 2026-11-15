@@ -35,7 +35,7 @@ html #root .app-shell :is(.sidebar,.topbar,.panel,.drawer,.studio-modal,.studio-
 html #root .app-shell :is(.panel,.finance-shell,.studio-shell,.community-shell,.communication-shell,.workspace-sections,.membership-account-list>button,.member-resource-grid>button,.finance-plan-card) {border-radius:16px;box-shadow:var(--society-shadow)}
 html #root .app-shell .sidebar {border-right:1px solid var(--society-border);background:linear-gradient(180deg,var(--society-surface) 70%,var(--society-soft))}
 html #root .app-shell .sidebar .brand {padding:23px 17px 24px;color:var(--society-ink);gap:9px}
-html #root .app-shell .sidebar .brand-mark {background:transparent url('/images/community-brain-chip.png') center/contain no-repeat;width:48px;height:48px;border-radius:0;flex-shrink:0}
+html #root .app-shell .sidebar .brand-mark {background:transparent url('/images/aimer-society-logo.png') center/contain no-repeat;width:48px;height:48px;border-radius:0;flex-shrink:0}
 html #root .app-shell .sidebar .brand-mark svg {visibility:hidden}
 html #root .app-shell :is(.brand-sub,.workspace-label,.nav-label,.sidebar-foot) {color:var(--society-muted)}
 html #root .app-shell .sidebar .brand-sub {color:var(--society-primary);letter-spacing:1.2px}
@@ -112,7 +112,7 @@ html #root .app-shell .wizard-steps .current span {background:var(--society-prim
 html .toast {background:#381551;color:#fff;box-shadow:0 6px 30px #57228f30;border:1px solid #a86adc50;border-radius:12px}
 html .toast.toast button[aria-label] {background:transparent;color:#fff;min-width:36px;min-height:36px}
 html .landing {background:radial-gradient(ellipse at 80% 45%,#e8cffb88,transparent 55%),#fcfaff;color:#11132f}
-html .landing .brand-mark {background:transparent url('/images/community-brain-chip.png') center/contain no-repeat;width:54px;height:54px}
+html .landing .brand-mark {background:transparent url('/images/aimer-society-logo.png') center/contain no-repeat;width:54px;height:54px}
 html .landing .brand-mark svg {visibility:hidden}
 html .landing :is(.eyebrow,.hero em,.community-root>svg,.node svg) {color:#7e12bf}
 html .landing .hero em {font-family:inherit;font-weight:750}

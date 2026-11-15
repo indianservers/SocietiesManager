@@ -1,0 +1,10 @@
+{
+  "checks": [
+    "Filled login can open password recovery without a warning",
+    "Stale dirty markers on authentication forms cannot block leaving",
+    "Account creation link does not trigger unsaved-changes warning",
+    "Filled signup can return to sign-in without a warning",
+    "Passwordless sign-in navigation has no warning"
+  ],
+  "authenticationWarnings": []
+}

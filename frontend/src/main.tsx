@@ -11,7 +11,15 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <QueryClientProvider
       client={
         new QueryClient({
-          defaultOptions: { queries: { staleTime: 30000, retry: false } },
+          defaultOptions: {
+            queries: {
+              staleTime: 30000,
+              retry: false,
+              // Returning to a tab must not restart page queries or editors.
+              refetchOnWindowFocus: false,
+              refetchOnReconnect: false,
+            },
+          },
         })
       }
     >

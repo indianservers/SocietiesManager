@@ -1,6 +1,6 @@
 import {getApps,initializeApp} from 'firebase/app';
-import {getAuth,GoogleAuthProvider,OAuthProvider,inMemoryPersistence,browserSessionPersistence,setPersistence,signInWithPopup,signInWithRedirect,getRedirectResult,signOut,linkWithCredential} from 'firebase/auth';
-import type {Auth,AuthCredential} from 'firebase/auth';
+import {getAuth,GoogleAuthProvider,OAuthProvider,inMemoryPersistence,browserSessionPersistence,setPersistence,signInWithPopup,signInWithRedirect,getRedirectResult,signOut,linkWithCredential,RecaptchaVerifier,signInWithPhoneNumber} from 'firebase/auth';
+import type {Auth,AuthCredential,ConfirmationResult} from 'firebase/auth';
 
 export type FirebasePublicConfig={apiKey:string;authDomain:string;projectId:string;appId:string};
 let auth:Auth;
@@ -56,3 +56,16 @@ export async function redirectResult() {
   try {const result=await getRedirectResult(auth);return result?await result.user.getIdToken(true):null}
   finally {await signOut(auth);await setPersistence(auth,inMemoryPersistence)}
 }
+
+let phoneConfirmation:ConfirmationResult|null=null;
+let phoneCaptcha:RecaptchaVerifier|null=null;
+export async function startPhone(number:string,container:string){
+ if(!/^\+[1-9][0-9]{6,14}$/.test(number))throw new Error('Enter a mobile number with its country code, for example +919876543210.');
+ cancelPhone();phoneCaptcha=new RecaptchaVerifier(auth,container,{size:'invisible'});
+ try{phoneConfirmation=await signInWithPhoneNumber(auth,number,phoneCaptcha)}catch(error:any){cancelPhone();const messages:Record<string,string>={'auth/operation-not-allowed':'Mobile SMS sign-in is not enabled for this identity project.','auth/too-many-requests':'Too many SMS requests. Wait before trying again.','auth/invalid-phone-number':'Enter a valid mobile number with country code.','auth/captcha-check-failed':'The security check failed. Refresh and try again.','auth/quota-exceeded':'SMS delivery is temporarily unavailable. Use email OTP instead.'};throw new Error(messages[error.code]||'Could not send the SMS code. Try again or use email OTP.');}
+}
+export async function confirmPhone(code:string){
+ if(!phoneConfirmation)throw new Error('Request a fresh SMS code.');
+ try{const result=await phoneConfirmation.confirm(code);return await result.user.getIdToken(true)}catch{throw new Error('Invalid or expired SMS code. Request a new code.')}finally{if(auth?.currentUser)await signOut(auth)}
+}
+export function cancelPhone(){phoneConfirmation=null;phoneCaptcha?.clear();phoneCaptcha=null;}

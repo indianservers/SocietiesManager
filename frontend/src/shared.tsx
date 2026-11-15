@@ -2,8 +2,10 @@ import {Card, IconButton} from "./ui";
 import { useState, useEffect, useRef, createContext, useContext, useId } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Layers, X, LoaderCircle, Crown, PenLine, Building2, UserRound } from "lucide-react";
-import { api } from "./api";
+import { api, ApiError } from "./api";
 export type Context = {
+  userId?: string;
+  memberOnly?: boolean;
   tenant: string;
   platformAdmin?: boolean;
   workspace: any;
@@ -109,21 +111,29 @@ export function Drawer({ title, onClose, children }: any) {
     </div>
   );
 }
+export function isBlockingQueryError(query: any) {
+  const accessDenied = query.error instanceof ApiError &&
+    (query.error.status === 401 || query.error.status === 403);
+  return query.isError && (query.data === undefined || accessDenied);
+}
 export function DataState({ query, children }: any) {
   if (query.isPending)
     return (
-      <div className="skeleton">
-        <LoaderCircle className="spin" /> Loading records…
-      </div>
+      <div className="skeleton content-skeleton" role="status" aria-label="Loading records"><span/><span/><span/><small><LoaderCircle className="spin" size={16}/> Loading records…</small></div>
     );
-  if (query.isError)
+  if (isBlockingQueryError(query))
     return (
       <div role="alert" className="error">
         {query.error.message}
         <button onClick={() => query.refetch()}>Retry</button>
       </div>
     );
-  return children;
+  // A failed background refresh must not unmount a loaded editor. Keep its
+  // inputs in place and offer a retry alongside the existing content.
+  return <>{children}{query.isError && <div role="status" className="error">
+    Updates are temporarily unavailable. Your entered data is still here.
+    <button type="button" onClick={() => query.refetch()}>Retry updates</button>
+  </div>}</>;
 }
 export function useLoad<T = any>(path: string, enabled = true) {
   return useQuery<T>({

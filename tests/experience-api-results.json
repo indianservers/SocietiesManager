@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "Anonymous attention denied",
+    "Platform login",
+    "Platform attention uses real records",
+    "Attention response is private",
+    "229 expired individual memberships matches filtered register",
+    "1 individual memberships expire within 30 days matches filtered register",
+    "121 expired institutional memberships matches filtered register",
+    "Unknown tenant denied",
+    "Empty workspace cannot return society-wide counts",
+    "Unsupported validity rejected",
+    "Active register filter available",
+    "Expired register filter available",
+    "Expiring register filter available"
+  ]
+}

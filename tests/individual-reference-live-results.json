@@ -1,0 +1,12 @@
+{
+  "url": "https://members.aimersociety.com",
+  "mode": "Production assets with isolated local member fixture supplied only in browser; no production records or emails created",
+  "checks": [
+    "membership deployed frontend desktop and mobile",
+    "clubs deployed frontend desktop and mobile",
+    "resources deployed frontend desktop and mobile",
+    "finance deployed frontend desktop and mobile",
+    "account deployed frontend desktop and mobile"
+  ],
+  "errors": []
+}

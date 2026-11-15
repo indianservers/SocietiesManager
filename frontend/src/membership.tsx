@@ -1,3 +1,5 @@
+import {MembershipPaymentLinks} from './membership-payments';
+import {DraftRecovery} from './experience';
 import {ManualMemberDialog,IndividualCardDownload} from './manual-members';
 import {ProfileTools,DuplicateCheck} from './ux';
 import {PointsOfContact} from './points-of-contact';
@@ -42,6 +44,7 @@ import {
   Panel,
   Drawer,
   DataState,
+  isBlockingQueryError,
   useLoad,
   useAction,
 } from "./shared";
@@ -444,7 +447,7 @@ function MemberDirectory() {
   const [page, setPage] = useState(Math.max(1,Number(params.get("dpage"))||1));
   const [columns, setColumns] = useState<string[]>(()=>{try{return JSON.parse(localStorage.getItem(base+"-directory-columns")||"null")||["number","chapter","primaryContact","endsAt","status"]}catch{return ["number","chapter","endsAt","status"]}});
   const [selected, setSelected] = useState<string[]>([]);
-  const [edit, setEdit] = useState<any>();
+  const [edit, setEdit] = useState<any>(()=>(platformAdmin||can("members.write"))&&params.get("create")==="member"?null:undefined);
   const [quick, setQuick] = useState<string>();
   const [deleting,setDeleting]=useState<any>();
   const [showArchived,setShowArchived]=useState(false);
@@ -521,7 +524,7 @@ function MemberDirectory() {
       </Heading>
       <MembershipTypeTabs value={kind} onChange={chooseKind}/>{platformAdmin&&<div className="ux-contact-actions"><label className="checkbox"><input type="checkbox" checked={showArchived} onChange={e=>{setShowArchived(e.target.checked);setPage(1)}}/>Show deleted / archived memberships</label>{kind==='Individual'&&!showArchived&&<IndividualCardDownload selected={selected} chapter={params.get("chapter")}/>}</div>}
       <p className="membership-type-note">{type.description}</p>
-      {(params.get('chapter')||params.get('validity')||params.get('joinedFrom'))&&<div className="note" role="status">{params.get('chapter')&&<Link to={'/app/units/'+params.get('chapter')}>Selected chapter: {q.data?.items[0]?.chapter||'View chapter details'}</Link>} {params.get('validity')&&<span> · Currently active memberships</span>} {params.get('joinedFrom')&&<span> · Joined since {new Date(params.get('joinedFrom')!).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>} <Link to={'/app/members?view=directory&memberKind='+kind}>Clear overview filters</Link></div>}
+      {(params.get('chapter')||params.get('validity')||params.get('joinedFrom'))&&<div className="note" role="status">{params.get('chapter')&&<Link to={'/app/units/'+params.get('chapter')}>Selected chapter: {q.data?.items[0]?.chapter||'View chapter details'}</Link>} {params.get('validity')&&<span> · {params.get('validity')==='Expired'?'Expired memberships':params.get('validity')==='Expiring'?'Expiring within 30 days':'Currently active memberships'}</span>} {params.get('joinedFrom')&&<span> · Joined since {new Date(params.get('joinedFrom')!).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>} <Link to={'/app/members?view=directory&memberKind='+kind}>Clear overview filters</Link></div>}
 
       <Panel>
         <div className="toolbar membership-toolbar">
@@ -820,8 +823,8 @@ function MemberDirectory() {
           ) : (
             <Empty
               title="No matching members"
-              text="Try another filter, or add your first chapter member."
-            />
+              text="Clear your search and filters to see more members, or add a member using the action above."
+            ><button onClick={()=>{setSearch('');setStatus([]);setCategory([]);setPage(1)}}>Clear search & filters</button></Empty>
           )}
         </DataState>
         <Pages page={page} setPage={setPage} total={q.data?.total || 0} />
@@ -910,8 +913,8 @@ function MemberEditor({ member, onClose }: any) {
     >
       {cats.isPending || (member && full.isPending) ? (
         <p className="skeleton">Loading profile…</p>
-      ) : cats.isError || (member &&
-        (full.isError || !full.data?.canEdit || !full.data?.profile)) ? (
+      ) : isBlockingQueryError(cats) || (member &&
+        (isBlockingQueryError(full) || !full.data?.canEdit || !full.data?.profile)) ? (
         <div className="error" role="alert">
           {cats.error?.message || full.error?.message ||
             "This private profile is unavailable for editing."}
@@ -1565,6 +1568,7 @@ export function JoinMembership() {
         title="Find your next chapter"
         text="One verified identity, with meaningful connections across your societies."
       />
+      <MembershipPaymentLinks kind={preferredKind} compact/>
       {params.get("invitation") && !inviteDone ? (
         <Panel>
           <div className="wide-form">
@@ -1586,7 +1590,8 @@ export function JoinMembership() {
             onSubmit={async (e) => {
               e.preventDefault();
               setBusy(true);
-              const f = new FormData(e.currentTarget);
+              const form=e.currentTarget;
+              const f = new FormData(form);
               const submit =
                 (e.nativeEvent as SubmitEvent).submitter?.getAttribute(
                   "value",
@@ -1609,6 +1614,8 @@ export function JoinMembership() {
                     body,
                   );
                 else await api("/membership/applications", "POST", body);
+                form.dispatchEvent(new Event("aimer:form-saved"));
+                window.dispatchEvent(new Event("aimer:saved"));
                 refresh();
                 notify(
                   submit
@@ -1623,7 +1630,7 @@ export function JoinMembership() {
               }
             }}
           >
-            <div className="form-section">CHOOSE YOUR COMMUNITY</div>
+            <DraftRecovery key={tenant+preferredKind+(application?.id||"new")} id={tenant+":"+preferredKind+":"+(application?.id||"new-membership")}/><div className="form-section">CHOOSE YOUR COMMUNITY</div>
             <label className="checkbox"><input type="checkbox" name="renewalReminders" defaultChecked={details(application?.profile).renewalReminders??true}/>Email me membership expiry and renewal reminders. No automatic charge.</label>
             {!application&&<MembershipKindPicker value={preferredKind} onChange={setKind} offers={catalog.data?.categories}/>}
             {preferredKind!=="Individual"&&<Field label="Institution / company name" name="organizationName" defaultValue={details(application?.profile).organizationName||""} required maxLength={160}/>}
@@ -1729,10 +1736,10 @@ export function JoinMembership() {
 }
 function ApplicationReviews() {
   const base = useBase();
-  const { can, tenant } = useApp();
+  const { can, tenant, scope } = useApp();
   const [kind,setKind]=useState('Individual');
   const [page, setPage] = useState(1);
-  const q = useLoad<any[]>(base + "/applications?kind="+kind+"&page=" + page);
+  const q = useLoad<any[]>(base + "/applications?kind="+kind+"&page=" + page+(scope?"&workspace="+scope:""));
   const [review, setReview] = useState<any>();
   const action = useAction();
   return (

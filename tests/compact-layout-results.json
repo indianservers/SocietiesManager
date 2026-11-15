@@ -1,0 +1,58 @@
+[
+  {
+    "login": [
+      1366,
+      768
+    ],
+    "width": 1366,
+    "height": 768,
+    "scroll": 1366,
+    "card": 735.3125
+  },
+  {
+    "login": [
+      1440,
+      900
+    ],
+    "width": 1440,
+    "height": 900,
+    "scroll": 1440,
+    "card": 775.3125
+  },
+  {
+    "login": [
+      390,
+      844
+    ],
+    "width": 390,
+    "height": 844,
+    "scroll": 390,
+    "card": 817.828125
+  },
+  {
+    "login": [
+      360,
+      740
+    ],
+    "width": 360,
+    "height": 740,
+    "scroll": 360,
+    "card": 688.125
+  },
+  {
+    "route": "/app",
+    "topbar": 54
+  },
+  {
+    "route": "/app/account",
+    "topbar": 54
+  },
+  {
+    "route": "/app/membership",
+    "topbar": 54
+  },
+  {
+    "route": "/app/finance",
+    "topbar": 54
+  }
+]

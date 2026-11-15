@@ -83,6 +83,9 @@ public static class MemberLogin
     public static async Task SigningIn(CookieSigningInContext c)
     {
         if (c.Principal?.Identity is not ClaimsIdentity identity || !Guid.TryParse(c.Principal.FindFirstValue(ClaimTypes.NameIdentifier), out var user)) return;
+        c.Properties.IsPersistent=true;
+        c.Properties.IssuedUtc=DateTimeOffset.UtcNow;
+        c.Properties.ExpiresUtc=DateTimeOffset.UtcNow.AddDays(365);
         var db = c.HttpContext.RequestServices.GetRequiredService<AppDb>();
         var device = c.Request.Cookies["society.device"];
         if (device == null || device.Length != 64)
@@ -91,22 +94,16 @@ public static class MemberLogin
             c.Response.Cookies.Append("society.device", device, new CookieOptions { HttpOnly = true, Secure = c.Request.IsHttps, SameSite = SameSiteMode.Strict, MaxAge = TimeSpan.FromDays(180), IsEssential = true });
         }
         var deviceHash = Hash(device);
-        var known = await db.Set<MemberSession>().AnyAsync(s => s.UserId == user && s.DeviceHash == deviceHash);
         // Password/external login may issue twice while additional claims are attached.
         if (c.HttpContext.Items["member.session"] is not MemberSession session)
         {
             if (Guid.TryParse(c.HttpContext.User.FindFirstValue("member_sid"), out var previous))
                 await db.Set<MemberSession>().Where(s => s.Id == previous && s.UserId == user && s.RevokedAt == null).ExecuteUpdateAsync(s => s.SetProperty(x => x.RevokedAt, DateTimeOffset.UtcNow));
-            session = new MemberSession { UserId = user, DeviceHash = deviceHash, Device = Short(c.Request.Headers.UserAgent, 300), Address = Short(c.HttpContext.Connection.RemoteIpAddress?.ToString(), 64), ExpiresAt = c.Properties.ExpiresUtc ?? DateTimeOffset.UtcNow.AddHours(8) };
+            session = new MemberSession { UserId = user, DeviceHash = deviceHash, Device = Short(c.Request.Headers.UserAgent, 300), Address = Short(c.HttpContext.Connection.RemoteIpAddress?.ToString(), 64), ExpiresAt = c.Properties.ExpiresUtc ?? DateTimeOffset.UtcNow.AddDays(365) };
             db.Add(session);
             c.HttpContext.Items["member.session"] = session;
             db.Audits.Add(new Audit { ActorId = user, Action = "auth.login.success", ResourceId = session.Id, Details = JsonSerializer.Serialize(new { session.Device, session.Address }) });
-            if (!known)
-            {
-                var email = await db.Users.Where(u => u.Id == user).Select(u => u.Email).SingleAsync();
-                var url = c.HttpContext.RequestServices.GetRequiredService<IConfiguration>()["PublicUrl"];
-                db.Outbox.Add(new Outbox { Recipient = email!, Subject = "New device signed in", Body = $"A new device signed in at {session.CreatedAt:u}.\nDevice: {session.Device}\nAddress: {session.Address}\nIf this wasn't you, reset your password at {url}/forgot and review your sessions at {url}/app/account?view=security." });
-            }
+            // Sign-ins record sessions and audit history without sending email.
             await db.SaveChangesAsync();
         }
         foreach (var old in identity.FindAll("member_sid").ToArray()) identity.RemoveClaim(old);
@@ -128,6 +125,10 @@ public static class MemberLogin
             await c.HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
             return;
         }
+        // Upgrade valid older short-lived cookies and renew long sessions before expiry.
+        if(!c.Properties.IsPersistent||c.Properties.ExpiresUtc<DateTimeOffset.UtcNow.AddDays(180)){
+            c.Properties.IsPersistent=true;c.Properties.IssuedUtc=DateTimeOffset.UtcNow;c.Properties.ExpiresUtc=DateTimeOffset.UtcNow.AddDays(365);c.ShouldRenew=true;
+        }
         if (!Guid.TryParse(c.Principal.FindFirstValue("member_sid"), out var sid)) return; // Legacy cookies still honor global security-stamp revocation.
         var session = await db.Set<MemberSession>().SingleOrDefaultAsync(s => s.Id == sid && s.UserId == User(c.Principal));
         if (session == null || session.RevokedAt != null)
@@ -136,7 +137,7 @@ public static class MemberLogin
             await c.HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
             return;
         }
-        if (session.LastSeenAt < DateTimeOffset.UtcNow.AddMinutes(-2))
+        if (c.ShouldRenew || session.LastSeenAt < DateTimeOffset.UtcNow.AddMinutes(-2))
         {
             session.LastSeenAt = DateTimeOffset.UtcNow;
             session.ExpiresAt = c.Properties.ExpiresUtc ?? session.ExpiresAt;
@@ -192,7 +193,7 @@ public static class MemberLogin
             {
                 await using var tx = await db.Database.BeginTransactionAsync();
                 await db.Database.ExecuteSqlInterpolatedAsync($"SELECT pg_advisory_xact_lock(hashtext({"magic:" + user.Id}))");
-                if (!await db.Set<MemberLoginLink>().AnyAsync(l => l.UserId == user.Id && l.CreatedAt > DateTimeOffset.UtcNow.AddMinutes(-1)))
+                if (!await db.Set<MemberLoginLink>().AnyAsync(l => l.UserId == user.Id && l.CreatedAt > DateTimeOffset.UtcNow.AddMinutes(-1)) && await db.Set<MemberLoginLink>().CountAsync(l=>l.UserId==user.Id&&l.CreatedAt>DateTimeOffset.UtcNow.AddHours(-1))<6)
                 {
                     var token = WebEncoders.Base64UrlEncode(RandomNumberGenerator.GetBytes(32));
                     db.Add(new MemberLoginLink { UserId = user.Id, TokenHash = Hash(token), SecurityStamp = user.SecurityStamp!, ReturnTo = SafeReturn(r.ReturnTo), ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10) });
@@ -230,7 +231,7 @@ public static class MemberLogin
         security.MapGet("/session", async (HttpContext c) => { var ticket = await c.AuthenticateAsync(IdentityConstants.ApplicationScheme); return Results.Ok(new { expiresAt = ticket.Properties?.ExpiresUtc, persistent = ticket.Properties?.IsPersistent ?? false }); });
         security.MapPost("/session/extend", async (Access a, AppDb db, HttpContext c, UserManager<Account> users, SignInManager<Account> signIn) => {
             var ticket = await c.AuthenticateAsync(IdentityConstants.ApplicationScheme);
-            var expires = DateTimeOffset.UtcNow.AddHours(8);
+            var expires = DateTimeOffset.UtcNow.AddDays(365);
             if (Guid.TryParse(c.User.FindFirstValue("member_sid"), out var sid)) {
                 var session = await db.Set<MemberSession>().SingleOrDefaultAsync(s => s.Id == sid && s.UserId == a.UserId && s.RevokedAt == null);
                 if (session == null) throw new AccessDeniedException();
@@ -238,11 +239,11 @@ public static class MemberLogin
             }
             var user = (await users.FindByIdAsync(a.UserId.ToString()))!;
             var claims = c.User.Claims.Where(x => x.Type is "amr" or "auth_time" or "mfa_at").ToArray();
-            await signIn.SignInWithClaimsAsync(user, new AuthenticationProperties { IsPersistent = ticket.Properties?.IsPersistent ?? false, ExpiresUtc = expires }, claims);
+            await signIn.SignInWithClaimsAsync(user, new AuthenticationProperties { IsPersistent = true, ExpiresUtc = expires }, claims);
             c.Response.Headers["X-Member-Session-Expires"] = expires.ToString("O");
             return Results.Ok(new { expiresAt = expires });
         });
-        security.MapGet("/methods", async (Access a, UserManager<Account> users) => { var u = (await users.FindByIdAsync(a.UserId.ToString()))!; return Results.Ok(new { hasPassword = await users.HasPasswordAsync(u), recoveryCodes = await users.CountRecoveryCodesAsync(u), mfaEnabled = u.TwoFactorEnabled, providers = (await users.GetLoginsAsync(u)).Select(l => new { l.LoginProvider, l.ProviderKey, name = l.ProviderDisplayName }), passkeys = (await users.GetPasskeysAsync(u)).Select(p => new { id = WebEncoders.Base64UrlEncode(p.CredentialId), p.Name, p.CreatedAt }) }); });
+        security.MapGet("/methods", async (Access a, UserManager<Account> users, HttpContext context) => { var u = (await users.FindByIdAsync(a.UserId.ToString()))!; return Results.Ok(new { hasPassword = await users.HasPasswordAsync(u),recentAuthentication=FirebaseAuthEndpoints.Recent(context.User,u.TwoFactorEnabled),phoneNumber=u.PhoneNumber,phoneVerified=u.PhoneNumberConfirmed, recoveryCodes = await users.CountRecoveryCodesAsync(u), mfaEnabled = u.TwoFactorEnabled, providers = (await users.GetLoginsAsync(u)).Select(l => new { l.LoginProvider, l.ProviderKey, name = l.ProviderDisplayName }), passkeys = (await users.GetPasskeysAsync(u)).Select(p => new { id = WebEncoders.Base64UrlEncode(p.CredentialId), p.Name, p.CreatedAt }) }); });
         security.MapPost("/providers/remove", async (ProviderRemoval r, Access a, HttpContext c, UserManager<Account> users, SignInManager<Account> signIn) => {
             var u = await Recent(a, c, users);
             var logins = await users.GetLoginsAsync(u);

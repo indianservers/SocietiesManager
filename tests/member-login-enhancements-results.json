@@ -3,7 +3,7 @@
     "signup and actual email verification",
     "two independently revocable sessions",
     "session expiry is available",
-    "new device alerts queued",
+    "sign-ins do not queue automatic email alerts",
     "cannot revoke another account session",
     "revocation takes effect on next request",
     "successful and failed login history",

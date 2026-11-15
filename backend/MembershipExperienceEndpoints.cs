@@ -95,7 +95,7 @@ public static class MembershipExperienceEndpoints
             var policy = await studio.Policy(tenant);
             var cards = await db.Set<Credential>().Where(c => c.TenantId == tenant && c.MembershipId == id && c.Kind == "Card")
                 .OrderByDescending(c => c.At).ToListAsync();
-            return Results.Ok(new { downloadsEnabled = policy.MemberDownloads || await db.Memberships.AnyAsync(m=>m.TenantId==tenant&&m.Id==id&&db.MembershipCategories.Any(c=>c.Id==m.CategoryId&&c.Kind=="Individual")), cards = cards.Select(StudioEndpoints.Card) });
+            return Results.Ok(new { downloadsEnabled = policy.MemberDownloads || await db.Memberships.AnyAsync(m=>m.TenantId==tenant&&m.Id==id&&db.MembershipCategories.Any(c=>c.Id==m.CategoryId&&(c.Kind=="Individual"||c.Kind=="Institutional"))), cards = cards.Select(StudioEndpoints.Card) });
         });
         t.MapGet("/members/{id:guid}/roster", async (Guid tenant, Guid id, AppDb db, Access a) =>
         {

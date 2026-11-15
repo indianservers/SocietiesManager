@@ -1,0 +1,7 @@
+{
+  "checks": [
+    "Institutional existing login and account UI verified",
+    "Individual existing login and account UI verified"
+  ],
+  "errors": []
+}

@@ -1,0 +1,9 @@
+{
+  "checks": [
+    "Corporate representative creates a login account",
+    "unverified account cannot sign in",
+    "queued verification link confirms the individual account",
+    "Personal name editable, institution unchanged, stale updates and forged names rejected; desktop/mobile and Individual application verified"
+  ],
+  "errors": []
+}

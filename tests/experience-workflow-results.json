@@ -1,0 +1,14 @@
+{
+  "checks": [
+    "Global search returns authorized real membership records",
+    "Record result opens the actual member profile",
+    "Application draft saves only after opting in",
+    "Draft excludes passwords and sensitive profile fields",
+    "Reloaded application restores the saved basic details",
+    "Local draft can be explicitly deleted",
+    "Staff homepage renders the real attention queue",
+    "Dark appearance available for staff",
+    "No browser errors in search/draft workflows"
+  ],
+  "errors": []
+}

@@ -1,0 +1,25 @@
+{
+  "url": "https://members.aimersociety.com",
+  "checks": [
+    "Live anonymous access denied",
+    "Live platform login",
+    "Six professional templates available on live server",
+    "Email data responses are private",
+    "Live per-type defaults available",
+    "Live welcome page renders",
+    "Live default-template control available",
+    "Platform admin navigation includes welcome page",
+    "Individual live register accessible",
+    "Individual self email request is restricted to owned memberships",
+    "Individual live ID email preview renders under production security policy",
+    "Individual email includes explicit Valid till",
+    "Institutional live register accessible",
+    "Institutional self email request is restricted to owned memberships",
+    "Institutional live ID email preview renders under production security policy",
+    "Institutional email includes explicit Valid till",
+    "Live mobile page has no horizontal overflow",
+    "No live browser errors"
+  ],
+  "errors": [],
+  "memberEmailsSent": 0
+}

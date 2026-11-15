@@ -1,0 +1,15 @@
+{
+  "checks": [
+    "membership desktop",
+    "membership mobile",
+    "clubs desktop",
+    "clubs mobile",
+    "resources desktop",
+    "resources mobile",
+    "finance desktop",
+    "finance mobile",
+    "account desktop",
+    "account mobile"
+  ],
+  "errors": []
+}

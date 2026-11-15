@@ -10,12 +10,12 @@ public record FirebaseSettings(bool Enabled, string ProjectId, string ApiKey, st
     public static FirebaseSettings Read(IConfiguration configuration)
     {
         var c = configuration.GetSection("Authentication:Firebase");
-        return new(c.GetValue<bool>("Enabled"), c["ProjectId"] ?? "", c["ApiKey"] ?? "", c["AuthDomain"] ?? "", c["AppId"] ?? "", c.GetSection("Providers").Get<string[]>() ?? []);
+        return new(c.GetValue<bool>("Enabled"), c["ProjectId"] ?? "", c["ApiKey"] ?? "", c["AuthDomain"] ?? "", c["AppId"] ?? "", (c.GetSection("Providers").Get<string[]>() ?? []).Concat(c.GetValue<bool>("PhoneEnabled")?new[]{"phone"}:Array.Empty<string>()).Distinct().ToArray());
     }
     public bool Ready => Enabled && ProjectId.Length > 0 && ApiKey.Length > 0 && AuthDomain.Length > 0;
 }
-public record FirebaseSignIn([property: Required, MaxLength(16000)] string IdToken, string MembershipKind = "Individual", Guid? SocietyId = null);
-public record FirebaseIdentity(string Uid, string Email, bool EmailVerified, string Name, string Provider, long AuthTime);
+public record FirebaseSignIn([property: Required, MaxLength(16000)] string IdToken, string MembershipKind = "Individual", Guid? SocietyId = null, bool CreateAccount = false);
+public record FirebaseIdentity(string Uid, string Email, bool EmailVerified, string Name, string Provider, long AuthTime, string? PhoneNumber = null);
 public interface IFirebaseIdentityVerifier
 {
     Task<FirebaseIdentity> Verify(string token, FirebaseSettings settings, CancellationToken ct);
@@ -51,7 +51,7 @@ public static class FirebaseTokenVerifier
             if (header.RootElement.GetProperty("alg").GetString() != "RS256" ||
                 claims.GetProperty("aud").GetString() != settings.ProjectId || claims.GetProperty("iss").GetString() != "https://securetoken.google.com/" + settings.ProjectId ||
                 uid.Length is < 1 or > 128 || claims.GetProperty("exp").GetInt64() <= now || claims.GetProperty("iat").GetInt64() > now + 30 ||
-                authTime > now + 30 || authTime < now - 600 || provider is not ("google.com" or "microsoft.com") || !settings.Providers.Contains(provider))
+                authTime > now + 30 || authTime < now - 600 || provider is not ("google.com" or "microsoft.com" or "phone") || !settings.Providers.Contains(provider))
                 throw new DomainException("Sign-in expired or is not from an enabled provider. Sign in again");
             using var response = await (http ?? Client).PostAsJsonAsync("https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=" + Uri.EscapeDataString(settings.ApiKey), new { idToken = token }, ct);
             if (!response.IsSuccessStatusCode) throw new DomainException("The sign-in token could not be verified. Sign in again");
@@ -60,13 +60,15 @@ public static class FirebaseTokenVerifier
             if (users.GetArrayLength() != 1) throw new DomainException("Sign-in account was not found");
             var user = users[0];
             var email = user.TryGetProperty("email", out var address) ? address.GetString() ?? "" : "";
-            if (user.GetProperty("localId").GetString() != uid || !new EmailAddressAttribute().IsValid(email) || email.Length > 254 ||
+            var phone=user.TryGetProperty("phoneNumber",out var number)?number.GetString():null;
+            var validIdentity=provider=="phone"?phone!=null&&System.Text.RegularExpressions.Regex.IsMatch(phone,@"^\+[1-9][0-9]{6,14}$")&&claims.TryGetProperty("phone_number",out var claimPhone)&&claimPhone.GetString()==phone:new EmailAddressAttribute().IsValid(email)&&email.Length<=254;
+            if (user.GetProperty("localId").GetString() != uid || !validIdentity ||
                 user.TryGetProperty("disabled", out var disabled) && disabled.GetBoolean() ||
                 user.TryGetProperty("validSince", out var since) && long.TryParse(since.GetString(), out var oldest) && authTime < oldest ||
                 !user.GetProperty("providerUserInfo").EnumerateArray().Any(p => p.GetProperty("providerId").GetString() == provider))
                 throw new DomainException("This provider account is unavailable");
             var name = user.TryGetProperty("displayName", out var displayName) ? displayName.GetString() ?? email : email;
-            return new(uid, email.Trim(), user.TryGetProperty("emailVerified", out var emailVerified) && emailVerified.GetBoolean(), name[..Math.Min(name.Length, 160)], provider, authTime);
+            return new(uid, email.Trim(), user.TryGetProperty("emailVerified", out var emailVerified) && emailVerified.GetBoolean(), name[..Math.Min(name.Length, 160)], provider, authTime, provider=="phone"?phone:null);
         }
         catch (DomainException) { throw; }
         catch (Exception error) when (error is JsonException or FormatException or KeyNotFoundException or InvalidOperationException or ArgumentException)

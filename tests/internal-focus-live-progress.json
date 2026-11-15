@@ -1,0 +1,142 @@
+[
+  {
+    "page": "individual member",
+    "url": "/app/members?view=directory&memberKind=Individual&create=member",
+    "tabReturns": 3,
+    "editedFields": 2,
+    "preserved": true
+  },
+  {
+    "page": "institutional member",
+    "url": "/app/members?view=directory&memberKind=Institutional",
+    "tabReturns": 3,
+    "editedFields": 2,
+    "preserved": true
+  },
+  {
+    "page": "corporate member",
+    "url": "/app/members?view=directory&memberKind=Corporate",
+    "tabReturns": 3,
+    "editedFields": 2,
+    "preserved": true
+  },
+  {
+    "page": "chapter",
+    "url": "/app/chapters",
+    "tabReturns": 3,
+    "editedFields": 2,
+    "preserved": true
+  },
+  {
+    "page": "activity",
+    "url": "/app/community",
+    "tabReturns": 3,
+    "editedFields": 2,
+    "preserved": true
+  },
+  {
+    "page": "invoice",
+    "url": "/app/finance",
+    "tabReturns": 3,
+    "editedFields": 2,
+    "preserved": true
+  },
+  {
+    "page": "template studio",
+    "url": "/app/studio",
+    "tabReturns": 3,
+    "editedFields": 2,
+    "preserved": true
+  },
+  {
+    "page": "message template",
+    "url": "/app/communications/content",
+    "tabReturns": 3,
+    "editedFields": 2,
+    "preserved": true
+  },
+  {
+    "page": "account profile",
+    "url": "/app/account",
+    "tabReturns": 3,
+    "editedFields": 1,
+    "preserved": true
+  },
+  {
+    "page": "settings",
+    "url": "/app/settings",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  },
+  {
+    "page": "service",
+    "url": "/app/service",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  },
+  {
+    "page": "intelligence",
+    "url": "/app/intelligence",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  },
+  {
+    "page": "resources",
+    "url": "/app/resources",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  },
+  {
+    "page": "clubs",
+    "url": "/app/clubs",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  },
+  {
+    "page": "membership portal",
+    "url": "/app/membership",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  },
+  {
+    "page": "organization",
+    "url": "/app/organization",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  },
+  {
+    "page": "regions",
+    "url": "/app/regions",
+    "tabReturns": 3,
+    "editedFields": 1,
+    "preserved": true
+  },
+  {
+    "page": "dashboard",
+    "url": "/app",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  },
+  {
+    "page": "welcome emails",
+    "url": "/app/communications/welcome",
+    "tabReturns": 3,
+    "editedFields": 1,
+    "preserved": true
+  },
+  {
+    "page": "platform",
+    "url": "/app/platform",
+    "tabReturns": 3,
+    "editedFields": 0,
+    "preserved": true
+  }
+]

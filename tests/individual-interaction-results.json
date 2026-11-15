@@ -1,0 +1,22 @@
+{
+  "checks": [
+    "Individual sign in",
+    "Save profile accepted",
+    "Profile phone saved and survives reload",
+    "Membership number cannot be changed through profile",
+    "Member can upload a sanitized PNG photo",
+    "Own private photo can be read",
+    "Another account cannot read private photo",
+    "Invalid photograph rejected",
+    "Uploaded photo appears in account hero",
+    "Existing password security remains available",
+    "Resource preview and browser-scoped bookmarks work",
+    "Chapter request uses reviewed transfer process",
+    "Membership email request retained with Valid till",
+    "Invoice, payment and receipt tabs use existing records",
+    "Keyboard search navigates to portal pages",
+    "Mobile menu navigation works",
+    "No interaction browser errors"
+  ],
+  "errors": []
+}

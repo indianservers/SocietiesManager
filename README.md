@@ -1,6 +1,6 @@
 # Assemblia — Society, Region & Chapter Management
 
-Six-phase modular monolith: React/TypeScript/Vite/Tailwind frontend, ASP.NET Core 10 API, EF Core/Npgsql, PostgreSQL. The AIMER Society launch is deployed at https://members.aimersociety.com. Live payments and outbound email remain deliberately unconnected until their accounts are configured.
+Six-phase modular monolith: React/TypeScript/Vite/Tailwind frontend, ASP.NET Core 10 API, EF Core/Npgsql, PostgreSQL. The AIMER Society launch is deployed at https://members.aimersociety.com. Live payments remain unconnected until their account is configured. Production SMTP uses Amazon SES in us-east-1 with STARTTLS on port 587 and noreply@aimersociety.com as sender. Credentials are stored only in the protected server runtime environment.
 
 ## AIMER production installation
 
@@ -8,11 +8,33 @@ The operator-authorized deployment on 13 November 2026 uses the additional disk 
 
 The self-contained Linux .NET service is `aimer-members.service`, listening only on loopback port 5188 behind the domain-specific Apache HTTPS virtual host. Its dedicated PostgreSQL 18 instance is `aimer-members-db.service` on loopback port 5544. The application uses a restricted runtime database identity; migrations and initialization use a separate owner identity. Persistent Data Protection keys are certificate-encrypted. The production database starts with 15 configured chapters, three annual membership offers and no fictional members or fabricated payments.
 
-Owner login details are delivered privately in the ignored `.local/production-owner-login.json`, not in this repository. The designated owner must enroll an authenticator through My account → Security before protected owner operations and should change the initial application password. Payment-provider credentials can then be configured through the existing finance settings. SMTP remains a protected server setting. Until SMTP is connected, security email stays durably queued without consuming transport attempts; signup states that delivery is pending and `/resend` can request fresh verification later.
+Owner login details are delivered privately in the ignored `.local/production-owner-login.json`, not in this repository. The designated owner must enroll an authenticator through My account → Security before protected owner operations and should change the initial application password. Payment-provider credentials can then be configured through the existing finance settings. SMTP is configured as a protected server setting. On 15 November 2026, SES accepted a test email sent from the production server to saisatish@indianservers.com; inbox receipt requires recipient confirmation. The service was restarted and its SMTP environment and public readiness verified.
 
 `aimer-members-cert-renew.timer` renews the domain certificate. `aimer-members-backup.timer` takes daily AES-256-GCM encrypted snapshots at 02:00 India time with 14-day retention. The backup briefly quiesces only this application to keep its database and object/key snapshot consistent. The first encrypted snapshot was restored into a separate scratch database and its table counts verified. Recovery material and an initial encrypted snapshot are escrowed locally under ignored `.local/production-recovery/`. The generic helper is `ops/native_volume_backup.py`. Keep off-host recovery material private.
 
 Public HTTPS readiness, signup pricing at mobile widths, session-cookie flags, anonymous access rejection, owner login and production MFA restrictions are verified by `tests/production_launch_smoke.py`. Full payment-provider settlement and outbound email delivery are not claimed while those integrations are intentionally unconfigured.
+
+## AIMER learning tools resource
+
+The published **AIMER Learning Tools & Visualizations** resource links to `https://tools.aimersociety.com/` and summarizes the subject categories and the Business Intelligence, Database Management, Operating Systems and IQ Labs learning sites. It is available to eligible Individual, Institutional and Corporate members. The Individual resource library includes a Tools filter and an **Open tools** action that opens the external platform in a new tab. The tools platform retains its own sign-in flow. The managed content is recorded in `scripts/aimer-tools-resource.json`; `tests/tools_resource_browser.py` checks the category, preview, external link and mobile layout.
+
+## Individual member portal design
+
+The AIMER Society Individual member experience follows the five supplied desktop references: Membership, Clubs & Chapters, Resources, Invoices & Receipts and My Account. The dedicated layout applies to member-only accounts holding Individual memberships; staff, Platform Admin and organization workspaces retain their existing layouts. Live membership names, IDs, fees, validity, payment records and activity replace the example reference values. The existing protected ID-card download, renewal process, security settings and self-requested membership email remain connected.
+
+Decorative artwork was isolated from the supplied references under `frontend/public/images/individual-art/`; complete screenshots and their example personal information are not served. Resource bookmarks store resource IDs per signed-in account and society in the current browser. Chapter requests use the existing reviewed transfer workflow. Profile-photo PNG uploads use the existing sanitizer and object store, and the photo route is restricted to the owning account. No membership dates, prices, approvals or financial records are changed by the design.
+
+`tests/individual_reference_browser.py` checks the five desktop/mobile routes against the isolated local Individual fixture. `tests/individual_reference_interactions.py` covers saving, private photo access, resources, chapter requests, security, email requests and navigation.
+
+## Member welcome emails
+
+Platform administrators and authorized society administrators can open **Welcome members** at `/app/communications/welcome`. The page includes six professional HTML email templates: Official welcome, Connect & collaborate, Your first steps (Individual); Institutional welcome, Partnership & impact, Institution onboarding (Institutional). Each preview and queued email uses the existing membership number, holder name, society, chapter and validity dates. Sending never creates or changes a membership ID.
+
+An administrator selects a membership and matching template, reviews the recipient and personalized preview, then explicitly sends. Eligibility requires an active membership with no pending payment, a recorded ID and email, and current communication consent/preferences. Tenant and chapter permissions apply; Platform Admin sending retains production MFA requirements. The durable outbox uses the configured server SMTP sender, rechecks authority, eligibility and recipient before dispatch, and prevents duplicate welcome emails for the same membership. Accepted indicates SMTP acceptance, not confirmed inbox delivery. Delivery status is visible beside each member; refreshing updates it. No automatic welcome mailing or bulk send is enabled.
+
+Members and authorized Institutional representatives can use **Email my membership details** in `/app/membership`. The service sends only to the requesting account’s current verified email and uses the society’s default template for that membership type. Platform Admins and administrators with `communications.templates` can select the default through **Welcome members → Set selected template as default**; the built-in defaults are Official welcome and Institutional welcome. The message includes the membership ID, valid-from date and explicit **Valid till** date (inclusive, India time), or states that no expiry is recorded. Self-requested copies require current paid membership and ownership, honor address suppressions, and do not change marketing preferences. Requests are limited to one per 15 minutes and three per rolling 24 hours; dispatch rechecks ownership, verified recipient and validity. These copies do not consume the administrator’s one-time welcome.
+
+`tests/member_welcome.py` verifies the API and development pickup against the isolated `assemblia_welcome_test` fixture database and API on port 5201. `tests/member_welcome_live.py` performs read-only live page, template, ID preview and mobile checks; it never sends mail.
 
 ## Local workspace
 

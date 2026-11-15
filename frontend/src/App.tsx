@@ -1,3 +1,7 @@
+import PersonalAccount from './personal-account';
+import IndividualPortal from './individual-portal';
+import {WorkspaceTools,AttentionQueue,ContinueWork} from './experience';
+import './experience.css';
 import {SessionRecovery, MemberLoginSecurity, MembershipLinkReviews} from './member-login';
 import {safeMemberReturn} from './login-tools';
 import {NavigationGuard,RoleHome,InstitutionLink} from './ux';
@@ -30,7 +34,7 @@ import {
 
 } from "react-router-dom";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
 
@@ -78,7 +82,7 @@ import {
 
 } from "lucide-react";
 
-import { api, details } from "./api";
+import { api, ApiError, details } from "./api";
 
 import type { Level, Unit } from "./api";
 
@@ -156,7 +160,22 @@ export default function App() {
 
   const loc = useLocation();
 
-  const me = useLoad("/users/me");
+  // An anonymous session is a valid result. Keeping it cached prevents a
+  // focus-triggered session check from unmounting the sign-in form.
+  const me = useQuery<any>({
+    queryKey: ["/users/me"],
+    // Provider popups restore focus before login completion. Keep the form
+    // mounted until explicit completion updates this query.
+    refetchOnWindowFocus: false,
+    queryFn: async () => {
+      try {
+        return await api("/users/me");
+      } catch (error) {
+        if (error instanceof ApiError && error.status === 401) return null;
+        throw error;
+      }
+    },
+  });
 
   const assignedSpaces = useLoad<any[]>("/workspaces", !!me.data);
   const platformSocieties=useLoad<any[]>('/platform/membership/societies',!!me.data?.platformAdmin);
@@ -201,6 +220,7 @@ export default function App() {
   const portfolio=useLoad<any[]>('/membership/portfolio',!!me.data&&!me.data.platformAdmin);
   const ownedKinds=[...new Set((portfolio.data||[]).map(m=>m.kind))];
 
+  const individualPortal=memberOnly&&ownedKinds.length>0&&portfolio.data?.some(m=>m.tenantId===tenant&&m.society==='AIMER Society')&&!loc.pathname.startsWith('/app/accept-invitation');
   const branding = details(workspace?.profile);
   const publicBrand = useLoad<any>("/branding/resolve");
   useEffect(()=>{document.title=(branding.displayName||workspace?.name||publicBrand.data?.displayName||"Society")+" — Member Portal"},[branding.displayName,workspace?.name,publicBrand.data?.displayName]);
@@ -248,6 +268,7 @@ export default function App() {
   useEffect(() => setMobile(false), [loc.pathname, loc.search]);
 
   const value = {
+    userId:me.data?.id,
     platformAdmin:!!me.data?.platformAdmin,
     memberOnly,
 
@@ -285,7 +306,8 @@ export default function App() {
 
         <Routes>
 
-          <Route path="/" element={<Landing />} /><Route path="/verify/credential/:token" element={<Suspense fallback={<p>Checking credential…</p>}><CredentialVerification/></Suspense>}/><Route path="/unsubscribe" element={<Suspense fallback={<p>Loading…</p>}><Unsubscribe/></Suspense>}/>
+          <Route path="/" element={me.isPending?<div className="skeleton" role="status">Checking your session…</div>:me.data?<Navigate to="/app" replace/>:<Auth onLogin={async()=>{const signedIn=await api("/users/me");client.removeQueries({predicate:q=>q.queryKey[0]!=="/users/me"});client.setQueryData(["/users/me"],signedIn);setSelection("");const target=sessionStorage.getItem("member.returnTo");sessionStorage.removeItem("member.returnTo");nav(target?safeMemberReturn(target):"/app")}}/>}/>
+          <Route path="/login" element={<Navigate replace to={{pathname:"/",search:loc.search,hash:loc.hash}}/>}/><Route path="/verify/credential/:token" element={<Suspense fallback={<p>Checking credential…</p>}><CredentialVerification/></Suspense>}/><Route path="/unsubscribe" element={<Suspense fallback={<p>Loading…</p>}><Unsubscribe/></Suspense>}/>
 
           <Route
 
@@ -313,9 +335,8 @@ export default function App() {
 
                 onLogin={async () => {
 
-                  const account = await api("/users/me");
-                  refresh();
-                  const target=sessionStorage.getItem("member.returnTo"); sessionStorage.removeItem("member.returnTo"); nav(target ? safeMemberReturn(target) : account.platformAdmin ? "/app" : "/app/membership");
+                  const signedIn=await api("/users/me");client.removeQueries({predicate:q=>q.queryKey[0]!=="/users/me"});client.setQueryData(["/users/me"],signedIn);setSelection("");
+                  const target=sessionStorage.getItem("member.returnTo"); sessionStorage.removeItem("member.returnTo"); nav(target ? safeMemberReturn(target) : "/app");
 
                 }}
 
@@ -335,9 +356,9 @@ export default function App() {
 
         <Auth
 
-          onLogin={() => {
+          onLogin={async () => {
 
-            refresh();
+            const signedIn=await api("/users/me");client.removeQueries({predicate:q=>q.queryKey[0]!=="/users/me"});client.setQueryData(["/users/me"],signedIn);
 
             sessionStorage.removeItem("member.returnTo");
             nav(loc.pathname + loc.search);
@@ -348,7 +369,7 @@ export default function App() {
 
       ) : (
 
-        <div className={me.data.platformAdmin ? "app-shell admin-shell" : "app-shell"}>
+        individualPortal ? <IndividualPortal me={me.data} portfolio={portfolio.data} spaces={spaces.data} account={<AccountWorkspace me={me.data}/>} notifications={<Suspense fallback={null}><CommunicationNotifications/></Suspense>} onLogout={async()=>{await api("/auth/logout","POST");setSelection("");client.clear();nav("/")}}/> : <div className={me.data.platformAdmin ? "app-shell admin-shell experience-shell" : "app-shell experience-shell"}>
 
           <aside className={mobile ? "sidebar open" : "sidebar"}>
 
@@ -356,7 +377,7 @@ export default function App() {
 
               <div className="brand-mark">
 
-                {me.data.platformAdmin ? <img src="/images/community-brain-chip.png" alt="AIMER Society logo"/> : <Network size={23} />}
+                {me.data.platformAdmin ? <img src="/images/aimer-society-logo.png" alt="AIMER Society logo"/> : <Network size={23} />}
 
               </div>
 
@@ -427,11 +448,11 @@ export default function App() {
             </select>
 
             {me.data.platformAdmin ? <AdminNavigation/> : memberOnly ? <nav aria-label="Main workspace navigation"><span className="nav-label">MY MEMBERSHIP PORTAL</span>{(ownedKinds.length?ownedKinds:['Membership']).map(kind=><NavLink key={kind} to={'/app/membership'+(kind==='Membership'?'':'?kind='+kind)}><Users/>{kind==='Membership'?'My membership':kind==='Individual'?'My individual membership':'My '+kind.toLowerCase()+' memberships'}</NavLink>)}<NavLink to="/app/clubs"><Users/>My clubs / chapters</NavLink><NavLink to="/app/resources"><FileBadge/>My resources</NavLink>{tenant&&<NavLink to="/app/finance/my"><Wallet/>My invoices & receipts</NavLink>}<NavLink to="/app/account"><Settings/>My account</NavLink></nav> : <>
-            <nav aria-label="Main workspace navigation"><span className="nav-label">MAIN MENU</span><NavLink to="/app/membership" end><Users/>Membership</NavLink><NavLink to="/app/clubs"><Users/>My clubs / chapters</NavLink><NavLink to="/app/resources"><FileBadge/>Resources</NavLink>
+            <nav aria-label="Main workspace navigation"><span className="nav-label">Workspace</span><NavLink to="/app/membership" end><Users/>My membership</NavLink><NavLink to="/app/clubs"><Users/>My clubs / chapters</NavLink><NavLink to="/app/resources"><FileBadge/>Resources</NavLink>
               <NavLink end to="/app" className={()=>loc.pathname==='/app'||loc.pathname.startsWith('/app/intelligence')?'active':''}><LayoutDashboard/>Home</NavLink>
               {tenant&&<>
-                {(can('members.read')||can('members.admin'))&&['Individual','Institutional','Corporate'].map(kind=><NavLink key={kind} to={'/app/members?view=directory&memberKind='+kind} className={()=>loc.pathname.startsWith('/app/members')&&(new URLSearchParams(loc.search).get('memberKind')||'Individual')===kind?'active':''}><Users/>{kind} members</NavLink>)}
-                {(enabled('community')||enabled('service'))&&<NavLink to={enabled('community')?'/app/community':'/app/service/projects'} className={()=>loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'active':''}><Globe/>Activities</NavLink>}
+                <span className="nav-label">Members</span>{(can('members.read')||can('members.admin'))&&['Individual','Institutional','Corporate'].map(kind=><NavLink key={kind} to={'/app/members?view=directory&memberKind='+kind} className={()=>loc.pathname.startsWith('/app/members')&&(new URLSearchParams(loc.search).get('memberKind')||'Individual')===kind?'active':''}><Users/>{kind} members</NavLink>)}
+                <span className="nav-label">Community & operations</span>{(enabled('community')||enabled('service'))&&<NavLink to={enabled('community')?'/app/community':'/app/service/projects'} className={()=>loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'active':''}><Globe/>Activities</NavLink>}
                 {enabled('communications')&&<NavLink to="/app/communications"><MessageCircle/>Messages</NavLink>}
                 {enabled('finance')&&<NavLink to="/app/finance"><Wallet/>Finance</NavLink>}
                 {(can('studio.read')||can('studio.bulk')||can('studio.issue')||can('studio.settings'))&&<NavLink to="/app/studio"><FileBadge/>Documents</NavLink>}
@@ -445,7 +466,7 @@ export default function App() {
 
               <div className="phase-dot" />
 
-              Phase 6 · Connected society platform
+              Your community workspace
 
             </div>
 
@@ -493,7 +514,7 @@ export default function App() {
 
               </button>
 
-              {me.data.platformAdmin ? <AdminTopbar fullName={me.data.fullName}><Suspense fallback={null}><CommunicationNotifications/></Suspense><button className="icon-btn" aria-label="Sign out" onClick={async()=>{await api('/auth/logout','POST');setSelection('');client.clear();nav('/login')}}><LogOut size={18}/></button></AdminTopbar> : <>
+              {me.data.platformAdmin ? <AdminTopbar fullName={me.data.fullName}><button aria-label="Toggle light or dark appearance" className="icon-btn" onClick={()=>setTheme(theme==="dark"?"light":"dark")}>{theme==="dark"?<Sun size={18}/>:<Moon size={18}/>}</button><Suspense fallback={null}><CommunicationNotifications/></Suspense><button className="icon-btn" aria-label="Sign out" onClick={async()=>{await api('/auth/logout','POST');setSelection('');client.clear();nav('/')}}><LogOut size={18}/></button></AdminTopbar> : <>
               <span className="breadcrumb">
 
                 {loc.pathname==='/app/membership'?'Membership & resources':loc.pathname.startsWith('/app/finance')?'Finance':loc.pathname.startsWith('/app/members')||loc.pathname.startsWith('/app/organization')||loc.pathname.startsWith('/app/units')?'Members & organizations':loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'Activities':loc.pathname.startsWith('/app/communications')?'Messages':loc.pathname.startsWith('/app/studio')?'Documents':loc.pathname.startsWith('/app/settings')?'Settings':loc.pathname.startsWith('/app/account')?'My account':'Home'} <ChevronRight size={13} />{" "}
@@ -527,7 +548,7 @@ export default function App() {
 
                     client.clear();
 
-                    nav("/login");
+                    nav("/");
 
                   }}
 
@@ -543,6 +564,7 @@ export default function App() {
             </header>
 
             <main id="main-content" tabIndex={-1} key={tenant + scope}>
+              <div className="workspace-context"><span>{workspace?.name||publicBrand.data?.displayName||"Your community"}</span><span>{scope?scopes.find((s:any)=>s.unitId===scope)?.unitName||"Scoped chapter":"Society workspace"} · {me.data.platformAdmin?"Platform administrator":memberOnly?"Member":scopes.filter((s:any)=>!s.unitId||s.unitId===scope).map((s:any)=>s.name).filter(Boolean).join(", ")||"Staff"}</span></div><WorkspaceTools/>
 
               {memberOnly?<Routes><Route path="/app/membership" element={<HubContent><MemberPortal/></HubContent>}/><Route path="/app/clubs" element={<HubContent><ClubsPage/></HubContent>}/><Route path="/app/resources" element={<HubContent><ResourcesPage/></HubContent>}/><Route path="/app/account" element={<AccountWorkspace me={me.data}/>}/><Route path="/app/finance/my" element={<Suspense fallback={<p>Loading your invoices…</p>}><MemberFinance/></Suspense>}/><Route path="/app/join" element={<WorkspaceAlias to="/app/account" query={{view:'join'}}/>}/><Route path="/app/accept-invitation" element={<AcceptInvitation/>}/><Route path="/app/security" element={<WorkspaceAlias to="/app/account" query={{view:'security'}}/>}/><Route path="/app/profile" element={<WorkspaceAlias to="/app/account" query={{view:'profile'}}/>}/><Route path="*" element={<Navigate to="/app/membership" replace/>}/></Routes>:<Routes><Route path="/app/clubs" element={<HubContent><ClubsPage/></HubContent>}/><Route path="/app/resources" element={<HubContent><ResourcesPage/></HubContent>}/><Route path="/app/membership" element={<HubContent><MemberPortal/></HubContent>}/><Route path="/app/intelligence/*" element={<Suspense fallback={<p>Loading intelligence…</p>}><IntelligenceModule/></Suspense>}/><Route path="/app/branding" element={<WorkspaceAlias to="/app/settings" query={{view:"branding"}}/>}/><Route path="/app/security" element={<WorkspaceAlias to="/app/account" query={{view:"security"}}/>}/><Route path="/app/saas" element={<WorkspaceAlias to="/app/platform" query={{view:"operations"}}/>}/><Route path="/app/system-health" element={<WorkspaceAlias to="/app/settings" query={{view:"readiness"}}/>}/><Route path="/app/service/*" element={<Suspense fallback={<p>Opening service workspace…</p>}><ServiceModule/></Suspense>}/><Route path="/app/studio/*" element={<Suspense fallback={<p>Opening document studio…</p>}><StudioModule/></Suspense>}/><Route path="/app/finance/*" element={<Suspense fallback={<p>Loading finance…</p>}><FinanceModule/></Suspense>}/><Route path="/app/communications/*" element={<Suspense fallback={<p>Loading communications…</p>}><CommunicationsModule/></Suspense>}/>
 
@@ -585,7 +607,7 @@ export default function App() {
 
                   path="/app"
 
-                  element={me.data.platformAdmin ? <><RoleHome platform/><AdminOverview/></> : tenant ? <><AreaTabs area="home"/><><RoleHome/><Dashboard /></></> : <Welcome />}
+                  element={me.data.platformAdmin ? <><AttentionQueue/><ContinueWork/><RoleHome platform/><AdminOverview/></> : tenant ? <><AttentionQueue/><ContinueWork/><RoleHome/><Dashboard /></> : <Welcome />}
 
                 />
 
@@ -677,7 +699,7 @@ export default function App() {
 
               <span>{branding.displayName || workspace?.name || "Your society"} · Membership & chapter community</span>
 
-              <span>Organization management / Phase 06</span>
+              <span>Membership · Community · Opportunity</span>
 
             </footer>
 
@@ -712,149 +734,9 @@ export default function App() {
 function HubContent({children}:any){return <Suspense fallback={<p>Opening workspace section…</p>}>{children}</Suspense>}
 function OrganizationWorkspace(){const {workspace}=useApp();const branding=details(workspace?.profile);return <><AreaTabs area="people"/><WorkspaceSections label="Organization" sections={[{id:'hierarchy',label:'Hierarchy & structure',content:<Hierarchy/>},{id:'regions',label:(branding.regionTerm||'Region')+' directory',content:<Directory kind="Region"/>},{id:'chapters',label:(branding.chapterTerm||'Chapter')+' directory',content:<Directory kind="Chapter"/>}]}/></>}
 function AdministrationWorkspace(){const {can}=useApp();return <WorkspaceSections label="Society administration" sections={[{id:'society',label:'General',content:<SocietySettings/>,visible:can('settings.manage')},{id:'branding',label:'Branding',content:<HubContent><WhiteLabelSettings/></HubContent>,visible:can('branding.manage')},{id:'roles',label:'Permissions',content:<Roles/>,visible:can('roles.manage')},{id:'setup',label:'Setup',content:<Setup/>,visible:can('settings.manage')},{id:'audit',label:'Audit',content:<AuditLog/>,visible:can('audit.read')},{id:'resources',label:'Member resources',content:<HubContent><MemberResourceAdmin/></HubContent>,visible:can('membership.settings')},{id:'readiness',label:'Health',content:<HubContent><HealthWorkspace/></HubContent>,visible:can('settings.manage')}]}/>}
-function AccountWorkspace({me}:any){const {tenant,workspace,can}=useApp();const canApproveLinks=can('members.approve');const enabled=(m:string)=>!!tenant&&(!workspace?.modules||workspace.modules.includes(m));return <WorkspaceSections label="My account & memberships" sections={[{id:'profile',label:'Profile',content:<Profile me={me}/>},{id:'security',label:'Security',content:<WorkspaceSections label="Account security" queryKey="securityTab" sections={[{id:'authenticator',label:'Authenticator',content:<HubContent><><SecurityWorkspace/><MemberLoginSecurity/></></HubContent>},{id:'password',label:'Password',content:<Profile me={me} mode="password"/>}]}/>},{id:'memberships',label:'Memberships',content:<HubContent><MyMemberships/></HubContent>},{id:'link-requests',label:'Linking requests',content:<MembershipLinkReviews/>,visible:!!tenant&&canApproveLinks},{id:'documents',label:'Documents',content:<HubContent><MyDocuments/></HubContent>,visible:enabled('studio')},{id:'achievements',label:'Achievements',content:<HubContent><MyAchievements/></HubContent>,visible:enabled('service')},{id:'applications',label:'Applications',content:<Applications platform={false}/>,visible:!me.platformAdmin},{id:'join',label:'Join',content:<HubContent><JoinMembership/></HubContent>}]}/>}
+function AccountWorkspace({me}:any){const {tenant,workspace,can,memberOnly}=useApp();const location=useLocation();if(memberOnly&&(!new URLSearchParams(location.search).get("view")||new URLSearchParams(location.search).get("view")==="profile"))return <PersonalAccount/>;const canApproveLinks=can('members.approve');const enabled=(m:string)=>!!tenant&&(!workspace?.modules||workspace.modules.includes(m));return <WorkspaceSections label="My account & memberships" sections={[{id:'profile',label:'Profile',content:<PersonalAccount/>},{id:'security',label:'Security',content:<WorkspaceSections label="Account security" queryKey="securityTab" sections={[{id:'authenticator',label:'Authenticator',content:<HubContent><><SecurityWorkspace/><MemberLoginSecurity/></></HubContent>},{id:'password',label:'Password',content:<Profile me={me} mode="password"/>}]}/>},{id:'memberships',label:'Memberships',content:<HubContent><MyMemberships/></HubContent>},{id:'link-requests',label:'Linking requests',content:<MembershipLinkReviews/>,visible:!!tenant&&canApproveLinks},{id:'documents',label:'Documents',content:<HubContent><MyDocuments/></HubContent>,visible:enabled('studio')},{id:'achievements',label:'Achievements',content:<HubContent><MyAchievements/></HubContent>,visible:enabled('service')},{id:'applications',label:'Applications',content:<Applications platform={false}/>,visible:!me.platformAdmin},{id:'join',label:'Join',content:<HubContent><JoinMembership/></HubContent>}]}/>}
 function PlatformHub(){return <WorkspaceSections label="Platform administration" sections={[{id:'operations',label:'SaaS operations & health',content:<HubContent><PlatformWorkspace/></HubContent>},{id:'membership-pricing',label:'Membership pricing',content:<HubContent><MembershipPricing/></HubContent>},{id:'approvals',label:'Society approvals',content:<Applications platform/>},{id:'registry',label:'Society registry',content:<Platform/>}]}/>}
 
-function Landing() {
-  const brand = useLoad<any>("/branding/resolve");
-
-  return (
-
-    <div className="landing">
-
-      <header>
-
-        <Link className="brand" to="/">
-
-          <span className="brand-mark">
-
-            <Network />
-
-          </span>
-
-          {brand.data?.displayName || "Your society"}
-
-        </Link>
-
-        <Link to="/login" className="secondary">
-
-          Sign in <ArrowUpRight size={16} />
-
-        </Link>
-
-      </header>
-
-      <div className="hero">
-
-        <div className="eyebrow">ONE COMMUNITY. EVERY CHAPTER.</div>
-
-        <h1>
-
-          {brand.data?.displayName || "Great organizations."}
-
-          <br />
-
-          <em>Stronger connections.</em>
-
-        </h1>
-
-        <p>
-
-          Membership, learning resources and chapter opportunities in one place. Bring
-
-          structure to your organization and give every community a place to
-
-          grow.
-
-        </p>
-
-        <div className="hero-actions">
-
-          <Link className="primary" to="/signup">
-
-            Create your account <ArrowRight size={17} />
-
-          </Link>
-
-          <Link className="secondary" to="/login">
-
-            Open your workspace
-
-          </Link>
-
-        </div>
-
-        <div className="hero-trust">
-
-          <ShieldCheck size={17} /> Private workspaces <span>·</span> Flexible
-
-          hierarchy <span>·</span> Scoped access
-
-        </div>
-
-      </div>
-
-      <div className="landing-visual">
-
-        <div className="orbit o1" />
-
-        <div className="orbit o2" />
-
-        <div className="community-root">
-
-          <Network />
-
-          <strong>{brand.data?.displayName || "Your society"}</strong>
-
-          <small>Connected at every level</small>
-
-        </div>
-
-        <div className="node n1">
-
-          <Globe />
-
-          National body
-
-        </div>
-
-        <div className="node n2">
-
-          <MapPin />
-
-          Your regions
-
-        </div>
-
-        <div className="node n3">
-
-          <Flag />
-
-          Local chapters
-
-        </div>
-
-        <div className="node n4">
-
-          <Users />
-
-          Your community
-
-        </div>
-
-      </div>
-
-      <div className="landing-bottom">
-
-        A foundation for societies, associations, and communities of every size.
-
-      </div>
-
-    </div>
-
-  );
-
-}
 
 function Welcome() {
 
@@ -950,7 +832,7 @@ function Welcome() {
 
 function Dashboard() {
 
-  const { tenant, workspace, scope, can } = useApp();
+  const { tenant, scope, can } = useApp();
 
   const q = useLoad(
 
@@ -1002,32 +884,6 @@ function Dashboard() {
 
       </Heading>
 
-      <WorkspaceSections label="Overview" queryKey="overviewTab" sections={[{id:'summary',label:'Summary',content:<>      <div className="welcome-banner dashboard-banner">
-
-        <div>
-
-          <span className="eyebrow">CONNECTED BY PURPOSE</span>
-
-          <h2>{workspace.name}</h2>
-
-          <p>A shared foundation for your people and the places they serve.</p>
-
-          <Link to="/app/hierarchy">
-
-            Explore your organization <ArrowUpRight size={16} />
-
-          </Link>
-
-        </div>
-
-        <div className="banner-symbol">
-
-          <Network size={100} strokeWidth={1} />
-
-        </div>
-
-      </div>
-
       <DataState query={q}>
 
         <div className="stats-grid">
@@ -1044,7 +900,7 @@ function Dashboard() {
 
           ].map(([label, value, Icon]: any) => (
 
-            <div className="stat" key={label}>
+            <Link className="stat" key={label} to={label==="Active units"?"/app/organization?view=hierarchy":"/app/organization?view="+(label==="Local chapters"?"chapters":label==="Regions & districts"?"regions":"hierarchy")}>
 
               <span>
 
@@ -1058,7 +914,7 @@ function Dashboard() {
 
               <small>Within your authorized scope</small>
 
-            </div>
+            </Link>
 
           ))}
 
@@ -1066,7 +922,7 @@ function Dashboard() {
 
       </DataState>
 
-</>},{id:'network',label:'Organization & shortcuts',content:<>      <div className="dashboard-grid">
+      <div className="dashboard-grid">
 
         <Panel title="Your organizational network">
 
@@ -1222,7 +1078,7 @@ function Dashboard() {
 
       </div>
 
-</>}]}/>
+
     </>
 
   );

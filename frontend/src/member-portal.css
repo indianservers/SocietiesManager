@@ -4,3 +4,5 @@
 
 .roster-import-preview{display:grid;gap:14px;margin-top:22px;min-width:0}.roster-import-error{color:#ad263d}.roster-import-preview .renewal-history>div{padding-inline:0}.roster-import-preview small{display:block;overflow-wrap:anywhere}
 .roster-import-flow{padding:20px;display:grid;gap:14px;min-width:0}.roster-import-flow>.secondary{justify-self:start}
+
+.membership-email-details{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;margin:20px 0}.membership-email-details dt{color:var(--muted,#64748b)}.membership-email-details dd{margin:0;overflow-wrap:anywhere}

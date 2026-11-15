@@ -1,0 +1,26 @@
+{
+  "checks": [
+    {
+      "path": "/",
+      "switches": 3,
+      "sessionChecks": 1,
+      "preservedForm": true
+    },
+    {
+      "path": "/signup",
+      "switches": 3,
+      "sessionChecks": 1,
+      "preservedForm": true
+    },
+    {
+      "path": "/forgot",
+      "switches": 3,
+      "sessionChecks": 1,
+      "preservedForm": true
+    },
+    {
+      "normalSignIn": true
+    }
+  ],
+  "errors": []
+}

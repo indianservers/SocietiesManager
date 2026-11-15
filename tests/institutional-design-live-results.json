@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "membership live desktop/mobile",
+    "account live desktop/mobile",
+    "clubs live desktop/mobile",
+    "resources live desktop/mobile",
+    "Individual account unchanged"
+  ],
+  "errors": [],
+  "mode": "Existing live accounts; read-only verification apart from login/logout"
+}
