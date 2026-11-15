@@ -8,6 +8,7 @@
     "Explicit provider signup works; unconnected provider login does not silently create an account",
     "Email OTP cannot bypass MFA",
     "Approved membership first OTP creates an unverified account, verifies only after code proof and links membership; first Google login retains MFA",
+    "Saving Individual, Institutional, Corporate and roster members prepares passwordless accounts immediately; first OTP succeeds and backfill is idempotent without roster privilege escalation",
     "Browser OTP sign-in works and switching away from open work requires an explicit safe action"
   ],
   "externalProviderMode": "Test-only verifier stub; production verifier is checked separately"

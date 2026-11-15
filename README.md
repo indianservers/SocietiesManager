@@ -2,6 +2,8 @@
 
 Six-phase modular monolith: React/TypeScript/Vite/Tailwind frontend, ASP.NET Core 10 API, EF Core/Npgsql, PostgreSQL. The AIMER Society launch is deployed at https://members.aimersociety.com. Live payments remain unconnected until their account is configured. Production SMTP uses Amazon SES in us-east-1 with STARTTLS on port 587 and noreply@aimersociety.com as sender. Credentials are stored only in the protected server runtime environment.
 
+New memberships and chapter/club roster entries automatically prepare a passwordless login for each valid registered email, reusing existing accounts. First email OTP sign-in verifies ownership before membership access is granted. Verified Google sign-in opens the matching approved account; MFA and roster permissions remain enforced. Operators can run `--provision-member-accounts` once under the protected runtime environment to backfill existing members; it reports missing emails and preserves existing passwords and security settings.
+
 ## AIMER production installation
 
 The operator-authorized deployment on 13 November 2026 uses the additional disk at `/mnt/volume_sfo3_1785477034157/aimer-members`. Release files, private uploads, PostgreSQL data/WAL, encryption keys, application logs, certificate files and encrypted backups all reside there. The main disk holds only small Apache/systemd integration files. Existing websites and the separate PostgreSQL instance on port 5432 were preserved.
