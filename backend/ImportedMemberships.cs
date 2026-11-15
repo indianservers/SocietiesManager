@@ -20,6 +20,11 @@ public static class ImportedMemberships
               AND (h."Details"->'claimEmails') ? {normalizedEmail})
         """);
 
+    public static IQueryable<Membership> ForLoginEmail(AppDb db,string normalizedEmail) {
+        var approved=ForEmail(db,normalizedEmail).Select(m=>m.Id);
+        return db.Memberships.Where(m=>approved.Contains(m.Id)||m.Status!="Closed"&&db.Tenants.Any(t=>t.Id==m.TenantId&&t.Status=="Active")&&db.Set<OrganizationMember>().Any(r=>r.TenantId==m.TenantId&&r.MembershipId==m.Id&&r.RevokedAt==null&&r.Email==normalizedEmail));
+    }
+
     public static async Task LinkAccount(AppDb db, Guid user)
     {
         var tenants = await MembershipExperience.Entitled(db, user).Where(m => db.Tenants.Any(t => t.Id == m.TenantId && t.Status == "Active"))

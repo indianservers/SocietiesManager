@@ -41,7 +41,7 @@ public static class FirebaseAuthEndpoints
                     if (existingUser != null)
                     {
                         // Google verifies ownership of this email; retain the existing member identity and MFA.
-                        if (identity.Provider != "google.com" || !identity.EmailVerified || (!existingUser.EmailConfirmed&&!await ImportedMemberships.ForEmail(db,identity.Email.ToUpperInvariant()).AnyAsync(ct)))
+                        if (identity.Provider != "google.com" || !identity.EmailVerified || (!existingUser.EmailConfirmed&&!await ImportedMemberships.ForLoginEmail(db,identity.Email.ToUpperInvariant()).AnyAsync(ct)))
                             return Results.Ok(new { requiresAccountLink = true, email=identity.Email, message = "Confirm your existing account with email OTP or password to connect this provider." });
                         if (await users.IsLockedOutAsync(existingUser))
                             return Results.Problem(statusCode: 401, title: "Sign in failed. Try again later.");
@@ -54,7 +54,7 @@ public static class FirebaseAuthEndpoints
                     }
                     else
                     {
-                    if(!r.CreateAccount&&!(identity.Provider=="google.com"&&identity.EmailVerified&&await ImportedMemberships.ForEmail(db,identity.Email.ToUpperInvariant()).AnyAsync(ct)))return Results.Ok(new{requiresAccountLink=true,email=identity.Email,message="Connect this provider to your existing account using email OTP or password. New members can create an account from the signup page."});
+                    if(!r.CreateAccount&&!(identity.Provider=="google.com"&&identity.EmailVerified&&await ImportedMemberships.ForLoginEmail(db,identity.Email.ToUpperInvariant()).AnyAsync(ct)))return Results.Ok(new{requiresAccountLink=true,email=identity.Email,message="Connect this provider to your existing account using email OTP or password. New members can create an account from the signup page."});
                     var tenant = r.SocietyId ?? (Guid.TryParse(config["Society:DefaultTenantId"], out var defaultTenant) ? defaultTenant : (Guid?)null);
                     if (tenant != null && !await db.Tenants.AnyAsync(t => t.Id == tenant && t.Status == "Active", ct)) throw new DomainException("Choose an active society");
                     user = new Account { Id = Guid.NewGuid(), UserName = identity.Email, Email = identity.Email, EmailConfirmed = identity.EmailVerified, FullName = identity.Name,

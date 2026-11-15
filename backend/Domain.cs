@@ -23,6 +23,16 @@ public partial class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext<
     public DbSet<Invitation> Invitations => Set<Invitation>();
     public DbSet<Tenant> Tenants => Set<Tenant>(); public DbSet<Application> Applications => Set<Application>(); public DbSet<Link> Links => Set<Link>(); public DbSet<Level> Levels => Set<Level>(); public DbSet<Unit> Units => Set<Unit>(); public DbSet<GovernanceRole> GovernanceRoles => Set<GovernanceRole>(); public DbSet<Assignment> Assignments => Set<Assignment>(); public DbSet<Onboarding> Onboardings => Set<Onboarding>(); public DbSet<Audit> Audits => Set<Audit>(); public DbSet<Outbox> Outbox => Set<Outbox>();
     [DbFunction("descendant_chapter_count")] public static int ChapterCount(Guid tenant, Guid unit) => throw new NotSupportedException();
+    public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        if (!MemberAccountProvisioning.Pending(this)) return await base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
+        var ownTransaction = Database.CurrentTransaction == null;
+        await using var transaction = ownTransaction ? await Database.BeginTransactionAsync(cancellationToken) : null;
+        await MemberAccountProvisioning.Prepare(this,cancellationToken);
+        var result = await base.SaveChangesAsync(acceptAllChangesOnSuccess,cancellationToken);
+        if (transaction != null) await transaction.CommitAsync(cancellationToken);
+        return result;
+    }
     protected override void OnModelCreating(ModelBuilder b)
     {
         base.OnModelCreating(b); EmailLogin.Model(b); MemberLogin.ConfigureModel(b);
