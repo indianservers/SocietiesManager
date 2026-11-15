@@ -40,8 +40,8 @@ public partial class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext<
         foreach (var e in b.Model.GetEntityTypes()) foreach (var prop in e.GetProperties()) if (prop.ClrType == typeof(string) && prop.Name is "Details" or "Profile" or "Data") prop.SetColumnType("jsonb");
     }
 }
-public record RegisterRequest([Required, EmailAddress] string Email, [Required, MinLength(12)] string Password, [Required, MaxLength(160)] string FullName, string MembershipKind = "Individual", Guid? SocietyId = null, [property: MaxLength(30)] string? PhoneNumber = null, [property: MaxLength(80)] string? Username = null);
-public record LoginRequest([property: Required, MaxLength(254)] string Email, [property: Required] string Password, bool RememberMe = false);
+public record RegisterRequest([Required, EmailAddress, MaxLength(254)] string Email, [Required, MinLength(12), MaxLength(1024)] string Password, [Required, MaxLength(160)] string FullName, string MembershipKind = "Individual", Guid? SocietyId = null, [property: MaxLength(30)] string? PhoneNumber = null, [property: MaxLength(80)] string? Username = null);
+public record LoginRequest([property: Required, MaxLength(254)] string Email, [property: Required, MaxLength(1024)] string Password, bool RememberMe = false);
 public record UnitRequest(Guid LevelId, Guid? ParentId, [Required, MaxLength(160)] string Name, [Required, RegularExpression("^[A-Za-z0-9_-]{2,40}$")] string Code, [Required] string Status, [Required] string Details, int Revision = 0);
 public record LevelRequest([Required] string Name, [Required] string Kind, [Required] Guid[] AllowedParents, bool AllowRoot);
 public record RoleRequest([Required] string Name, [Required] string[] Permissions, [Required(AllowEmptyStrings = true)] string Responsibilities);
@@ -50,5 +50,5 @@ public record ApplicationRequest(string Name, string Category, string Country, s
 public record ReviewRequest(bool Approve, string Note);
 public record OnboardingRequest(int Step, string Data, bool Activate);
 public record ProfileRequest(string FullName);
-public record PasswordRequest(string CurrentPassword, string NewPassword);
-public record ResetRequest([Required, EmailAddress] string Email, [Required] string Token, [Required] string Password);
+public record PasswordRequest([Required, MaxLength(1024)] string CurrentPassword, [Required, MinLength(12), MaxLength(1024)] string NewPassword);
+public record ResetRequest([Required, EmailAddress, MaxLength(254)] string Email, [Required, MaxLength(8192)] string Token, [Required, MinLength(12), MaxLength(1024)] string Password);

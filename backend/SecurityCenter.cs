@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.ComponentModel.DataAnnotations;
 namespace Society.Api;
-public record MfaPassword(string Password);
-public record MfaCode(string Code,bool Recovery=false,bool RememberMe=false);
-public record MfaDisable(string Password,string Code);
+public record MfaPassword([Required, MaxLength(1024)] string Password);
+public record MfaCode([Required, MaxLength(128)] string Code,bool Recovery=false,bool RememberMe=false);
+public record MfaDisable([Required, MaxLength(1024)] string Password,[Required, MaxLength(128)] string Code);
 public static class SecurityCenter {
  public static readonly string[] HighRisk=["roles.manage","settings.manage","branding.manage","studio.publish","studio.issue","studio.approve","studio.bulk","studio.settings","finance.configure","finance.collect","finance.approve","finance.refund","finance.providers","finance.periods","finance.highvalue","reports.schedule"];
  public static async Task Strong(Access a,AppDb db,IHttpContextAccessor accessor){var context=accessor.HttpContext;if(context?.User.Identity?.AuthenticationType=="FinanceWorker")return;var env=context?.RequestServices.GetService<IHostEnvironment>();if(env==null||!env.IsProduction())return;var mfa=context!.User.FindFirstValue("amr")=="mfa";var recent=long.TryParse(context.User.FindFirstValue("mfa_at"),out var time)&&time>DateTimeOffset.UtcNow.AddMinutes(-30).ToUnixTimeSeconds();if(!mfa||!recent||!await db.Users.AnyAsync(u=>u.Id==a.UserId&&u.TwoFactorEnabled))throw new AccessDeniedException();}

@@ -50,7 +50,7 @@ public class MembershipLinkRequest
 public record MagicRequest([Required, EmailAddress, MaxLength(254)] string Email, string? ReturnTo);
 public record MagicConsume([Required, MaxLength(200)] string Token);
 public record PasskeyCredential([Required, MaxLength(20000)] string CredentialJson, [MaxLength(80)] string Name = "My passkey", bool RememberMe = false);
-public record ProviderRemoval([Required] string LoginProvider, [Required] string ProviderKey);
+public record ProviderRemoval([Required, MaxLength(128)] string LoginProvider, [Required, MaxLength(1024)] string ProviderKey);
 public record LinkMembershipRequest(Guid TenantId, [Required, MaxLength(100)] string Number, [Required, MinLength(10), MaxLength(1000)] string Note);
 public record LinkMembershipReview(bool Approve, [Required, MinLength(10), MaxLength(1000)] string Note);
 public record ChecklistUpdate(bool Dismissed);
@@ -164,6 +164,22 @@ public static class MemberLogin
         return user;
     }
     static void Check(IdentityResult result) { if (!result.Succeeded) throw new DomainException(string.Join(" ", result.Errors.Select(e => e.Description))); }
+    // Identity 10 reports absent/expired or mismatched ceremonies as InvalidOperationException.
+    // Handle only those client-state failures; configuration and persistence failures still surface.
+    static bool MissingPasskeyCeremony(InvalidOperationException error) =>
+        error.Message.StartsWith("No passkey assertion is underway.", StringComparison.Ordinal) ||
+        error.Message.StartsWith("No passkey attestation is underway.", StringComparison.Ordinal) ||
+        error.Message.StartsWith("Expected passkey operation '", StringComparison.Ordinal);
+    static async Task<PasskeyAssertionResult<Account>> AssertPasskey(SignInManager<Account> signIn, string credential)
+    {
+        try { return await signIn.PerformPasskeyAssertionAsync(credential); }
+        catch (InvalidOperationException error) when (MissingPasskeyCeremony(error)) { throw new DomainException("Start a new passkey sign-in before submitting a credential."); }
+    }
+    static async Task<PasskeyAttestationResult> RegisterPasskey(SignInManager<Account> signIn, string credential)
+    {
+        try { return await signIn.PerformPasskeyAttestationAsync(credential); }
+        catch (InvalidOperationException error) when (MissingPasskeyCeremony(error)) { throw new DomainException("Start a new passkey registration before submitting a credential."); }
+    }
 
     public static void Map(RouteGroupBuilder api)
     {
@@ -201,7 +217,7 @@ public static class MemberLogin
         auth.MapPost("/passkeys/options", async (SignInManager<Account> signIn) => Results.Content(await signIn.MakePasskeyRequestOptionsAsync(null), "application/json"));
         auth.MapPost("/passkeys/login", async (PasskeyCredential r, SignInManager<Account> signIn, AppDb db, HttpContext c) =>
         {
-            var result = await signIn.PerformPasskeyAssertionAsync(r.CredentialJson);
+            var result = await AssertPasskey(signIn, r.CredentialJson);
             if (!result.Succeeded) return Results.Problem(statusCode: 401, title: "Passkey verification failed. Try again or use another sign-in method.");
             Check(await signIn.UserManager.AddOrUpdatePasskeyAsync(result.User, result.Passkey));
             return await Complete(result.User, r.RememberMe, "passkey", c, signIn, db);
@@ -239,7 +255,7 @@ public static class MemberLogin
         });
         security.MapPost("/mfa/recovery-codes", async (Access a, HttpContext c, UserManager<Account> users, MfaCode r) => { var u = await Recent(a, c, users); if (!u.TwoFactorEnabled || !await users.VerifyTwoFactorTokenAsync(u, users.Options.Tokens.AuthenticatorTokenProvider, r.Code.Replace(" ", "").Replace("-", ""))) throw new DomainException("Enter a valid authenticator code."); return Results.Ok(new { recoveryCodes = await users.GenerateNewTwoFactorRecoveryCodesAsync(u, 10) }); });
         security.MapPost("/passkeys/options", async (Access a, HttpContext c, UserManager<Account> users, SignInManager<Account> signIn) => { var u = await Recent(a, c, users); if ((await users.GetPasskeysAsync(u)).Count >= 10) throw new DomainException("You can register up to 10 passkeys."); return Results.Content(await signIn.MakePasskeyCreationOptionsAsync(new PasskeyUserEntity { Id = u.Id.ToString(), Name = u.Email!, DisplayName = u.FullName }), "application/json"); });
-        security.MapPost("/passkeys", async (PasskeyCredential r, Access a, HttpContext c, UserManager<Account> users, SignInManager<Account> signIn) => { var u = await Recent(a, c, users); if ((await users.GetPasskeysAsync(u)).Count >= 10) throw new DomainException("You can register up to 10 passkeys."); var result = await signIn.PerformPasskeyAttestationAsync(r.CredentialJson); if (!result.Succeeded || result.UserEntity.Id != u.Id.ToString()) throw new DomainException("Passkey registration failed. Restart registration."); result.Passkey.Name = string.IsNullOrWhiteSpace(r.Name) ? "My passkey" : r.Name.Trim(); Check(await users.AddOrUpdatePasskeyAsync(u, result.Passkey)); return Results.NoContent(); });
+        security.MapPost("/passkeys", async (PasskeyCredential r, Access a, HttpContext c, UserManager<Account> users, SignInManager<Account> signIn) => { var u = await Recent(a, c, users); if ((await users.GetPasskeysAsync(u)).Count >= 10) throw new DomainException("You can register up to 10 passkeys."); var result = await RegisterPasskey(signIn, r.CredentialJson); if (!result.Succeeded || result.UserEntity.Id != u.Id.ToString()) throw new DomainException("Passkey registration failed. Restart registration."); result.Passkey.Name = string.IsNullOrWhiteSpace(r.Name) ? "My passkey" : r.Name.Trim(); Check(await users.AddOrUpdatePasskeyAsync(u, result.Passkey)); return Results.NoContent(); });
         security.MapDelete("/passkeys/{id}", async (string id, Access a, HttpContext c, UserManager<Account> users) => { var u = await Recent(a, c, users); if (!await users.HasPasswordAsync(u) && (await users.GetLoginsAsync(u)).Count == 0 && (await users.GetPasskeysAsync(u)).Count <= 1) throw new DomainException("Keep at least one sign-in method."); byte[] bytes; try { bytes = WebEncoders.Base64UrlDecode(id); } catch (FormatException) { throw new DomainException("Invalid passkey."); } Check(await users.RemovePasskeyAsync(u, bytes)); return Results.NoContent(); });
 
         api.MapGet("/membership/link-requests", async (Access a, AppDb db) => await db.Set<MembershipLinkRequest>().Where(r => r.UserId == a.UserId).OrderByDescending(r => r.CreatedAt).Select(r => new { r.Id, r.TenantId, r.Number, r.Status, r.CreatedAt, r.ReviewNote }).Take(50).ToListAsync()).RequireAuthorization();
