@@ -115,3 +115,14 @@ Accounts without active staff permissions use a separate set of portal routes an
 The self-finance route renders only the member ledger/invoice interface, without accounting setup or staff navigation. Login/account loading also establishes the society link for verified roster affiliations via Entitled(), without assigning an administrative role or organization ownership. Existing approved workbook claim emails cover all 253 individuals and 125 of 131 institutions. INS1001, INS1002, INS1003, INS1004, INS1005 and INS1007 have no registered contact email; authorized emails are requested from the owner. SES delivery remains pending.
 
 Verification: 176 API checks and 45 local browser checks across Individual, Institutional and Corporate accounts passed. Browser checks cover approved organization claims, login, private navigation, direct admin-route redirects, own-document downloads, cross-member access denial, personal-profile separation, own finance, mobile and logout. Production verification uses temporary exact-ID fixtures and then removes them.
+
+
+## Member login enhancements — 15 November 2026
+
+Release `20261115T050034Z-member-login` is live at `https://members.aimersociety.com`, built from Git commit `c9c4f948b68428afd01ff58685c6d8899a0fc9ff`. The uploaded self-contained Linux package and every manifest file were checksum-verified before activation. Existing Firebase configuration, private storage, encryption keys and service configuration were retained.
+
+Encrypted pre-release backup: `society-20261115T053900Z-11e6f4.abk`. The additive `MemberLoginEnhancements` and `MemberPasskeyStore` migrations were applied using the migration identity, with explicit runtime grants on the four new tables. The membership register fingerprint remained unchanged across migration. No member identities, numbers, validity dates, payment records or administrator assignments were edited by deployment.
+
+An initial readiness failure restored the prior application automatically. The subsequent switch passed private-listener and public HTTPS readiness. The retained application rollback release is `20261114T164441Z-private-portals`; database downgrades are not automatic.
+
+Twenty-six live acceptance checks passed with zero uncaught browser errors. Checks cover the actual release JavaScript checksum, society branding, anonymous access denial, existing Google/Microsoft initialization, Hindi/Telugu labels, four viewport widths, verification resend, magic-link request UI, existing owner authentication, sign-in methods, device sessions, login history, session expiry, onboarding checklist, account security rendering and logout. Public and private readiness report ready, and both dedicated services are active. SMTP remains intentionally unconfigured; these checks did not send a membership email campaign, register a physical passkey, or submit external-provider consent.
