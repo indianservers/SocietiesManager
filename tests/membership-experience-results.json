@@ -1,7 +1,19 @@
 {
-  "passed": 71,
-  "total": 71,
+  "passed": 176,
+  "total": 176,
   "results": [
+    {
+      "name": "platform overview rejects unauthenticated requests",
+      "passed": true
+    },
+    {
+      "name": "platform overview rejects society administrators without platform authority",
+      "passed": true
+    },
+    {
+      "name": "platform overview returns live aggregate counts for platform administrators",
+      "passed": true
+    },
     {
       "name": "configured launch society resolves before login without hardcoded application branding",
       "passed": true
@@ -67,6 +79,30 @@
       "passed": true
     },
     {
+      "name": "individual directory excludes organization memberships",
+      "passed": true
+    },
+    {
+      "name": "institutional directory includes the organization and excludes people",
+      "passed": true
+    },
+    {
+      "name": "organization cannot be appointed to a human officer role",
+      "passed": true
+    },
+    {
+      "name": "service volunteer picker contains individual people only",
+      "passed": true
+    },
+    {
+      "name": "studio individual picker excludes organization",
+      "passed": true
+    },
+    {
+      "name": "membership intelligence reports people and organizations separately",
+      "passed": true
+    },
+    {
       "name": "one human can hold individual membership and control separate institution and corporate memberships in the same chapter",
       "passed": true
     },
@@ -76,6 +112,14 @@
     },
     {
       "name": "category edits cannot merge a personal identity into an institutional membership",
+      "passed": true
+    },
+    {
+      "name": "holder can list their own ID cards without studio administrator permissions",
+      "passed": true
+    },
+    {
+      "name": "ID card lookup rejects memberships outside the holder account",
       "passed": true
     },
     {
@@ -112,6 +156,14 @@
     },
     {
       "name": "unpaid organization cannot enroll members",
+      "passed": true
+    },
+    {
+      "name": "roster-only verified login receives its own society workspace without administrative scopes",
+      "passed": true
+    },
+    {
+      "name": "roster-only login does not claim ownership of the institution",
       "passed": true
     },
     {
@@ -175,11 +227,19 @@
       "passed": true
     },
     {
+      "name": "organization admin can list institution ID cards",
+      "passed": true
+    },
+    {
       "name": "verified organization admin can read its institutional resource",
       "passed": true
     },
     {
       "name": "organization admin cannot grant controller or society authority",
+      "passed": true
+    },
+    {
+      "name": "revocation removes institution ID card access immediately",
       "passed": true
     },
     {
@@ -275,6 +335,30 @@
       "passed": true
     },
     {
+      "name": "verified source email can access imported membership without modifying canonical person identity",
+      "passed": true
+    },
+    {
+      "name": "imported membership holder can list their card downloads",
+      "passed": true
+    },
+    {
+      "name": "holder can download a physical-size PDF membership ID directly",
+      "passed": true
+    },
+    {
+      "name": "other verified accounts cannot download the imported membership ID",
+      "passed": true
+    },
+    {
+      "name": "unverified source email cannot claim imported membership",
+      "passed": true
+    },
+    {
+      "name": "tampered membership QR token fails closed",
+      "passed": true
+    },
+    {
       "name": "signup rejects invented membership types",
       "passed": true
     },
@@ -284,6 +368,342 @@
     },
     {
       "name": "platform pricing preserves the three configured annual fees",
+      "passed": true
+    },
+    {
+      "name": "active detail filter excludes expired memberships",
+      "passed": true
+    },
+    {
+      "name": "joining-date detail filter excludes older records",
+      "passed": true
+    },
+    {
+      "name": "UX invalid organization contact email is rejected",
+      "passed": true
+    },
+    {
+      "name": "UX authorized contact update succeeds",
+      "passed": true
+    },
+    {
+      "name": "UX stale contact update is rejected",
+      "passed": true
+    },
+    {
+      "name": "UX institution and linked chapter share the updated primary contact",
+      "passed": true
+    },
+    {
+      "name": "UX contact email can find the organization",
+      "passed": true
+    },
+    {
+      "name": "UX contact mobile can find the organization",
+      "passed": true
+    },
+    {
+      "name": "UX changes identify the actor and preserve old and new contacts",
+      "passed": true
+    },
+    {
+      "name": "UX organization coordinator cannot edit private organization contacts",
+      "passed": true
+    },
+    {
+      "name": "UX anonymous contact access is blocked",
+      "passed": true
+    },
+    {
+      "name": "UX individual cannot be edited through organization contacts",
+      "passed": true
+    },
+    {
+      "name": "UX duplicate organization names are flagged",
+      "passed": true
+    },
+    {
+      "name": "UX member reminder timing accepts supported values",
+      "passed": true
+    },
+    {
+      "name": "UX reminder timing rejects unsupported values",
+      "passed": true
+    },
+    {
+      "name": "UX import inspection exposes headers and sample values before validation",
+      "passed": true
+    },
+    {
+      "name": "UX import preview compares existing values without overwriting",
+      "passed": true
+    },
+    {
+      "name": "UX downloadable row errors provide correction instructions",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD exposes scoped operation permissions",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD rejects unauthorized edit",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD edits names and metadata",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD reads edited values",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD rejects stale deletion",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD rejects unauthorized deletion",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD delete archives the record",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD archival preserves metadata and identity",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD archived records are hidden from the normal directory",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD archived records can be browsed explicitly",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD prevents editing before restore",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD rejects stale restore",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD restore recovers previous status",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD restored record returns to directory",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD duplicate code conflicts",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD rejects invalid names",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD protects parents with live subordinate units",
+      "passed": true
+    },
+    {
+      "name": "chapter CRUD archive and restore are audited",
+      "passed": true
+    },
+    {
+      "name": "platform can open manual setup without a society-role assignment",
+      "passed": true
+    },
+    {
+      "name": "society administrators cannot use platform manual override",
+      "passed": true
+    },
+    {
+      "name": "platform directory reads all memberships without inheriting society roles",
+      "passed": true
+    },
+    {
+      "name": "platform can read private membership details without society roles",
+      "passed": true
+    },
+    {
+      "name": "manual override requires an audit reason",
+      "passed": true
+    },
+    {
+      "name": "platform manual form can warn about duplicate IDs",
+      "passed": true
+    },
+    {
+      "name": "platform without society roles can search private contact emails",
+      "passed": true
+    },
+    {
+      "name": "platform manually creates active membership without fabricating payment",
+      "passed": true
+    },
+    {
+      "name": "manual expiry is inclusive through the chosen India date",
+      "passed": true
+    },
+    {
+      "name": "manual duplicate IDs are rejected",
+      "passed": true
+    },
+    {
+      "name": "manual edits reject stale revisions",
+      "passed": true
+    },
+    {
+      "name": "platform edits name category and leap-day expiry",
+      "passed": true
+    },
+    {
+      "name": "platform edits preserve a term when only contact fields change",
+      "passed": true
+    },
+    {
+      "name": "platform can explicitly remove membership expiry",
+      "passed": true
+    },
+    {
+      "name": "manual dates reject end-before-start",
+      "passed": true
+    },
+    {
+      "name": "linked organization cannot silently turn into a human",
+      "passed": true
+    },
+    {
+      "name": "platform downloads another individual ID even when expired",
+      "passed": true
+    },
+    {
+      "name": "platform downloads selected individual ID PDFs in one ZIP",
+      "passed": true
+    },
+    {
+      "name": "bulk individual cards reject organization selections",
+      "passed": true
+    },
+    {
+      "name": "non-platform administrators cannot download bulk member cards",
+      "passed": true
+    },
+    {
+      "name": "other members cannot download someone else individual ID",
+      "passed": true
+    },
+    {
+      "name": "platform archives any manually created membership",
+      "passed": true
+    },
+    {
+      "name": "archived membership is hidden from normal register",
+      "passed": true
+    },
+    {
+      "name": "platform can browse archived memberships",
+      "passed": true
+    },
+    {
+      "name": "ordinary member cannot browse platform archive",
+      "passed": true
+    },
+    {
+      "name": "platform restores the same ID and lifetime validity",
+      "passed": true
+    },
+    {
+      "name": "manual operations record actor reason and before-after history",
+      "passed": true
+    },
+    {
+      "name": "manual member can discover ID using explicitly approved verified account email",
+      "passed": true
+    },
+    {
+      "name": "manually registered individual can download their own ID",
+      "passed": true
+    },
+    {
+      "name": "approved account claim prevents person-to-organization identity merging",
+      "passed": true
+    },
+    {
+      "name": "individual self ID download is available when issued-card downloads are disabled",
+      "passed": true
+    },
+    {
+      "name": "individual downloads actual PDF independently of issued-card policy",
+      "passed": true
+    },
+    {
+      "name": "issued-card policy still blocks organization membership documents",
+      "passed": true
+    },
+    {
+      "name": "professional individual template is published with an immutable version",
+      "passed": true
+    },
+    {
+      "name": "branded ID PDF has front and back with a scannable live verification QR",
+      "passed": true
+    },
+    {
+      "name": "template installation is idempotent and preserves saved designs",
+      "passed": true
+    },
+    {
+      "name": "individual creates and reads personal profile fields",
+      "passed": true
+    },
+    {
+      "name": "individual stale profile edits are rejected",
+      "passed": true
+    },
+    {
+      "name": "self profile rejects protected fullName",
+      "passed": true
+    },
+    {
+      "name": "self profile rejects protected number",
+      "passed": true
+    },
+    {
+      "name": "self profile rejects protected categoryId",
+      "passed": true
+    },
+    {
+      "name": "self profile rejects protected endsAt",
+      "passed": true
+    },
+    {
+      "name": "self profile rejects protected adminArchived",
+      "passed": true
+    },
+    {
+      "name": "self profile rejects protected photoUrl",
+      "passed": true
+    },
+    {
+      "name": "another member cannot read this personal editor",
+      "passed": true
+    },
+    {
+      "name": "self profile rejects malformed email",
+      "passed": true
+    },
+    {
+      "name": "individual clears optional details while keeping identity",
+      "passed": true
+    },
+    {
+      "name": "normal member creation cannot set platform archive flags",
       "passed": true
     }
   ]

@@ -1,3 +1,8 @@
+import {SessionRecovery, MemberLoginSecurity, MembershipLinkReviews} from './member-login';
+import {safeMemberReturn} from './login-tools';
+import {NavigationGuard,RoleHome,InstitutionLink} from './ux';
+import {PointsOfContact} from './points-of-contact';
+import AdminOverview, {AdminNavigation, AdminTopbar} from "./admin-overview";
 import Auth from "./auth-page";
 import {FormTabs} from './form-tabs';
 import {AreaTabs} from './area-tabs';
@@ -15,6 +20,7 @@ import {
   Link,
 
   NavLink,
+  Navigate,
 
   useNavigate,
 
@@ -28,6 +34,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import {
 
+  Sun, Moon,
   MessageCircle,
   Wallet,
   FileBadge,
@@ -119,6 +126,9 @@ const MyAchievements = lazy(()=>import('./service').then(m=>({default:m.MyAchiev
 const MyMemberships = lazy(()=>import('./membership').then(m=>({default:m.SelfService})));
 const CredentialVerification = lazy(() => import("./studio").then(m => ({default:m.CredentialVerification})));
 const FinanceModule = lazy(() => import("./finance"));
+const MemberFinance = lazy(() => import("./finance").then(m=>({default:m.MemberFinance})));
+const ClubsPage = lazy(() => import("./member-portal").then(m=>({default:m.ClubsPage})));
+const ResourcesPage = lazy(() => import("./member-portal").then(m=>({default:m.ResourcesPage})));
 const MemberPortal = lazy(() => import("./member-portal"));
 const MemberResourceAdmin = lazy(() => import("./member-portal").then(m=>({default:m.MemberResourceAdmin})));
 const MembershipPricing = lazy(() => import("./member-portal").then(m=>({default:m.MembershipPricing})));
@@ -148,7 +158,9 @@ export default function App() {
 
   const me = useLoad("/users/me");
 
-  const spaces = useLoad<any[]>("/workspaces", !!me.data);
+  const assignedSpaces = useLoad<any[]>("/workspaces", !!me.data);
+  const platformSocieties=useLoad<any[]>('/platform/membership/societies',!!me.data?.platformAdmin);
+  const spaces={...assignedSpaces,data:[...(assignedSpaces.data||[]),...(platformSocieties.data||[]).filter(t=>!assignedSpaces.data?.some(w=>w.id===t.id)).map(t=>({...t,modules:['membership'],scopes:[{unitId:null,permissions:[]}]}))]};
 
   const [selection, setSelection] = useState("");
 
@@ -185,6 +197,9 @@ export default function App() {
   }, [selection, workspace?.id, workspace?.scopes]);
 
   const scopes = workspace?.scopes || [];
+  const memberOnly=!!me.data&&!me.data.platformAdmin&&!scopes.some((s:any)=>s.permissions.some((p:string)=>p!=="units.read"&&!p.startsWith("directory.")));
+  const portfolio=useLoad<any[]>('/membership/portfolio',!!me.data&&!me.data.platformAdmin);
+  const ownedKinds=[...new Set((portfolio.data||[]).map(m=>m.kind))];
 
   const branding = details(workspace?.profile);
   const publicBrand = useLoad<any>("/branding/resolve");
@@ -233,6 +248,8 @@ export default function App() {
   useEffect(() => setMobile(false), [loc.pathname, loc.search]);
 
   const value = {
+    platformAdmin:!!me.data?.platformAdmin,
+    memberOnly,
 
     tenant,
 
@@ -240,7 +257,7 @@ export default function App() {
 
     scope,
 
-    notify,
+    notify:(message:string)=>notify(message+" · "+new Date().toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"})),
 
     refresh,
 
@@ -254,7 +271,7 @@ export default function App() {
 
   const publicPath =
 
-    ["/", "/login", "/signup", "/forgot", "/reset", "/verify", "/unsubscribe"].includes(
+    ["/", "/login", "/signup", "/forgot", "/resend", "/magic", "/magic-request", "/reset", "/verify", "/unsubscribe"].includes(
 
       loc.pathname,
 
@@ -262,7 +279,7 @@ export default function App() {
 
   return (
 
-    <Ctx.Provider value={value}>
+    <Ctx.Provider value={value}><SessionRecovery authenticated={!!me.data} userId={me.data?.id}/><NavigationGuard/><a className="skip-link" href="#main-content">Skip to main content</a>
 
       {publicPath ? (
 
@@ -294,11 +311,11 @@ export default function App() {
 
               <Auth
 
-                onLogin={() => {
+                onLogin={async () => {
 
+                  const account = await api("/users/me");
                   refresh();
-
-                  nav("/app/membership");
+                  const target=sessionStorage.getItem("member.returnTo"); sessionStorage.removeItem("member.returnTo"); nav(target ? safeMemberReturn(target) : account.platformAdmin ? "/app" : "/app/membership");
 
                 }}
 
@@ -310,7 +327,7 @@ export default function App() {
 
         </Routes>
 
-      ) : me.isPending ? (
+      ) : me.isPending || (!!me.data&&assignedSpaces.isPending) ? (
 
         <div className="skeleton">Opening your workspace…</div>
 
@@ -322,6 +339,7 @@ export default function App() {
 
             refresh();
 
+            sessionStorage.removeItem("member.returnTo");
             nav(loc.pathname + loc.search);
 
           }}
@@ -330,7 +348,7 @@ export default function App() {
 
       ) : (
 
-        <div className="app-shell">
+        <div className={me.data.platformAdmin ? "app-shell admin-shell" : "app-shell"}>
 
           <aside className={mobile ? "sidebar open" : "sidebar"}>
 
@@ -338,13 +356,13 @@ export default function App() {
 
               <div className="brand-mark">
 
-                <Network size={23} />
+                {me.data.platformAdmin ? <img src="/images/community-brain-chip.png" alt="AIMER Society logo"/> : <Network size={23} />}
 
               </div>
 
               <span>
 
-                {branding.displayName || workspace?.name || "Assemblia"}
+                {branding.displayName || workspace?.name || publicBrand.data?.displayName || "AIMER Society"}
 
                 <span className="brand-sub">ASSOCIATION WORKSPACE</span>
 
@@ -380,7 +398,7 @@ export default function App() {
 
             >
 
-              {!spaces.data?.length && <option>No society workspace</option>}
+              {!spaces.data?.length && <option value="">{me.data.platformAdmin ? (publicBrand.data?.displayName || "Platform workspace") : "No society workspace"}</option>}
 
               {spaces.data?.flatMap((w) => [
 
@@ -408,10 +426,11 @@ export default function App() {
 
             </select>
 
-            <nav aria-label="Main workspace navigation"><span className="nav-label">MAIN MENU</span><NavLink to="/app/membership" end><Users/>Membership & resources</NavLink>
+            {me.data.platformAdmin ? <AdminNavigation/> : memberOnly ? <nav aria-label="Main workspace navigation"><span className="nav-label">MY MEMBERSHIP PORTAL</span>{(ownedKinds.length?ownedKinds:['Membership']).map(kind=><NavLink key={kind} to={'/app/membership'+(kind==='Membership'?'':'?kind='+kind)}><Users/>{kind==='Membership'?'My membership':kind==='Individual'?'My individual membership':'My '+kind.toLowerCase()+' memberships'}</NavLink>)}<NavLink to="/app/clubs"><Users/>My clubs / chapters</NavLink><NavLink to="/app/resources"><FileBadge/>My resources</NavLink>{tenant&&<NavLink to="/app/finance/my"><Wallet/>My invoices & receipts</NavLink>}<NavLink to="/app/account"><Settings/>My account</NavLink></nav> : <>
+            <nav aria-label="Main workspace navigation"><span className="nav-label">MAIN MENU</span><NavLink to="/app/membership" end><Users/>Membership</NavLink><NavLink to="/app/clubs"><Users/>My clubs / chapters</NavLink><NavLink to="/app/resources"><FileBadge/>Resources</NavLink>
               <NavLink end to="/app" className={()=>loc.pathname==='/app'||loc.pathname.startsWith('/app/intelligence')?'active':''}><LayoutDashboard/>Home</NavLink>
               {tenant&&<>
-                <NavLink to="/app/members" className={()=>['/app/members','/app/organization','/app/units'].some(p=>loc.pathname===p||loc.pathname.startsWith(p+"/"))?'active':''}><Users/>People</NavLink>
+                {(can('members.read')||can('members.admin'))&&['Individual','Institutional','Corporate'].map(kind=><NavLink key={kind} to={'/app/members?view=directory&memberKind='+kind} className={()=>loc.pathname.startsWith('/app/members')&&(new URLSearchParams(loc.search).get('memberKind')||'Individual')===kind?'active':''}><Users/>{kind} members</NavLink>)}
                 {(enabled('community')||enabled('service'))&&<NavLink to={enabled('community')?'/app/community':'/app/service/projects'} className={()=>loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'active':''}><Globe/>Activities</NavLink>}
                 {enabled('communications')&&<NavLink to="/app/communications"><MessageCircle/>Messages</NavLink>}
                 {enabled('finance')&&<NavLink to="/app/finance"><Wallet/>Finance</NavLink>}
@@ -420,6 +439,7 @@ export default function App() {
               </>}
               {me.data.platformAdmin&&<NavLink to="/app/platform"><ShieldCheck/>Platform</NavLink>}
             </nav>
+            </>}
 
             <div className="sidebar-foot">
 
@@ -439,11 +459,11 @@ export default function App() {
 
               <span>
 
-                {me.data.fullName}
+                {me.data.platformAdmin ? "Platform Administrator" : me.data.fullName}
 
                 <small>
 
-                  My account
+                  {me.data.platformAdmin ? workspace?.name || publicBrand.data?.displayName || "AIMER Society" : "My account"}
 
                 </small>
 
@@ -473,9 +493,10 @@ export default function App() {
 
               </button>
 
+              {me.data.platformAdmin ? <AdminTopbar fullName={me.data.fullName}><Suspense fallback={null}><CommunicationNotifications/></Suspense><button className="icon-btn" aria-label="Sign out" onClick={async()=>{await api('/auth/logout','POST');setSelection('');client.clear();nav('/login')}}><LogOut size={18}/></button></AdminTopbar> : <>
               <span className="breadcrumb">
 
-                {loc.pathname==='/app/membership'?'Membership & resources':loc.pathname.startsWith('/app/finance')?'Finance':loc.pathname.startsWith('/app/members')||loc.pathname.startsWith('/app/organization')||loc.pathname.startsWith('/app/units')?'People':loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'Activities':loc.pathname.startsWith('/app/communications')?'Messages':loc.pathname.startsWith('/app/studio')?'Documents':loc.pathname.startsWith('/app/settings')?'Settings':loc.pathname.startsWith('/app/account')?'My account':'Home'} <ChevronRight size={13} />{" "}
+                {loc.pathname==='/app/membership'?'Membership & resources':loc.pathname.startsWith('/app/finance')?'Finance':loc.pathname.startsWith('/app/members')||loc.pathname.startsWith('/app/organization')||loc.pathname.startsWith('/app/units')?'Members & organizations':loc.pathname.startsWith('/app/community')||loc.pathname.startsWith('/app/service')?'Activities':loc.pathname.startsWith('/app/communications')?'Messages':loc.pathname.startsWith('/app/studio')?'Documents':loc.pathname.startsWith('/app/settings')?'Settings':loc.pathname.startsWith('/app/account')?'My account':'Home'} <ChevronRight size={13} />{" "}
 
                 <strong>{workspace?.name || "Get started"}</strong>
 
@@ -491,7 +512,7 @@ export default function App() {
 
                 </span>
 
-                <button aria-label="Toggle light or dark appearance" className="icon-btn" onClick={()=>setTheme(theme==="dark"?"light":"dark")}>{theme==="dark"?"☀":"☾"}</button><Suspense fallback={null}><CommunicationNotifications/></Suspense>
+                <button aria-label="Toggle light or dark appearance" className="icon-btn" onClick={()=>setTheme(theme==="dark"?"light":"dark")}>{theme==="dark"?<Sun size={18}/>:<Moon size={18}/>}</button><Suspense fallback={null}><CommunicationNotifications/></Suspense>
 
                 <button
 
@@ -518,11 +539,12 @@ export default function App() {
 
               </div>
 
+              </>}
             </header>
 
-            <main key={tenant + scope}>
+            <main id="main-content" tabIndex={-1} key={tenant + scope}>
 
-              <Routes><Route path="/app/membership" element={<HubContent><MemberPortal/></HubContent>}/><Route path="/app/intelligence/*" element={<Suspense fallback={<p>Loading intelligence…</p>}><IntelligenceModule/></Suspense>}/><Route path="/app/branding" element={<WorkspaceAlias to="/app/settings" query={{view:"branding"}}/>}/><Route path="/app/security" element={<WorkspaceAlias to="/app/account" query={{view:"security"}}/>}/><Route path="/app/saas" element={<WorkspaceAlias to="/app/platform" query={{view:"operations"}}/>}/><Route path="/app/system-health" element={<WorkspaceAlias to="/app/settings" query={{view:"readiness"}}/>}/><Route path="/app/service/*" element={<Suspense fallback={<p>Opening service workspace…</p>}><ServiceModule/></Suspense>}/><Route path="/app/studio/*" element={<Suspense fallback={<p>Opening document studio…</p>}><StudioModule/></Suspense>}/><Route path="/app/finance/*" element={<Suspense fallback={<p>Loading finance…</p>}><FinanceModule/></Suspense>}/><Route path="/app/communications/*" element={<Suspense fallback={<p>Loading communications…</p>}><CommunicationsModule/></Suspense>}/>
+              {memberOnly?<Routes><Route path="/app/membership" element={<HubContent><MemberPortal/></HubContent>}/><Route path="/app/clubs" element={<HubContent><ClubsPage/></HubContent>}/><Route path="/app/resources" element={<HubContent><ResourcesPage/></HubContent>}/><Route path="/app/account" element={<AccountWorkspace me={me.data}/>}/><Route path="/app/finance/my" element={<Suspense fallback={<p>Loading your invoices…</p>}><MemberFinance/></Suspense>}/><Route path="/app/join" element={<WorkspaceAlias to="/app/account" query={{view:'join'}}/>}/><Route path="/app/accept-invitation" element={<AcceptInvitation/>}/><Route path="/app/security" element={<WorkspaceAlias to="/app/account" query={{view:'security'}}/>}/><Route path="/app/profile" element={<WorkspaceAlias to="/app/account" query={{view:'profile'}}/>}/><Route path="*" element={<Navigate to="/app/membership" replace/>}/></Routes>:<Routes><Route path="/app/clubs" element={<HubContent><ClubsPage/></HubContent>}/><Route path="/app/resources" element={<HubContent><ResourcesPage/></HubContent>}/><Route path="/app/membership" element={<HubContent><MemberPortal/></HubContent>}/><Route path="/app/intelligence/*" element={<Suspense fallback={<p>Loading intelligence…</p>}><IntelligenceModule/></Suspense>}/><Route path="/app/branding" element={<WorkspaceAlias to="/app/settings" query={{view:"branding"}}/>}/><Route path="/app/security" element={<WorkspaceAlias to="/app/account" query={{view:"security"}}/>}/><Route path="/app/saas" element={<WorkspaceAlias to="/app/platform" query={{view:"operations"}}/>}/><Route path="/app/system-health" element={<WorkspaceAlias to="/app/settings" query={{view:"readiness"}}/>}/><Route path="/app/service/*" element={<Suspense fallback={<p>Opening service workspace…</p>}><ServiceModule/></Suspense>}/><Route path="/app/studio/*" element={<Suspense fallback={<p>Opening document studio…</p>}><StudioModule/></Suspense>}/><Route path="/app/finance/*" element={<Suspense fallback={<p>Loading finance…</p>}><FinanceModule/></Suspense>}/><Route path="/app/communications/*" element={<Suspense fallback={<p>Loading communications…</p>}><CommunicationsModule/></Suspense>}/>
 
                 <Route path="/app/join" element={<WorkspaceAlias to="/app/account" query={{view:'join'}}/>}/>
                 <Route path="/app/account" element={<AccountWorkspace me={me.data}/>}/>
@@ -563,7 +585,7 @@ export default function App() {
 
                   path="/app"
 
-                  element={tenant ? <><AreaTabs area="home"/><Dashboard /></> : <Welcome />}
+                  element={me.data.platformAdmin ? <><RoleHome platform/><AdminOverview/></> : tenant ? <><AreaTabs area="home"/><><RoleHome/><Dashboard /></></> : <Welcome />}
 
                 />
 
@@ -647,7 +669,7 @@ export default function App() {
 
                 />
 
-              </Routes>
+              </Routes>}
 
             </main>
 
@@ -690,7 +712,7 @@ export default function App() {
 function HubContent({children}:any){return <Suspense fallback={<p>Opening workspace section…</p>}>{children}</Suspense>}
 function OrganizationWorkspace(){const {workspace}=useApp();const branding=details(workspace?.profile);return <><AreaTabs area="people"/><WorkspaceSections label="Organization" sections={[{id:'hierarchy',label:'Hierarchy & structure',content:<Hierarchy/>},{id:'regions',label:(branding.regionTerm||'Region')+' directory',content:<Directory kind="Region"/>},{id:'chapters',label:(branding.chapterTerm||'Chapter')+' directory',content:<Directory kind="Chapter"/>}]}/></>}
 function AdministrationWorkspace(){const {can}=useApp();return <WorkspaceSections label="Society administration" sections={[{id:'society',label:'General',content:<SocietySettings/>,visible:can('settings.manage')},{id:'branding',label:'Branding',content:<HubContent><WhiteLabelSettings/></HubContent>,visible:can('branding.manage')},{id:'roles',label:'Permissions',content:<Roles/>,visible:can('roles.manage')},{id:'setup',label:'Setup',content:<Setup/>,visible:can('settings.manage')},{id:'audit',label:'Audit',content:<AuditLog/>,visible:can('audit.read')},{id:'resources',label:'Member resources',content:<HubContent><MemberResourceAdmin/></HubContent>,visible:can('membership.settings')},{id:'readiness',label:'Health',content:<HubContent><HealthWorkspace/></HubContent>,visible:can('settings.manage')}]}/>}
-function AccountWorkspace({me}:any){const {tenant,workspace}=useApp();const enabled=(m:string)=>!!tenant&&(!workspace?.modules||workspace.modules.includes(m));return <WorkspaceSections label="My account & memberships" sections={[{id:'profile',label:'Profile',content:<Profile me={me}/>},{id:'security',label:'Security',content:<WorkspaceSections label="Account security" queryKey="securityTab" sections={[{id:'authenticator',label:'Authenticator',content:<HubContent><SecurityWorkspace/></HubContent>},{id:'password',label:'Password',content:<Profile me={me} mode="password"/>}]}/>},{id:'memberships',label:'Memberships',content:<HubContent><MyMemberships/></HubContent>},{id:'documents',label:'Documents',content:<HubContent><MyDocuments/></HubContent>,visible:enabled('studio')},{id:'achievements',label:'Achievements',content:<HubContent><MyAchievements/></HubContent>,visible:enabled('service')},{id:'applications',label:'Applications',content:<Applications platform={false}/>,visible:!me.platformAdmin},{id:'join',label:'Join',content:<HubContent><JoinMembership/></HubContent>}]}/>}
+function AccountWorkspace({me}:any){const {tenant,workspace,can}=useApp();const canApproveLinks=can('members.approve');const enabled=(m:string)=>!!tenant&&(!workspace?.modules||workspace.modules.includes(m));return <WorkspaceSections label="My account & memberships" sections={[{id:'profile',label:'Profile',content:<Profile me={me}/>},{id:'security',label:'Security',content:<WorkspaceSections label="Account security" queryKey="securityTab" sections={[{id:'authenticator',label:'Authenticator',content:<HubContent><><SecurityWorkspace/><MemberLoginSecurity/></></HubContent>},{id:'password',label:'Password',content:<Profile me={me} mode="password"/>}]}/>},{id:'memberships',label:'Memberships',content:<HubContent><MyMemberships/></HubContent>},{id:'link-requests',label:'Linking requests',content:<MembershipLinkReviews/>,visible:!!tenant&&canApproveLinks},{id:'documents',label:'Documents',content:<HubContent><MyDocuments/></HubContent>,visible:enabled('studio')},{id:'achievements',label:'Achievements',content:<HubContent><MyAchievements/></HubContent>,visible:enabled('service')},{id:'applications',label:'Applications',content:<Applications platform={false}/>,visible:!me.platformAdmin},{id:'join',label:'Join',content:<HubContent><JoinMembership/></HubContent>}]}/>}
 function PlatformHub(){return <WorkspaceSections label="Platform administration" sections={[{id:'operations',label:'SaaS operations & health',content:<HubContent><PlatformWorkspace/></HubContent>},{id:'membership-pricing',label:'Membership pricing',content:<HubContent><MembershipPricing/></HubContent>},{id:'approvals',label:'Society approvals',content:<Applications platform/>},{id:'registry',label:'Society registry',content:<Platform/>}]}/>}
 
 function Landing() {
@@ -1361,7 +1383,7 @@ function Directory({ kind }: any) {
 
           >
 
-            <option value="">All statuses</option>
+            <option value="">All except archived</option>
 
             {[
 
@@ -1497,7 +1519,7 @@ function Directory({ kind }: any) {
 
                         <td>
 
-                          {can("units.write") && (
+                          {can("units.write")&&u.status!=="Archived" && (
 
                             <button
 
@@ -1615,7 +1637,7 @@ function Directory({ kind }: any) {
 
 }
 
-function UnitDrawer({ kind, unit, onClose }: any) {
+function UnitDrawer({ kind, unit, defaults, onCreated, onClose }: any) {
 
   const { tenant } = useApp();
 
@@ -1627,8 +1649,9 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
   );
 
-  const [levelId, setLevelId] = useState(unit?.levelId || "");
+  const [levelId, setLevelId] = useState(unit?.levelId || defaults?.levelId || "");
 
+  const [parentId,setParentId]=useState(unit?.parentId||defaults?.parentId||" ".trim());
   const [parentSearch, setParentSearch] = useState("");
 
   const parents = useLoad(
@@ -1691,11 +1714,12 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
     };
 
+    let result:any;
     if (
 
-      await action.run(() =>
+      await action.run(async () =>
 
-        api(
+        result=await api(
 
           "/societies/" +
 
@@ -1715,7 +1739,7 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
     )
 
-      onClose();
+      {onClose();if(!unit&&result?.id)onCreated?.(result.id);}
 
   }
 
@@ -1767,7 +1791,7 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
           <Field label="Status">
 
-            <select name="status" defaultValue={unit?.status || "Proposed"}>
+            <select aria-label="Status" name="status" defaultValue={unit?.status || "Proposed"}>
 
               {[
 
@@ -1785,7 +1809,6 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
                 "Merged",
 
-                "Archived",
 
               ].map((s) => (
 
@@ -1805,7 +1828,7 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
             required
 
-            name="levelId"
+            aria-label="Organizational level" name="levelId"
 
             value={level?.id || ""}
 
@@ -1847,15 +1870,17 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
           <select
 
-            name="parentId"
+            aria-label="Parent organization" name="parentId"
 
             required={!level?.allowRoot}
 
-            defaultValue={unit?.parentId || ""}
+            value={parentId}
+            onChange={e=>setParentId(e.target.value)}
 
           >
 
             <option value="">Society root</option>
+            {parentId&&!parents.data?.items.some((u:Unit)=>u.id===parentId)&&<option value={parentId}>Current parent organization</option>}
 
             {parents.data?.items
 
@@ -1884,6 +1909,7 @@ function UnitDrawer({ kind, unit, onClose }: any) {
         </Field>
 
         <div className="form-section">LOCATION & CONTACT</div>
+        {d.institutionalMemberId&&<p>Edit representatives using Points of contact on the chapter page; those changes are shared with its institutional membership.</p>}
 
         <div className="form-grid">
 
@@ -1911,7 +1937,7 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
             ["coverUrl", "Cover image URL"],
 
-          ].map(([name, label]) => (
+          ].filter(([name])=>!d.institutionalMemberId||!["contactEmail","contactPhone"].includes(name)).map(([name, label]) => (
 
             <Field
 
@@ -1987,13 +2013,13 @@ function UnitDrawer({ kind, unit, onClose }: any) {
 
         <div className="drawer-actions">
 
-          <button type="button" className="secondary" onClick={onClose}>
+          <button type="button" className="secondary" onClick={e=>{if(!e.currentTarget.form?.dataset.dirty||window.confirm("Discard unsaved chapter changes?"))onClose()}}>
 
             Cancel
 
           </button>
 
-          <button className="primary" disabled={action.busy}>
+          <button className="primary" disabled={action.busy||levels.isPending||parents.isPending}>
 
             {action.busy ? "Saving…" : "Save " + kind.toLowerCase()}
 
@@ -2483,7 +2509,9 @@ function UnitOverview() {
 
   const { id } = useParams();
 
-  const { tenant, can } = useApp();
+  const { tenant } = useApp();
+  const navigate=useNavigate(),action=useAction();
+  const [creating,setCreating]=useState(false),[deleting,setDeleting]=useState(false),[confirmation,setConfirmation]=useState('');
 
   const q = useLoad<Unit>(
 
@@ -2511,17 +2539,20 @@ function UnitOverview() {
 
         {q.data && <Badge>{q.data.status}</Badge>}
 
-        {can("units.write") && (
+        {q.data?.canEdit&&q.data.status!=="Archived" && (
 
           <button className="primary" onClick={() => setEdit(true)}>
 
-            Edit organization
+            Edit chapter details
 
           </button>
 
         )}
 
+        {q.data?.canCreate&&<button className="secondary" onClick={()=>setCreating(true)}>{q.data.kind==='Chapter'?'Create chapter':'Create child unit'}</button>}
+        {q.data?.canArchive&&(q.data.status==='Archived'?<button className="primary" disabled={action.busy} onClick={()=>action.run(async()=>{await api('/societies/'+tenant+'/organizations/units/'+id+'/restore?revision='+q.data!.revision,'POST');q.refetch()},'Chapter restored')}>Restore chapter</button>:<button className="secondary danger" onClick={()=>{setConfirmation('');setDeleting(true)}}>Delete chapter</button>)}
       </Heading>
+      {q.data?.status==='Archived'&&<p className="note" role="status">This chapter is archived and hidden from the normal directory. Its memberships, contacts and history are retained. Restore it to edit its details.</p>}
 
       <div className="tabs">
 
@@ -2573,9 +2604,16 @@ function UnitOverview() {
 
               ["Address", d.address],
 
-              ["Contact email", d.contactEmail],
+              ["Contact person name", d.contactName || d.contacts?.find((c:any)=>c.name)?.name],
+              ["Contact email", d.contactEmail || d.contacts?.find((c:any)=>c.email)?.email],
 
-              ["Contact phone", d.contactPhone],
+              ["Contact mobile", d.contactPhone || d.contacts?.find((c:any)=>c.mobile)?.mobile],
+              ["Registration email",d.registrationEmail],
+              ["Institutional membership ID",d.institutionalMemberId],
+              ["Institution type",d.institutionType],
+              ["Postal code",d.pincode],
+              ["Postal address",d.postalAddress],
+              ["Subscription duration",d.subscriptionSource],
 
               ["Formation date", d.formationDate],
 
@@ -2587,7 +2625,7 @@ function UnitOverview() {
 
               ["Description", d.description],
 
-            ].map(([k, v]) => (
+            ].filter(([k,v])=>v || ["Contact name","Contact email","Contact mobile"].includes(k)).map(([k, v]) => (
 
               <div key={k}>
 
@@ -2611,12 +2649,16 @@ function UnitOverview() {
 
       </div>
 
+      <InstitutionLink number={d.institutionalMemberId}/>
+      {Array.isArray(d.contacts)&&<PointsOfContact contacts={d.contacts} memberId={q.data?.institutionMembershipId||undefined} institutionNumber={d.institutionalMemberId}/>}
       {edit && (
 
-        <UnitDrawer unit={q.data} kind="Unit" onClose={() => setEdit(false)} />
+        <UnitDrawer unit={q.data} kind={q.data?.kind==='Chapter'?'Chapter':'Unit'} onClose={() => {setEdit(false);q.refetch()}} />
 
       )}
 
+      {creating&&q.data&&<UnitDrawer kind={q.data.kind==='Chapter'?'Chapter':'Unit'} defaults={{levelId:q.data.kind==='Chapter'?q.data.levelId:undefined,parentId:q.data.kind==='Chapter'?q.data.parentId:id}} onCreated={(created:string)=>navigate('/app/units/'+created)} onClose={()=>setCreating(false)}/>}
+      {deleting&&q.data&&<Drawer title="Delete chapter" onClose={()=>setDeleting(false)}><form onSubmit={async e=>{e.preventDefault();if(confirmation.trim()!==q.data!.name.trim())return;if(await action.run(async()=>{await api('/societies/'+tenant+'/organizations/units/'+id+'?revision='+q.data!.revision,'DELETE');q.refetch()},'Chapter archived'))setDeleting(false)}}><p>Delete archives <strong>{q.data.name}</strong> and removes it from the normal directory. Memberships, contacts, affiliations and history remain intact. You can restore the chapter later.</p><Field label="Type the chapter name to confirm" value={confirmation} onChange={(e:any)=>setConfirmation(e.target.value)} required/><button className="primary danger" disabled={action.busy||confirmation.trim()!==q.data.name.trim()}>Delete and archive chapter</button></form></Drawer>}
     </DataState>
 
   );
@@ -2843,7 +2885,7 @@ function Applications({ platform }: any) {
 
                       </td>
 
-                      <td>{new Date(a.createdAt).toLocaleDateString()}</td>
+                      <td>{new Date(a.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</td>
 
                       <td>
 
@@ -3297,11 +3339,11 @@ function Roles() {
 
                         <td>
 
-                          {new Date(a.startsAt).toLocaleDateString()} →{" "}
+                          {new Date(a.startsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} →{" "}
 
                           {a.endsAt
 
-                            ? new Date(a.endsAt).toLocaleDateString()
+                            ? new Date(a.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
 
                             : "Ongoing"}
 
@@ -4606,7 +4648,7 @@ function Platform() {
 
                     </td>
 
-                    <td>{new Date(s.createdAt).toLocaleDateString()}</td>
+                    <td>{new Date(s.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</td>
 
                     <td>
 

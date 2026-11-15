@@ -1,5 +1,5 @@
 {
-  "passed": 27,
+  "passed": 31,
   "checks": [
     "provider configuration advertises both providers and local passwords",
     "matching email alone requests account confirmation rather than signing in",
@@ -27,6 +27,10 @@
     "unverified provider email still requires local email verification",
     "unverified social signup queues an actual verification request",
     "ordinary email/password registration remains backward compatible",
-    "provider-supplied roles never grant platform privileges"
+    "provider-supplied roles never grant platform privileges",
+    "security screen lists connected provider identities",
+    "disconnecting a provider keeps the current MFA session usable",
+    "cannot disconnect a provider twice",
+    "cannot remove the last primary sign-in method"
   ]
 }

@@ -1,7 +1,13 @@
+import {ManualMemberDialog,IndividualCardDownload} from './manual-members';
+import {ProfileTools,DuplicateCheck} from './ux';
+import {PointsOfContact} from './points-of-contact';
+import {MembershipTypeTabs, holderTypes} from "./membership-types";
+import {OrganizationEditor, OrganizationProfile} from "./organization-membership";
+import {Pagination} from "./ui";
 import {MembershipKindPicker} from "./membership-kind-picker";
 import {AreaTabs} from './area-tabs';
 import {WorkspaceSections,WorkspaceAlias} from './workspace-navigation';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Routes,
   Route,
@@ -9,6 +15,7 @@ import {
   useParams,
   useNavigate,
   useLocation,
+  useSearchParams,
 } from "react-router-dom";
 import {
   Plus,
@@ -28,6 +35,8 @@ import {
   useApp,
   Field,
   Badge,
+  RoleBadge,
+  formatMembershipExpiry,
   Empty,
   Heading,
   Panel,
@@ -48,26 +57,7 @@ function useDebounce(value: string) {
   }, [value]);
   return v;
 }
-function Pages({ page, setPage, total, size = 20 }: any) {
-  return (
-    <div className="pagination">
-      <span>
-        {total === undefined ? "" : total + " records · "}Page {page}
-      </span>
-      <div>
-        <button disabled={page === 1} onClick={() => setPage(page - 1)}>
-          Previous
-        </button>
-        <button
-          disabled={total !== undefined && page * size >= total}
-          onClick={() => setPage(page + 1)}
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  );
-}
+function Pages({page,setPage,total,size=20}:any){return <Pagination page={page} onChange={setPage} total={total} size={size}/>}
 function localInput(value?: string) {
   if (!value) return "";
   const date = new Date(value);
@@ -228,19 +218,20 @@ export default function MembershipModule(){const {can}=useApp();return <><AreaTa
  {Object.entries({directory:['','directory'],leadership:['governance','leadership'],committees:['governance','committees'],applications:['operations','applications'],transfers:['operations','transfers'],import:['operations','import']}).map(([path,[target,view]])=><Route key={path} path={path} element={<WorkspaceAlias to={'/app/members'+(target?'/'+target:'')} query={{view}}/>}/>)}
  <Route path="self" element={<WorkspaceAlias to="/app/account" query={{view:'memberships'}}/>}/><Route path="*" element={<Empty title="Membership view unavailable" text="Choose a section above."/>}/></Routes></>}
 function MembershipDashboard() {
-  const { scope, can } = useApp();
+  const { scope, can,platformAdmin } = useApp();
   const base = useBase();
-  const manager = can("members.read");
+  const manager = platformAdmin||can("members.read");
   const q = useLoad(
     base + "/intelligence" + (scope ? "?workspace=" + scope : ""),
     manager,
   );
+  const categoryCatalog=useLoad<any[]>(base+"/categories",manager);
   if (!manager) return <SelfService />;
   return (
     <>
       <Heading
         eyebrow="MEMBERSHIP INTELLIGENCE"
-        title="People are at the heart of it"
+        title="Individual people & organization memberships"
         text="A live view of the memberships and chapters within your authority."
       >
         <Link className="primary" to="/app/members/directory">
@@ -250,19 +241,21 @@ function MembershipDashboard() {
       <DataState query={q}>
         <div className="stats-grid member-stats">
           {[
-            ["Memberships", q.data?.total],
-            ["Membership holders", q.data?.uniquePersons],
-            ["Active memberships", q.data?.active],
-            ["Pending applications", q.data?.pending],
-            ["New this month", q.data?.newThisMonth],
-            ["Inactive memberships", q.data?.inactive],
-            ["Transfers", q.data?.transfers],
-            ["Current officers", q.data?.leadership],
-          ].map(([name, value]) => (
-            <div className="stat" key={String(name)}>
+            ["Memberships", q.data?.total,"/app/members?view=directory"],
+            ["Individual members (people)", q.data?.individualMembers,"/app/members?view=directory&memberKind=Individual"],
+            ["Institutional organizations", q.data?.institutionalMembers,"/app/members?view=directory&memberKind=Institutional"],
+            ["Corporate organizations", q.data?.corporateMembers,"/app/members?view=directory&memberKind=Corporate"],
+            ["Active memberships", q.data?.active,"/app/members?view=directory&validity=Active"],
+            ["Pending applications", q.data?.pending,"/app/members/operations?view=applications"],
+            ["New this month", q.data?.newThisMonth,"/app/members?view=directory&dsort=joined&joinedFrom="+new Date().toISOString().slice(0,7)+"-01"],
+            ["Inactive memberships", q.data?.inactive,"/app/members?view=directory&dstatus=Inactive"],
+            ["Transfers", q.data?.transfers,"/app/members/operations?view=transfers"],
+            ["Current officers", q.data?.leadership,"/app/members/governance"],
+          ].map(([name, value,to]) => (
+            <Link className="stat membership-stat-link" key={String(name)} to={String(to)} aria-label={"Browse "+name}>
               <span>{name}</span>
-              <strong>{value ?? "—"}</strong>
-            </div>
+              <strong>{value ?? "—"}</strong><small>Browse details →</small>
+            </Link>
           ))}
         </div>
         <div className="dashboard-grid">
@@ -273,16 +266,16 @@ function MembershipDashboard() {
                   <thead>
                     <tr>
                       <th>Chapter</th>
-                      <th>Memberships</th>
-                      <th>Active</th>
+                      <th>Individuals</th><th>Institutions</th><th>Corporates</th>
+                      <th>Active records</th>
                     </tr>
                   </thead>
                   <tbody>
                     {q.data.byChapter.map((c: any) => (
                       <tr key={c.id}>
-                        <td>{c.name}</td>
-                        <td>{c.members}</td>
-                        <td>{c.active}</td>
+                        <td><Link to={"/app/units/"+c.id}>{c.name}</Link></td>
+                        {[['Individual',c.individuals],['Institutional',c.institutions],['Corporate',c.corporates]].map(([kind,count])=><td key={kind}><Link aria-label={'Browse '+kind+' memberships in '+c.name} to={'/app/members?view=directory&memberKind='+kind+'&chapter='+c.id}>{count??0}</Link></td>)}
+                        <td><Link to={"/app/members?view=directory&chapter="+c.id+"&validity=Active&memberKind="+(c.individuals?"Individual":c.institutions?"Institutional":"Corporate")}>{c.active}</Link></td>
                       </tr>
                     ))}
                   </tbody>
@@ -328,10 +321,10 @@ function MembershipDashboard() {
               month.
             </div>
             {q.data?.categories.map((c: any) => (
-              <div className="distribution" key={c.id}>
+              <Link className="distribution" key={c.id} to={"/app/members?view=directory&memberKind="+(categoryCatalog.data?.find(item=>item.id===c.id)?.kind||"Individual")+"&dcat="+c.id}>
                 <span>{c.name}</span>
                 <strong>{c.count}</strong>
-              </div>
+              </Link>
             ))}
           </Panel>
         </div>
@@ -408,7 +401,7 @@ export function SelfService() {
                       <td>
                         <Badge>{a.status}</Badge>
                       </td>
-                      <td>{new Date(a.createdAt).toLocaleDateString()}</td>
+                      <td>{new Date(a.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</td>
                       <td>
                         {["Draft", "Changes Requested"].includes(a.status) && (
                           <Link to={"/app/join?application=" + a.id}>
@@ -438,30 +431,29 @@ export function SelfService() {
 }
 function MemberDirectory() {
   const base = useBase();
-  const { scope, can, notify } = useApp();
-  const [search, setSearch] = useState("");
+  const [params,setParams]=useSearchParams();
+  const kind=holderTypes.some(t=>t.kind===params.get("memberKind"))?params.get("memberKind")!:"Individual";
+  const type=holderTypes.find(t=>t.kind===kind)!;
+  const chooseKind=(next:string)=>{const p=new URLSearchParams(params);p.set("memberKind",next);setParams(p);setCategory([]);setSelected([]);setSearch("");setPage(1)};
+  const { scope, can, notify,platformAdmin } = useApp();
+  const [search, setSearch] = useState(params.get("dsearch")||"");
   const term = useDebounce(search);
-  const [status, setStatus] = useState<string[]>([]);
-  const [category, setCategory] = useState<string[]>([]);
-  const [sort, setSort] = useState("name");
-  const [page, setPage] = useState(1);
-  const [columns, setColumns] = useState([
-    "number",
-    "chapter",
-    "category",
-    "designation",
-    "joined",
-    "status",
-  ]);
+  const [status, setStatus] = useState<string[]>((params.get("dstatus")||"").split(",").filter(Boolean));
+  const [category, setCategory] = useState<string[]>((params.get("dcat")||"").split(",").filter(Boolean));
+  const [sort, setSort] = useState(params.get("dsort")||"name");
+  const [page, setPage] = useState(Math.max(1,Number(params.get("dpage"))||1));
+  const [columns, setColumns] = useState<string[]>(()=>{try{return JSON.parse(localStorage.getItem(base+"-directory-columns")||"null")||["number","chapter","primaryContact","endsAt","status"]}catch{return ["number","chapter","endsAt","status"]}});
   const [selected, setSelected] = useState<string[]>([]);
   const [edit, setEdit] = useState<any>();
   const [quick, setQuick] = useState<string>();
+  const [deleting,setDeleting]=useState<any>();
+  const [showArchived,setShowArchived]=useState(false);
   const [invite, setInvite] = useState(false);
   const cats = useLoad<any[]>(base + "/categories");
-  const views = useLoad<any[]>(base + "/views");
+  const views = useLoad<any[]>(base + "/views",!platformAdmin||can("members.read"));
   const q = useLoad(
     base +
-      "/members?search=" +
+      "/members?archived="+showArchived+"&kind="+kind+"&search=" +
       encodeURIComponent(term) +
       "&statuses=" +
       status.join(",") +
@@ -471,9 +463,16 @@ function MemberDirectory() {
       sort +
       "&page=" +
       page +
+      (params.get("chapter")?"&chapter="+encodeURIComponent(params.get("chapter")!):"") +
+      (params.get("validity")?"&validity="+encodeURIComponent(params.get("validity")!):"")+
+      (params.get("joinedFrom")?"&joinedFrom="+encodeURIComponent(params.get("joinedFrom")!):"")+
       (scope ? "&workspace=" + scope : ""),
   );
-  useEffect(() => setPage(1), [term, status, category, sort]);
+  useEffect(()=>{setSelected([]);setSearch(params.get('dsearch')||'');setStatus((params.get('dstatus')||'').split(',').filter(Boolean));setCategory((params.get('dcat')||'').split(',').filter(Boolean));setSort(params.get('dsort')||'name')},[kind]);
+  const [previousFilter,setPreviousFilter]=useState(JSON.stringify([term,status,category,sort,kind]));
+  useEffect(()=>{const key=JSON.stringify([term,status,category,sort,kind]);if(key!==previousFilter){setPage(1);setPreviousFilter(key)}},[term,status,category,sort,kind]);
+  useEffect(()=>{const p=new URLSearchParams(params);p.set('dsearch',search);p.set('dstatus',status.join(','));p.set('dcat',category.join(','));p.set('dsort',sort);p.set('dpage',String(page));if(p.toString()!==params.toString())setParams(p,{replace:true});localStorage.setItem(base+'-directory-columns',JSON.stringify(columns))},[search,status,category,sort,page,columns]);
+  const restored=useRef(false);useEffect(()=>{if(q.data&&!restored.current){restored.current=true;requestAnimationFrame(()=>window.scrollTo(0,Number(sessionStorage.getItem(base+'-directory-scroll')||0))) }},[q.data]);useEffect(()=>{const save=()=>sessionStorage.setItem(base+'-directory-scroll',String(window.scrollY));window.addEventListener('scroll',save);return()=>window.removeEventListener('scroll',save)},[base]);
   async function exportSelected() {
     try {
       const token = await api("/auth/csrf");
@@ -492,7 +491,7 @@ function MemberDirectory() {
       const url = URL.createObjectURL(await res.blob());
       const a = document.createElement("a");
       a.href = url;
-      a.download = "members.csv";
+      a.download = kind.toLowerCase()+"-memberships.csv";
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
       notify("Authorized member export downloaded");
@@ -504,8 +503,8 @@ function MemberDirectory() {
     <>
       <Heading
         eyebrow="PEOPLE / MEMBER DIRECTORY"
-        title="Every member. A shared purpose."
-        text="Search your authorized network. Privacy preferences follow every profile."
+        title={type.label}
+        text={type.description}
       >
         {can("members.write") && (
           <button className="secondary" onClick={() => setInvite(true)}>
@@ -513,13 +512,17 @@ function MemberDirectory() {
             Invite member
           </button>
         )}
-        {can("members.write") && (
+        {(can("members.write")||platformAdmin) && (
           <button className="primary" onClick={() => setEdit(null)}>
             <Plus size={16} />
-            Add member
+            {kind==='Individual'?'Add individual member':'Add organization'}
           </button>
         )}
       </Heading>
+      <MembershipTypeTabs value={kind} onChange={chooseKind}/>{platformAdmin&&<div className="ux-contact-actions"><label className="checkbox"><input type="checkbox" checked={showArchived} onChange={e=>{setShowArchived(e.target.checked);setPage(1)}}/>Show deleted / archived memberships</label>{kind==='Individual'&&!showArchived&&<IndividualCardDownload selected={selected} chapter={params.get("chapter")}/>}</div>}
+      <p className="membership-type-note">{type.description}</p>
+      {(params.get('chapter')||params.get('validity')||params.get('joinedFrom'))&&<div className="note" role="status">{params.get('chapter')&&<Link to={'/app/units/'+params.get('chapter')}>Selected chapter: {q.data?.items[0]?.chapter||'View chapter details'}</Link>} {params.get('validity')&&<span> · Currently active memberships</span>} {params.get('joinedFrom')&&<span> · Joined since {new Date(params.get('joinedFrom')!).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</span>} <Link to={'/app/members?view=directory&memberKind='+kind}>Clear overview filters</Link></div>}
+
       <Panel>
         <div className="toolbar membership-toolbar">
           <div className="search">
@@ -567,7 +570,7 @@ function MemberDirectory() {
                 </label>
               ))}
               <hr />
-              {cats.data?.map((c) => (
+              {cats.data?.filter(c=>c.kind===kind).map((c) => (
                 <label className="checkbox" key={c.id}>
                   <input
                     type="checkbox"
@@ -593,6 +596,9 @@ function MemberDirectory() {
                 "chapter",
                 "category",
                 "designation",
+                "primaryContact",
+                "city",
+                "endsAt",
                 "joined",
                 "status",
               ].map((c) => (
@@ -622,6 +628,7 @@ function MemberDirectory() {
               const v = details(
                 views.data?.find((x) => x.id === e.target.value)?.data,
               );
+              if(v.kind)chooseKind(v.kind);
               setSearch(v.search || "");
               setStatus(v.status || []);
               setCategory(v.category || []);
@@ -645,6 +652,7 @@ function MemberDirectory() {
                 await api(base + "/views", "POST", {
                   name,
                   data: JSON.stringify({
+                    kind,
                     search,
                     status,
                     category,
@@ -705,9 +713,9 @@ function MemberDirectory() {
                           }
                         />
                       </th>
-                      <th>Member</th>
+                      <th>{kind==='Individual'?'Individual member name':'Organization name'}</th>
                       {columns.map((c) => (
-                        <th key={c}>{c === "number" ? "Member ID" : c}</th>
+                        <th key={c}>{c === "number" ? "Membership ID" : c==="primaryContact"?"Primary contact":c==="endsAt"?"Valid through":c}</th>
                       ))}
                       <th></th>
                     </tr>
@@ -743,36 +751,36 @@ function MemberDirectory() {
                             </span>
                             <span>
                               <strong>{m.fullName}</strong>
-                              <small>{m.city || "Member"}</small>
+                              <small>{m.kind==='Individual'?m.city||"Individual person":m.kind+" organization"}</small>
                             </span>
                           </Link>
                         </td>
                         {columns.map((c) => (
                           <td key={c}>
                             {c === "status" ? (
-                              <Badge>{m.status}</Badge>
-                            ) : c === "joined" ? (
-                              new Date(m.joinedAt).toLocaleDateString()
+                              <Badge>{m.membershipState||m.status}</Badge>
+                            ) : c === "number" ? <Link to={'/app/members/profile/'+m.id+'?memberKind='+m.kind}>{m.number}</Link> : c === "chapter" ? <Link to={'/app/units/'+m.chapterId}>{m.chapter}</Link> : c === "primaryContact" ? <Link to={'/app/members/profile/'+m.id+'?memberKind='+m.kind}>{m.primaryContact||'View contacts'}</Link> : c === "endsAt" ? formatMembershipExpiry(m.endsAt) : c === "joined" ? (
+                              new Date(m.joinedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
                             ) : (
                               m[c] || "—"
                             )}
                           </td>
                         ))}
-                        <td>
+                        <td><details className="ux-row-actions"><summary aria-label={"Actions for "+m.fullName}>Actions</summary>
                           <button
                             className="text-btn"
                             onClick={() => setQuick(m.id)}
                           >
                             Quick view
                           </button>
-                          {can("members.write") && m.administrative && (
+                          {(platformAdmin||can("members.write")) && m.administrative && (
                             <button
                               className="text-btn"
                               onClick={() => setEdit(m)}
                             >
                               Edit
                             </button>
-                          )}
+                          )}{platformAdmin&&<>{!m.archived&&<button onClick={()=>setDeleting(m)}>Delete membership</button>}{m.kind==='Individual'&&<a href={'/api/v1'+base+'/members/'+m.id+'/id-card'}>Download ID card (PDF)</a>}</>}</details>
                         </td>
                       </tr>
                     ))}
@@ -802,7 +810,7 @@ function MemberDirectory() {
                           {m.number} · {m.chapter}
                         </small>
                       </div>
-                      <Badge>{m.status}</Badge>
+                      <Badge>{m.membershipState||m.status}</Badge>
                       <ChevronRight size={16} />
                     </Link>
                   </div>
@@ -818,9 +826,10 @@ function MemberDirectory() {
         </DataState>
         <Pages page={page} setPage={setPage} total={q.data?.total || 0} />
       </Panel>
+      {deleting&&<ManualMemberDialog id={deleting.id} deleting onClose={()=>setDeleting(undefined)}/>}
       {invite && <MemberInvitationDrawer onClose={() => setInvite(false)} />}
       {edit !== undefined && (
-        <MemberEditor member={edit} onClose={() => setEdit(undefined)} />
+        platformAdmin?<ManualMemberDialog id={edit?.id} kind={kind} onClose={()=>setEdit(undefined)}/>:kind==='Individual'?<MemberEditor member={edit} onClose={() => setEdit(undefined)} />:<OrganizationEditor member={edit} kind={kind} onClose={()=>setEdit(undefined)}/>
       )}{" "}
       {quick && (
         <Drawer title="Member quick view" onClose={() => setQuick(undefined)}>
@@ -839,7 +848,7 @@ function MemberSummary({ id }: any) {
         <span className="large-avatar">{m?.fullName.slice(0, 2)}</span>
         <h2>{m?.fullName}</h2>
         <p>{m?.designation || m?.category}</p>
-        <Badge>{m?.status}</Badge>
+        <Badge>{m?.membershipState||m?.status}</Badge>
         <dl>
           <div>
             <dt>Member ID</dt>
@@ -861,6 +870,7 @@ function MemberSummary({ id }: any) {
               </div>
             ))}
         </dl>
+        {m?.kind!=='Individual'&&q.data?.profile&&<PointsOfContact contacts={q.data.profile.contacts} memberId={id}/>}
         <Link className="secondary" to={"/app/members/profile/" + id}>
           Open profile <ArrowUpRight size={15} />
         </Link>
@@ -877,7 +887,7 @@ function MemberEditor({ member, onClose }: any) {
   const [fullName, setFullName] = useState(member?.fullName || "");
   const identities = useLoad(
     base +
-      "/members?pageSize=100&search=" +
+      "/members?kind=Individual&pageSize=100&search=" +
       encodeURIComponent(useDebounce(identitySearch)),
     !member,
   );
@@ -989,14 +999,14 @@ function MemberEditor({ member, onClose }: any) {
               </Field>
             </>
           )}
-          <Field
-            label="Member / organization name"
+          {!member&&<DuplicateCheck base={base}/>}<Field
+            label="Full name (individual person)"
             name="fullName"
             required
             maxLength={160}
             value={fullName}
             onChange={(e: any) => setFullName(e.target.value)}
-            readOnly={!!identityId}
+            readOnly={!!identityId || (!!member && !can("members.write"))}
           />
           {!member && (
             <>
@@ -1030,7 +1040,7 @@ function MemberEditor({ member, onClose }: any) {
                 defaultValue={m?.categoryId}
               >
                 {cats.data
-                  ?.filter((c) => c.active || c.id === m?.categoryId)
+                  ?.filter((c) => c.kind==='Individual'&&(c.active || c.id === m?.categoryId))
                   .map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
@@ -1052,7 +1062,7 @@ function MemberEditor({ member, onClose }: any) {
                   "Closed",
                   "Deceased",
                 ].map((s) => (
-                  <option key={s}>{s}</option>
+                  <option key={s} value={s}>{s === "Chapter" ? "Club / Chapter" : s === "Society" ? "Entire society board" : s}</option>
                 ))}
               </select>
             </Field>
@@ -1110,10 +1120,12 @@ function MemberEditor({ member, onClose }: any) {
 function MemberProfile() {
   const { id } = useParams();
   const base = useBase();
-  const { can, notify } = useApp();
+  const { can, notify,platformAdmin } = useApp();
   const action = useAction();
   const q = useLoad(base + "/members/" + id);
   const m = q.data?.member;
+  const [profileParams,setProfileParams]=useSearchParams();
+  useEffect(()=>{if(m?.kind&&profileParams.get('memberKind')!==m.kind){const next=new URLSearchParams(profileParams);next.set('memberKind',m.kind);setProfileParams(next,{replace:true})}},[m?.kind]);
   const [tab, setTab] = useState("overview");
   const [edit, setEdit] = useState(false);
   const [invitation, setInvitation] = useState(false);
@@ -1126,6 +1138,7 @@ function MemberProfile() {
     tab === "documents" && !!q.data?.profile,
   );
   const p = q.data?.profile;
+  if(m?.kind && m.kind!=="Individual") return <OrganizationProfile query={q} base={base}/>;
   return (
     <DataState query={q}>
       <Heading
@@ -1145,6 +1158,7 @@ function MemberProfile() {
           </button>
         )}
       </Heading>
+      <ProfileTools query={q} base={base} onEdit={()=>setEdit(true)}/>
       <div className="profile-strip">
         <span className="large-avatar">
           {m?.photo ? (
@@ -1158,10 +1172,10 @@ function MemberProfile() {
           <p>
             {m?.designation || m?.category} · {m?.chapter}
           </p>
-          <Badge>{m?.status}</Badge>
+          <Badge>{m?.membershipState||m?.status}</Badge>
         </div>
       </div>
-      {q.data?.canEdit && (
+      {q.data?.canEdit&&!m?.archived && (
         <div className="photo-control">
           <label className="secondary">
             Upload profile photo
@@ -1228,7 +1242,7 @@ function MemberProfile() {
               ["Region / parent", m?.region],
               ["Category", m?.category],
               ["Current position", m?.designation],
-              ["Joining date", m && new Date(m.joinedAt).toLocaleDateString()],
+              ["Joining date", m && new Date(m.joinedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})],
               ["City", m?.city],
               ["Email", m?.contacts?.email],
               ["Mobile", m?.contacts?.phone],
@@ -1286,7 +1300,7 @@ function MemberProfile() {
                     ? new Date(q.data.endsAt) < new Date()
                       ? "Term ended — review required"
                       : "Current until " +
-                        new Date(q.data.endsAt).toLocaleDateString()
+                        formatMembershipExpiry(q.data.endsAt)
                     : "No fixed term end"}
                 </dd>
               </div>
@@ -1325,10 +1339,10 @@ function MemberProfile() {
                 <tbody>
                   {leadership.data?.map((ap) => (
                     <tr key={ap.id}>
-                      <td>{ap.position}</td>
+                      <td><RoleBadge>{ap.position}</RoleBadge></td>
                       <td>
-                        {new Date(ap.startsAt).toLocaleDateString()} —{" "}
-                        {new Date(ap.endsAt).toLocaleDateString()}
+                        {new Date(ap.startsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} —{" "}
+                        {new Date(ap.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
                       </td>
                       <td>
                         <Badge>{ap.status}</Badge>
@@ -1407,7 +1421,7 @@ function MemberProfile() {
                         <strong>{d.name}</strong>
                         <small>
                           {Math.ceil(d.length / 1024)} KB ·{" "}
-                          {new Date(d.createdAt).toLocaleDateString()}
+                          {new Date(d.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
                         </small>
                       </div>
                       <ShieldCheck size={16} />
@@ -1449,7 +1463,7 @@ function MemberProfile() {
           </div>
         )}
       </Panel>
-      {edit && <MemberEditor member={m} onClose={() => setEdit(false)} />}{" "}
+      {edit && (platformAdmin?<ManualMemberDialog id={m.id} onClose={()=>{setEdit(false);q.refetch()}}/>:<MemberEditor member={m} onClose={() => setEdit(false)} />)}{" "}
       {invitation && (
         <Drawer
           title="Invite member to claim their account"
@@ -1716,8 +1730,9 @@ export function JoinMembership() {
 function ApplicationReviews() {
   const base = useBase();
   const { can, tenant } = useApp();
+  const [kind,setKind]=useState('Individual');
   const [page, setPage] = useState(1);
-  const q = useLoad<any[]>(base + "/applications?page=" + page);
+  const q = useLoad<any[]>(base + "/applications?kind="+kind+"&page=" + page);
   const [review, setReview] = useState<any>();
   const action = useAction();
   return (
@@ -1727,6 +1742,7 @@ function ApplicationReviews() {
         title="A considered welcome"
         text="Review chapter applications through each configured approval stage."
       />
+      <MembershipTypeTabs value={kind} onChange={v=>{setKind(v);setPage(1)}}/>
       <Panel>
         <DataState query={q}>
           {q.data?.length ? (
@@ -1745,7 +1761,7 @@ function ApplicationReviews() {
                   {q.data.map((a) => (
                     <tr key={a.id}>
                       <td>
-                        <strong>{a.applicant}</strong>
+                        <strong>{a.kind==='Individual'?a.applicant:details(a.profile).organizationName}</strong><small>{a.kind==='Individual'?'Individual person':a.kind+' organization · Contact: '+a.applicant}</small>
                         <small>Reference {a.id.slice(0, 8)}</small>
                       </td>
                       <td>
@@ -1754,7 +1770,7 @@ function ApplicationReviews() {
                       <td>
                         <Badge>{a.status}</Badge>
                       </td>
-                      <td>{new Date(a.createdAt).toLocaleDateString()}</td>
+                      <td>{new Date(a.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</td>
                       <td>
                         {["Submitted", "Under Review"].includes(a.status) &&
                           can(
@@ -2116,6 +2132,7 @@ function Leadership() {
     !!appointee,
   );
   const positions = useLoad<any[]>(base + "/positions");
+  const suggestions = useLoad<any>(base + "/position-suggestions");
   const appointments = useLoad<any[]>(base + "/appointments?page=" + page);
   const handovers = useLoad<any[]>(
     base + "/handovers?page=" + handoverPage,
@@ -2138,15 +2155,15 @@ function Leadership() {
   const [search, setSearch] = useState("");
   const found = useLoad(
     base +
-      "/members?pageSize=100&search=" +
+      "/members?kind=Individual&pageSize=100&search=" +
       encodeURIComponent(useDebounce(search)),
   );
   return (
     <>
       <Heading
         eyebrow="GOVERNANCE / LEADERSHIP"
-        title="Leadership with a clear term"
-        text="Approved appointments grant explicit scoped access. Incoming and past titles carry no automatic privileges."
+        title="Society board & club roles"
+        text="Create society-wide board roles or club roles. Chapters and clubs are the same. Permit concurrent appointments for unlimited role holders."
       >
         {can("membership.settings") && (
           <button
@@ -2156,7 +2173,7 @@ function Leadership() {
               setMode("position");
             }}
           >
-            Configure position
+            Create role
           </button>
         )}
         {can("governance.manage") && (
@@ -2204,12 +2221,12 @@ function Leadership() {
                         <small>{ap.method}</small>
                       </td>
                       <td>
-                        {ap.position}
+                        <RoleBadge>{ap.position}</RoleBadge>
                         <small>{ap.period}</small>
                       </td>
                       <td>
-                        {new Date(ap.startsAt).toLocaleDateString()} —{" "}
-                        {new Date(ap.endsAt).toLocaleDateString()}
+                        {new Date(ap.startsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})} —{" "}
+                        {new Date(ap.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
                       </td>
                       <td>
                         <Badge>{ap.status}</Badge>
@@ -2320,7 +2337,7 @@ function Leadership() {
                   <tr>
                     <th>Position</th>
                     <th>Level</th>
-                    <th>Concurrent holders</th>
+                    <th>Status</th><th>Concurrent holders</th>
                     <th>Access role</th>
                     <th></th>
                   </tr>
@@ -2329,12 +2346,12 @@ function Leadership() {
                   {positions.data?.map((p) => (
                     <tr key={p.id}>
                       <td>
-                        {p.name}
+                        <RoleBadge>{p.name}</RoleBadge>
                         <small>{p.responsibilities}</small>
                       </td>
-                      <td>{p.level}</td>
+                      <td>{p.level === "Chapter" ? "Club / Chapter" : p.level === "Society" ? "Entire society board" : p.level}</td><td><Badge>{p.active ? "Active" : "Inactive"}</Badge></td>
                       <td>
-                        {p.allowConcurrent ? "Permitted" : "One per term"}
+                        {p.allowConcurrent ? "Unlimited" : "One per term"}
                       </td>
                       <td>
                         {p.roleId
@@ -2500,11 +2517,13 @@ function Leadership() {
             {mode === "position" ? (
               <>
                 <Field
-                  label="Position name"
+                  label="Role name (suggested or custom)"
+                  list="governance-role-suggestions"
                   name="name"
                   required
                   defaultValue={editing?.name}
                 />
+                <datalist id="governance-role-suggestions">{[...new Set<string>([...(suggestions.data?.club || []), ...(suggestions.data?.society || [])])].map(name => <option key={name} value={name}/>)}</datalist>
                 <Field label="Level">
                   <select
                     name="level"
@@ -2517,7 +2536,7 @@ function Leadership() {
                       "National",
                       "Society",
                     ].map((s) => (
-                      <option key={s}>{s}</option>
+                      <option key={s} value={s}>{s === "Chapter" ? "Club / Chapter" : s === "Society" ? "Entire society board" : s}</option>
                     ))}
                   </select>
                 </Field>
@@ -2551,9 +2570,9 @@ function Leadership() {
                   <input
                     name="concurrent"
                     type="checkbox"
-                    defaultChecked={editing?.allowConcurrent}
+                    defaultChecked={editing?.allowConcurrent ?? true}
                   />
-                  Permit concurrent holders
+                  Allow unlimited members to hold this role
                 </label>
                 <label className="checkbox">
                   <input
@@ -2561,20 +2580,20 @@ function Leadership() {
                     type="checkbox"
                     defaultChecked={editing?.active ?? true}
                   />
-                  Available for appointment
+                  Active — available for new appointments
                 </label>
               </>
             ) : mode === "appointment" ? (
               <>
-                <Field
-                  label="Find an active member"
+                <p className="note">Officer appointments belong to individual people. Organization representatives need their own individual membership to hold a role.</p><Field
+                  label="Find an active individual member"
                   value={search}
                   onChange={(e: any) => {
                     setSearch(e.target.value);
                     setAppointee("");
                   }}
                 />
-                <Field label="Member">
+                <Field label="Individual person">
                   <select
                     name="membershipId"
                     required
@@ -2583,7 +2602,7 @@ function Leadership() {
                   >
                     <option value="">Select member</option>
                     {found.data?.items
-                      .filter((m: any) => m.status === "Active")
+                      .filter((m: any) => m.kind==='Individual'&&m.status === "Active")
                       .map((m: any) => (
                         <option key={m.id} value={m.id}>
                           {m.fullName} · {m.chapter}
@@ -2673,7 +2692,7 @@ function Leadership() {
                     {appointments.data?.map((ap) => (
                       <option key={ap.id} value={ap.id}>
                         {ap.person} · {ap.position} ·{" "}
-                        {new Date(ap.endsAt).toLocaleDateString()}
+                        {new Date(ap.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
                       </option>
                     ))}
                   </select>
@@ -2687,7 +2706,7 @@ function Leadership() {
                       .map((ap) => (
                         <option key={ap.id} value={ap.id}>
                           {ap.person} · {ap.position} ·{" "}
-                          {new Date(ap.startsAt).toLocaleDateString()}
+                          {new Date(ap.startsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}
                         </option>
                       ))}
                   </select>
@@ -2765,7 +2784,7 @@ function Committees() {
   const [search, setSearch] = useState("");
   const members = useLoad(
     base +
-      "/members?pageSize=100&search=" +
+      "/members?kind=Individual&pageSize=100&search=" +
       encodeURIComponent(useDebounce(search)),
   );
   const units = useLoad(
@@ -2827,10 +2846,10 @@ function Committees() {
                         <strong>{c.name}</strong>
                         <small>
                           {c.startsAt &&
-                            new Date(c.startsAt).toLocaleDateString()}{" "}
+                            new Date(c.startsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}{" "}
                           —{" "}
                           {c.endsAt
-                            ? new Date(c.endsAt).toLocaleDateString()
+                            ? new Date(c.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
                             : "Ongoing"}
                         </small>
                       </td>
@@ -2944,7 +2963,7 @@ function Committees() {
             <Field label="Status">
               <select name="status" defaultValue={edit?.status || "Active"}>
                 {["Active", "Inactive", "Closed"].map((s) => (
-                  <option key={s}>{s}</option>
+                  <option key={s} value={s}>{s === "Chapter" ? "Club / Chapter" : s === "Society" ? "Entire society board" : s}</option>
                 ))}
               </select>
             </Field>
@@ -3028,7 +3047,7 @@ function Committees() {
                 <select name="role">
                   {["Chairperson", "Secretary", "Member", "Coordinator"].map(
                     (s) => (
-                      <option key={s}>{s}</option>
+                      <option key={s} value={s}>{s === "Chapter" ? "Club / Chapter" : s === "Society" ? "Entire society board" : s}</option>
                     ),
                   )}
                 </select>
@@ -3053,7 +3072,7 @@ function Committees() {
                     <small>
                       {cm.endsAt
                         ? "Past membership · " +
-                          new Date(cm.endsAt).toLocaleDateString()
+                          new Date(cm.endsAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})
                         : "Current committee member"}
                     </small>
                   </div>
@@ -3106,6 +3125,7 @@ function Committees() {
 }
 function Transfers() {
   const base = useBase();
+  const [holderKind,setHolderKind]=useState("Individual");
   const { tenant, can } = useApp();
   const [chapterSearch, setChapterSearch] = useState("");
   const [memberSearch, setMemberSearch] = useState("");
@@ -3113,7 +3133,7 @@ function Transfers() {
   const mine = useLoad<any[]>("/membership/me");
   const adminMembers = useLoad(
     base +
-      "/members?pageSize=100&search=" +
+      "/members?kind="+holderKind+"&pageSize=100&search=" +
       encodeURIComponent(useDebounce(memberSearch)),
   );
   const chapters = useLoad(
@@ -3131,6 +3151,7 @@ function Transfers() {
         .map((m) => ({ ...m, fullName: m.number }));
   return (
     <>
+      <MembershipTypeTabs value={holderKind} onChange={setHolderKind}/>
       <Heading
         eyebrow="MEMBERSHIP / TRANSFERS"
         title="A new chapter. The same history."
@@ -3162,7 +3183,7 @@ function Transfers() {
                       <td>
                         {t.source} → {t.destination}
                       </td>
-                      <td>{new Date(t.effectiveAt).toLocaleDateString()}</td>
+                      <td>{new Date(t.effectiveAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</td>
                       <td>
                         <Badge>{t.status}</Badge>
                       </td>
@@ -3310,6 +3331,7 @@ function Transfers() {
 }
 function BulkImport() {
   const base = useBase();
+ const [kind,setKind]=useState('Individual');
   const { tenant, notify, refresh } = useApp();
   const [chapterSearch, setChapterSearch] = useState("");
   const action = useAction();
@@ -3334,6 +3356,8 @@ function BulkImport() {
     city: "City",
     number: "Number",
   });
+  const [sample,setSample]=useState<string[][]>([]),[inspectError,setInspectError]=useState(''),[inspectChapter,setInspectChapter]=useState('');
+  useEffect(()=>{if(!content||!chapters.data?.items.length||!cats.data?.length)return;let active=true;api<any>(base+'/imports/inspect','POST',{chapterId:inspectChapter||chapters.data.items[0].id,categoryId:cats.data.find(c=>c.kind===kind)?.id,format,content,mapping:{}}).then(r=>{if(!active)return;setHeaders(r.headers);setSample(r.sample);setInspectError('');const aliases:Record<string,string[]>={fullName:['fullname','name','collegefullname','organizationname'],email:['email','emailaddress','programcontact1email'],phone:['phone','mobile','programcontact1mobile'],city:['city'],number:['number','memberid','institutionalid','membershipid']};setMapping(Object.fromEntries(Object.entries(aliases).map(([key,names])=>[key,r.headers.find((h:string)=>names.includes(h.toLowerCase().replace(/[^a-z0-9]/g,'')))||''])))}).catch(e=>active&&setInspectError(e.message));return()=>{active=false}},[content,format,inspectChapter,kind,chapters.data?.items[0]?.id]);
   useEffect(() => {
     if (!job || !["Queued", "Processing"].includes(detail.data?.status)) return;
     const timer = setInterval(() => {
@@ -3349,6 +3373,7 @@ function BulkImport() {
         title="Bring your member records together"
         text="Upload, map, validate and review. Confirmed jobs run durably in the background."
       />
+      <MembershipTypeTabs value={kind} onChange={setKind}/>
       <div className="import-steps">
         {[
           "1 · Upload",
@@ -3417,7 +3442,7 @@ function BulkImport() {
             />
             <div className="form-grid">
               <Field label="Destination chapter">
-                <select name="chapterId" required>
+                <select name="chapterId" required value={inspectChapter||chapters.data?.items[0]?.id||''} onChange={e=>setInspectChapter(e.target.value)}>
                   {chapters.data?.items.map((c: any) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
@@ -3428,7 +3453,7 @@ function BulkImport() {
               <Field label="Category">
                 <select name="categoryId" required>
                   {cats.data
-                    ?.filter((c) => c.active)
+                    ?.filter((c) => c.active && c.kind===kind)
                     .map((c) => (
                       <option key={c.id} value={c.id}>
                         {c.name}
@@ -3437,13 +3462,13 @@ function BulkImport() {
                 </select>
               </Field>
             </div>
-            <div className="form-section">MAP YOUR COLUMN HEADERS</div>
+            {inspectError&&<p role="alert" className="error">{inspectError}</p>}<div className="form-section">MAP YOUR COLUMN HEADERS</div><p>Choose which source column populates each field. Unmapped columns are skipped. Existing memberships are protected from overwriting.</p>
             {Object.keys(mapping).map((key) => (
               <Field
                 key={key}
                 label={
                   key === "fullName"
-                    ? "Full name (required)"
+                    ? (kind==='Individual'?'Full name of person (required)':'Organization name (required)')
                     : key === "number"
                       ? "Membership ID (optional)"
                       : key
@@ -3471,8 +3496,9 @@ function BulkImport() {
                 )}
               </Field>
             ))}
+            {!!sample.length&&<details open><summary>Column mapping preview · first {sample.length} rows</summary><div className="table-wrap"><table><thead><tr>{Object.keys(mapping).map(k=><th key={k}>{k} ← {mapping[k]||'Not mapped'}</th>)}</tr></thead><tbody>{sample.map((row,i)=><tr key={i}>{Object.keys(mapping).map(k=><td key={k}>{row[headers.indexOf(mapping[k])]||'Not supplied'}</td>)}</tr>)}</tbody></table></div></details>}
             <div className="note">
-              Imports create inactive, unclaimed person records. Existing
+              Imports create inactive, unclaimed records of the selected membership type. Existing
               verified data is never overwritten. Matching email or member IDs
               requires explicit review; shared phone numbers are permitted.
             </div>
@@ -3519,7 +3545,7 @@ function BulkImport() {
       </div>
       {job && (
         <div className="section-spacer">
-          <Panel title="Row preview & results">
+          <Panel title="Row preview & results"><a className="secondary" href={'/api/v1'+base+'/imports/'+job+'/errors.csv'}>Download row errors (CSV)</a><p>Review proposed values and any existing match before confirming. Matching records are excluded from this create-only import. Open the existing profile to apply reviewed changes.</p>
             <DataState query={detail}>
               <div className="directory-views">
                 <Badge>{detail.data?.status}</Badge>
@@ -3588,7 +3614,7 @@ function BulkImport() {
                           <td>
                             <Badge>{r.status}</Badge>
                           </td>
-                          <td>{r.error || "Validated"}</td>
+                          <td>{r.error||"Validated"}{d.existing&&<details><summary>Compare existing and proposed values</summary><table><thead><tr><th>Field</th><th>Existing</th><th>Proposed</th></tr></thead><tbody>{['fullName','email','phone','city','number'].map(k=><tr key={k}><th>{k}</th><td>{d.existing[k]||'Not supplied'}</td><td>{d[k]||'Not supplied'}</td></tr>)}</tbody></table><Link to={'/app/members?view=directory&memberKind='+kind+'&dsearch='+encodeURIComponent(d.existing.number)}>Open matching membership</Link></details>}</td>
                         </tr>
                       );
                     })}
@@ -3876,7 +3902,7 @@ function MemberCommunityHistory({ id }: { id: string }) {
             to={"/app/community/posts/" + p.id}
           >
             <h3>{p.title || "Chapter activity"}</h3>
-            <small>{new Date(p.publishedAt).toLocaleDateString()}</small>
+            <small>{new Date(p.publishedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</small>
           </Link>
         ))
       ) : (

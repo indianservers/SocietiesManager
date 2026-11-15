@@ -61,6 +61,12 @@ Migrations are explicit: `dotnet run --project backend -- --migrate`. Bootstrap 
 
 ## Verification
 
+Member login includes English, Hindi and Telugu form labels, username/email sign-in, verification resend, safe return links, authenticator/recovery-code entry, passwordless email links, passkeys, signed-in device management, login activity, and new-device alerts. Account security is under `/app/account?view=security`; membership officers review missing-membership requests under `/app/account?view=link-requests`. Linking grants access only to the reviewed individual membership and requires a different authorized reviewer. The member portal includes a persistent getting-started checklist.
+
+Apply the `MemberLoginEnhancements` and `MemberPasskeyStore` migrations before running this version. Passkeys use ASP.NET Identity's WebAuthn implementation and require a secure origin (HTTPS in production; `localhost` for the local preview). Set `PublicUrl` to the exact browser origin: this also validates passkey origins and builds recovery/magic-link emails. Magic links expire after 10 minutes, are consumed atomically, and retain existing MFA requirements. Email delivery uses the existing outbox/SMTP configuration. Google/Microsoft redirect fallback requires the configured Firebase authentication domain and authorized portal origins; connected providers are managed as Firebase identities, so providers sharing one Firebase UID share one disconnect action.
+
+`python tests/member_login_enhancements.py` runs real HTTP/PostgreSQL and Chromium tests in the isolated `member_login_test` database, including a virtual WebAuthn authenticator, session revocation, one-use magic links, MFA, membership-link review, translations, mobile layout, and preserving unsaved form data during reauthentication. Build the frontend first and use `ASSEMBLIA_API_DLL` to select an isolated API build. Live email delivery, external Google/Microsoft consent screens, and physical biometric devices require configured integrations and are not claimed by these tests.
+
 - `dotnet build backend`
 - `npm run build --prefix frontend`
 - `python tests/integration.py` — starts an isolated API on 5089; migrates a dedicated `assemblia_test` database; real HTTP, authentication, authorization, and database guards.

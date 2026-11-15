@@ -1,0 +1,243 @@
+/* Compatibility selectors for existing modules, followed by the shared component contract. */
+/* Shared application theme. Root scope keeps lazy module and legacy dark rules from overriding the palette. */
+html #root .app-shell {
+  --society-primary: #7e12bf;
+  --society-deep: #590b92;
+  --society-cyan: #00b8d0;
+  --society-ink: #11132f;
+  --society-muted: #6c6280;
+  --society-surface: #ffffff;
+  --society-canvas: #f8f5fd;
+  --society-soft: #f2eafa;
+  --society-border: #e2d5ef;
+  --society-shadow: 0 6px 22px #5525800a;
+  color: var(--society-ink);
+  background: radial-gradient(ellipse at 90% 0%,#ead7fb66,transparent 42%),var(--society-canvas);
+  accent-color: var(--society-primary);
+}
+html[data-theme=dark] #root .app-shell {
+  --society-primary: #c88afa;
+  --society-deep: #9f4ee0;
+  --society-cyan: #55dcec;
+  --society-ink: #f3eafb;
+  --society-muted: #bdb0cf;
+  --society-surface: #21172e;
+  --society-canvas: #160e21;
+  --society-soft: #30203f;
+  --society-border: #4c345f;
+  --society-shadow: 0 6px 24px #00000018;
+}
+html #root .app-shell :is(.sidebar,.topbar,.panel,.drawer,.studio-modal,.studio-shell,.studio-header,.studio-nav,.design-top,.design-library,.design-properties,.finance-shell,.finance-workspace-header,.finance-navigation,.community-shell,.communication-shell,.communication-rail,.comms-shell,.workspace-sections,.membership-account-list>button,.member-resource-grid>button,.finance-plan-card,.studio-template,.studio-gallery,.design-template-card) {
+  background: var(--society-surface);
+  color: var(--society-ink);
+  border-color: var(--society-border);
+}
+html #root .app-shell :is(.panel,.finance-shell,.studio-shell,.community-shell,.communication-shell,.workspace-sections,.membership-account-list>button,.member-resource-grid>button,.finance-plan-card) {border-radius:16px;box-shadow:var(--society-shadow)}
+html #root .app-shell .sidebar {border-right:1px solid var(--society-border);background:linear-gradient(180deg,var(--society-surface) 70%,var(--society-soft))}
+html #root .app-shell .sidebar .brand {padding:23px 17px 24px;color:var(--society-ink);gap:9px}
+html #root .app-shell .sidebar .brand-mark {background:transparent url('/images/community-brain-chip.png') center/contain no-repeat;width:48px;height:48px;border-radius:0;flex-shrink:0}
+html #root .app-shell .sidebar .brand-mark svg {visibility:hidden}
+html #root .app-shell :is(.brand-sub,.workspace-label,.nav-label,.sidebar-foot) {color:var(--society-muted)}
+html #root .app-shell .sidebar .brand-sub {color:var(--society-primary);letter-spacing:1.2px}
+html #root .app-shell :is(.workspace-select,.workspace-filter-row,.tool-picker select,.finance-search,.finance-report-controls,.finance-line-editor,.finance-period-strip,.finance-organization-picker,.studio-filter,.studio-search,.design-canvas-toolbar,.conversation-welcome,.comms-filter-bar,.comms-review-box,.comms-mini-metrics>div,.message-preview,.recovery-codes) {background:var(--society-soft);border-color:var(--society-border);color:var(--society-ink)}
+html #root .app-shell .sidebar nav a {font-size:12px;border-radius:9px;color:var(--society-muted);transition:background .16s,color .16s;min-height:40px}
+html #root .app-shell .sidebar nav a:hover {background:var(--society-soft);color:var(--society-primary)}
+html #root .app-shell .sidebar nav a.active {background:linear-gradient(110deg,#8517bf,#5c0e98);color:#fff;box-shadow:0 3px 10px #7c15bd20}
+html #root .app-shell .sidebar nav a.active svg {color:#fff}
+html #root .app-shell .account {border-color:var(--society-border);background:transparent;color:var(--society-ink)}
+html #root .app-shell .avatar {background:var(--society-soft);color:var(--society-primary)}
+html #root .app-shell .phase-dot {background:var(--society-cyan);box-shadow:0 0 0 3px #00b8d012}
+html #root .app-shell .topbar {background:var(--society-surface);border-color:var(--society-border);box-shadow:0 2px 12px #57118c05}
+html #root .app-shell :is(.breadcrumb,.secure,.workspace-filter-row label,.workspace-filter-row>span,.tool-picker) {color:var(--society-muted)}
+html #root .app-shell .breadcrumb strong {color:var(--society-ink)}
+html #root .app-shell .secure svg {color:var(--society-primary)}
+html #root .app-shell :is(.icon-btn,.top-right button) {color:var(--society-muted);background:transparent}
+html #root .app-shell :is(.icon-btn:hover,.top-right button:hover) {color:var(--society-primary);background:var(--society-soft)}
+html #root .app-shell :is(.primary,.finance-button.primary,.studio-primary,.comms-primary) {background:linear-gradient(180deg,#8c1bc5,#5e0b98);border:1px solid transparent;color:#fff;border-radius:10px;box-shadow:0 3px 9px #7611b516;min-height:40px;font-weight:650}
+html #root .app-shell :is(.primary,.finance-button.primary,.studio-primary,.comms-primary):hover {background:linear-gradient(180deg,#9c28d5,#710cad);box-shadow:0 4px 14px #7611b52a}
+html #root .app-shell :is(.secondary,.finance-button:not(.primary),.studio-secondary,.comms-secondary) {background:var(--society-surface);border:1px solid var(--society-border);color:var(--society-primary);border-radius:10px;min-height:40px}
+html #root .app-shell :is(.secondary,.finance-button:not(.primary),.studio-secondary,.comms-secondary):hover {background:var(--society-soft);border-color:var(--society-primary)}
+html #root .app-shell :is(.text-btn,.eyebrow,.member-resource-grid .eyebrow,.studio-hero .eyebrow,.finance-hero .eyebrow,.comms-brand svg) {color:var(--society-primary)}
+html #root .app-shell :is(.heading h1,.heading h2,.panel h2,.panel h3,.studio-section-head h2,.finance-page h1,.finance-page h2,.finance-page h3,.comms-page h1,.comms-page h2,.comms-page h3,.community-page h1,.community-page h2,.community-page h3,.area-heading h1,.finance-workspace-header strong,.studio-header strong) {color:var(--society-ink)}
+html #root .app-shell :is(.heading p,.empty p,.finance-page p,.studio-page p,.comms-page p,.community-page p,.panel p,.account small,.studio-header span,.finance-workspace-header small,.comms-brand small,.comms-muted,.finance-trust,.portal-note,.finance-page small,.studio-page small,.panel small) {color:var(--society-muted)}
+html #root .app-shell :is(.field>span,.finance-form .field>span,.studio-form .field>span,.comms-form .field>span) {color:var(--society-ink)}
+html #root .app-shell :is(input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]),select,textarea) {background:var(--society-surface);border-color:var(--society-border);color:var(--society-ink);border-radius:9px;min-width:0}
+html #root .app-shell :is(input,select,textarea):focus {outline:none;border-color:var(--society-primary);box-shadow:0 0 0 3px #8a23ca1a}
+html #root .app-shell :is(input,textarea)::placeholder {color:var(--society-muted);opacity:.85}
+html #root .app-shell :is(input[type=checkbox],input[type=radio]) {accent-color:var(--society-primary)}
+html #root .app-shell :is(button,a,input,select,textarea):focus-visible {outline:3px solid var(--society-cyan);outline-offset:3px}
+html #root .app-shell :is(.area-tabs,.form-tab-buttons,.studio-tabs,.finance-filters,.panel-title,.panel-head,.renewal-history>div,.account,.drawer-head,.drawer-header,.studio-section-head,.comms-row,.finance-panel-actions,.membership-summary,.member-portal-actions) {border-color:var(--society-border)}
+html #root .app-shell :is(.area-tabs a,.workspace-sections button,.form-tab-buttons button,.studio-nav a,.finance-navigation>a,.communication-rail nav a,.studio-tabs button,.tab-bar button,.tabs button) {background:transparent;color:var(--society-muted);border-color:var(--society-border);border-radius:9px}
+html #root .app-shell :is(.area-tabs a[aria-current=page],.workspace-sections button[aria-selected=true],.form-tab-buttons button[aria-selected=true],.studio-nav a.active,.finance-navigation>a.active,.communication-rail nav a.active,.studio-tabs button.active,.tabs button.active) {background:var(--society-soft);color:var(--society-primary);border-color:var(--society-border);font-weight:650;box-shadow:inset 0 -2px var(--society-primary)}
+html #root .app-shell :is(.workspace-sections>span,.finance-navigation>a,.studio-nav a,.studio-section-head p,.comms-rail-note,.finance-form>p,.finance-form>small) {color:var(--society-muted)}
+html #root .app-shell :is(.welcome-banner,.dashboard-banner,.finance-hero,.studio-hero) {background:linear-gradient(115deg,#f6edfd,#eee0fc 70%,#e2f8fc);border:1px solid var(--society-border);border-radius:17px;color:var(--society-ink)}
+html #root .app-shell :is(.dashboard-banner h2,.welcome-banner h2,.finance-hero h1,.studio-hero h1) {color:var(--society-ink);font-weight:750}
+html #root .app-shell :is(.dashboard-banner p,.welcome-banner p,.finance-hero p,.studio-hero p) {color:#675375}
+html #root .app-shell .studio-hero h1 em {color:#8012bd}
+html #root .app-shell :is(.banner-symbol,.finance-hero-seal,.finance-product-icon,.studio-product-icon,.comms-brand,.stat-icon,.metric-icon,.quick-links a svg) {color:var(--society-primary)}
+html #root .app-shell .banner-symbol {background:var(--society-soft);border-color:var(--society-border);box-shadow:0 0 0 25px #9a5bd00a,0 0 0 50px #00b8d008}
+html #root .app-shell .welcome-banner a:not(.primary) {color:var(--society-primary)}
+html #root .app-shell .stat>span,html #root .app-shell .stat small {color:var(--society-muted)}
+html #root .app-shell .stat svg {background:var(--society-soft);color:var(--society-primary)}
+html #root .app-shell :is(.stat,.stat-card,.metric-card,.finance-metric,.studio-metrics>div,.comms-metric,.comms-mini-metrics>div,.finance-stat,.dashboard-card) {background:var(--society-surface);border-color:var(--society-border);box-shadow:var(--society-shadow);border-radius:13px}
+html #root .app-shell :is(.stat strong,.stat-card strong,.metric-card strong,.finance-metric strong,.studio-metrics strong,.comms-metric strong,.finance-plan-card>strong,.finance-plan-card h2,.finance-between strong) {color:var(--society-ink)}
+html #root .app-shell :is(.finance-metric>div,.finance-metric small,.studio-metrics small,.comms-metric span,.finance-plan-card p,.finance-plan-card small,.finance-plan-card dt,.finance-plan-card>span:not(.badge)) {color:var(--society-muted)}
+html #root .app-shell :is(.table-wrap,.table-scroll,.table-scroll-x,.studio-table-wrap,.finance-table-wrap,.finance-table-scroll,.studio-table-scroll) {border-color:var(--society-border);max-width:100%;overflow-x:auto;min-width:0}
+html #root .app-shell :is(table,.studio-table,.finance-table) {color:var(--society-ink)}
+html #root .app-shell :is(th,.studio-table th,.finance-table th) {color:var(--society-muted);background:var(--society-soft);border-color:var(--society-border)}
+html #root .app-shell :is(td,.studio-table td,.finance-table td) {color:var(--society-ink);background:var(--society-surface);border-color:var(--society-border)}
+html #root .app-shell :is(tr:hover td,.studio-table tr:hover td,.finance-table tr:hover td) {background:var(--society-soft)}
+html #root .app-shell :is(.studio-table,.finance-table) :is(th,td) {font-size:11px}
+html #root .app-shell :is(.studio-template-info,.studio-template-cover,.finance-callout,.comms-callout,.studio-callout,.design-draft-note,.finance-checkout,.finance-onboarding,.studio-empty,.workspace-filter-row,.membership-kind-picker label.selected) {background:var(--society-soft);border-color:var(--society-border);color:var(--society-ink)}
+html #root .app-shell .membership-account-list>button[aria-pressed=true] {border-color:var(--society-primary);box-shadow:inset 3px 0 var(--society-primary)}
+html #root .app-shell .membership-kind-picker label {background:var(--society-surface);border-color:var(--society-border);color:var(--society-ink)}
+html #root .app-shell .membership-kind-picker label.selected {background:var(--society-soft);border-color:var(--society-primary)}
+html #root .app-shell :is(.assistant-answer,.conversation-message,.comms-message-content,.finance-document,.finance-document h2,.finance-document p,.finance-document dd,.finance-document dt,.finance-doc-line,.finance-doc-dates,.finance-doc-dates strong) {color:var(--society-ink)}
+html #root .app-shell .finance-document {background:var(--society-surface);border-color:var(--society-border)}
+html #root .app-shell :is(.inbox-list,.conversation-pane,.comms-table,.studio-library,.design-workspace,.studio-page,.finance-content,.communication-content,.comms-page) {background:transparent;border-color:var(--society-border)}
+html #root .app-shell :is(.inbox-item,.comms-table th,.comms-table td,.inbox-layout,.conversation-header,.message-composer,.studio-template-info,.design-tabs,.design-properties h3) {border-color:var(--society-border)}
+html #root .app-shell :is(.inbox-item.selected,.inbox-item:hover,.variable-chips button,.comms-actions button:not(.primary),.design-tabs button.active) {background:var(--society-soft);color:var(--society-primary)}
+html #root .app-shell .badge {background:var(--society-soft);color:var(--society-primary)}
+/* Preserve meaningful states; purple is the brand, not the success/error signal. */
+html #root .app-shell .badge:is(.active,.approved,.verified,.paid,.completed,.sent,.delivered,.issued) {background:#e7f5ef;color:#206b4b}
+html #root .app-shell .badge:is(.suspended,.rejected,.closed,.failed,.cancelled,.revoked,.overdue) {background:#fdebea;color:#a33e42}
+html #root .app-shell .badge:is(.pending,.proposed,.pending-approval,.setup,.draft,.queued,.payment-required) {background:#fff4da;color:#825d14}
+html #root .app-shell :is(.error,.danger,.text-btn.danger) {color:#b83450}
+html #root .app-shell .design-artboard {background:#fff;color:#11132f}
+html #root .app-shell .design-artboard :is(input,select,textarea) {color:#11132f;background:#fff}
+html #root .app-shell .skeleton {color:var(--society-muted)}
+html #root .app-shell .wizard-steps {border-color:var(--society-border)}
+html #root .app-shell .wizard-steps .current {background:var(--society-soft);color:var(--society-primary)}
+html #root .app-shell .wizard-steps .current span {background:var(--society-primary);color:var(--society-surface);border-color:var(--society-primary)}
+html .toast {background:#381551;color:#fff;box-shadow:0 6px 30px #57228f30;border:1px solid #a86adc50;border-radius:12px}
+html .toast.toast button[aria-label] {background:transparent;color:#fff;min-width:36px;min-height:36px}
+html .landing {background:radial-gradient(ellipse at 80% 45%,#e8cffb88,transparent 55%),#fcfaff;color:#11132f}
+html .landing .brand-mark {background:transparent url('/images/community-brain-chip.png') center/contain no-repeat;width:54px;height:54px}
+html .landing .brand-mark svg {visibility:hidden}
+html .landing :is(.eyebrow,.hero em,.community-root>svg,.node svg) {color:#7e12bf}
+html .landing .hero em {font-family:inherit;font-weight:750}
+html .landing .hero p,html .landing .hero-trust,html .landing .landing-bottom {color:#6c6280}
+html .landing :is(.community-root,.node) {border-color:#dfc8ef;box-shadow:0 8px 30px #7e12bf0e;background:#fff;color:#11132f}
+html .landing :is(.orbit,.landing-bottom) {border-color:#d9c3ec}
+html .landing .primary {background:linear-gradient(180deg,#8c1bc5,#5e0b98);color:#fff;border-radius:10px}
+html .landing .secondary {border-color:#d9c3ec;color:#7e12bf;background:#fff;border-radius:10px}
+html[data-theme=dark] #root .app-shell :is(.welcome-banner,.dashboard-banner,.finance-hero,.studio-hero) {background:linear-gradient(110deg,#321848,#271934 70%,#18363e);border-color:var(--society-border)}
+html[data-theme=dark] #root .app-shell :is(.welcome-banner p,.dashboard-banner p,.finance-hero p,.studio-hero p) {color:var(--society-muted)}
+html[data-theme=dark] #root .app-shell .studio-hero h1 em {color:var(--society-primary)}
+html[data-theme=dark] #root .app-shell button:not(.primary):not(.finance-button):not(.studio-primary):not(.comms-primary) {color:var(--society-ink);background:transparent;border-color:var(--society-border)}
+html[data-theme=dark] #root .app-shell :is(.workspace-sections button[aria-selected=true],.form-tab-buttons button[aria-selected=true],.sidebar nav a.active) {background:linear-gradient(110deg,#871ac5,#5d0e99);color:#fff}
+html[data-theme=dark] #root .app-shell .badge:is(.active,.approved,.verified,.paid,.completed,.sent,.delivered,.issued) {background:#173c31;color:#9bddba}
+html[data-theme=dark] #root .app-shell .badge:is(.suspended,.rejected,.closed,.failed,.cancelled,.revoked,.overdue) {background:#492330;color:#ffb4c0}
+html[data-theme=dark] #root .app-shell .badge:is(.pending,.proposed,.pending-approval,.setup,.draft,.queued,.payment-required) {background:#40321c;color:#f3d592}
+@media(max-width:1000px) {
+  html #root .app-shell .topbar {gap:12px;padding-inline:20px}
+  html #root .app-shell .top-right {gap:12px}
+  html #root .app-shell :is(.heading,.finance-between) {flex-wrap:wrap}
+}
+@media(max-width:650px) {
+  html #root .app-shell .main-shell {min-width:0}
+  html #root .app-shell main {padding:20px 14px;min-width:0}
+  html #root .app-shell .topbar {padding:0 13px;gap:8px;min-height:62px;height:auto}
+  html #root .app-shell .breadcrumb {min-width:0;gap:5px;flex-wrap:wrap;overflow-wrap:anywhere;line-height:1.4;font-size:10px}
+  html #root .app-shell .top-right {gap:5px;flex-shrink:0}
+  html #root .app-shell :is(.mobile-menu,.top-right .icon-btn,.drawer .icon-btn) {min-width:40px;min-height:40px}
+  html #root .app-shell :is(.heading,.panel-title,.finance-between,.member-portal-actions) {gap:12px;flex-wrap:wrap}
+  html #root .app-shell .heading>div {min-width:0;max-width:100%}
+  html #root .app-shell .heading>div:last-child {display:flex;flex-wrap:wrap;gap:8px}
+  html #root .app-shell :is(.primary,.secondary,.finance-button,.studio-primary,.studio-secondary) {min-height:42px;padding:10px 13px;max-width:100%;white-space:normal}
+  html #root .app-shell :is(.area-tabs a,.workspace-sections button,.form-tab-buttons button) {min-height:40px}
+  html #root .app-shell :is(.finance-search,.finance-filters,.studio-filters,.workspace-filter-row,.comms-filters) {min-width:0;max-width:100%;flex-wrap:wrap}
+  html #root .app-shell :is(.finance-search input,.studio-search input) {width:100%;min-width:0}
+  html #root .app-shell :is(.form-grid,.two-cols,.dashboard-grid) {grid-template-columns:minmax(0,1fr)}
+  html #root .app-shell :is(.dashboard-grid>*,.form-grid>*,.finance-dashboard-grid>*,.studio-grid>*,.comms-grid>*) {min-width:0}
+  html #root .app-shell :is(.drawer,.studio-modal) {max-width:100vw;width:100%;border-radius:18px 18px 0 0}
+  html #root .app-shell :is(.drawer-head,.drawer-header,.drawer-actions,.studio-modal-actions) {flex-wrap:wrap;gap:10px}
+  html #root .app-shell :is(.panel,.workspace-sections,.finance-shell,.communication-shell,.studio-shell) {border-radius:13px;min-width:0}
+  html #root .app-shell :is(input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]),select,textarea) {font-size:16px;max-width:100%}
+  html #root .app-shell :is(.studio-table,.finance-table) :is(th,td) {font-size:11px;padding:12px}
+  html #root .app-shell :is(.membership-summary,.renewal-history>div,.member-resource-content) {overflow-wrap:anywhere}
+}
+@media(prefers-reduced-motion:reduce) {html #root .app-shell *,html #root .app-shell *:before,html #root .app-shell *:after {scroll-behavior:auto;transition:none;animation:none}}
+@media print {
+  html #root .app-shell,html[data-theme] #root .app-shell {--society-ink:#11132f;--society-muted:#514860;--society-primary:#7e12bf;--society-surface:#fff;--society-soft:#f6f2fa;--society-border:#ded8e6;background:#fff;color:#11132f}
+  html #root .app-shell .design-artboard {box-shadow:none}
+}
+
+/* Shared component contract for every role and lazy workspace. Document canvases keep their own print dimensions. */
+html #root .app-shell{--society-primary:var(--ui-violet);--society-deep:var(--ui-violet-deep);--society-cyan:var(--ui-cyan);--society-ink:var(--ui-ink);--society-muted:var(--ui-muted);--society-surface:var(--ui-surface);--society-canvas:var(--ui-bg);--society-soft:var(--ui-soft);--society-border:var(--ui-border);--society-shadow:var(--ui-shadow);font-family:var(--ui-font);font-size:var(--ui-body);background:var(--ui-bg);color:var(--ui-ink)}
+html #root .app-shell main{padding:var(--ui-space-4);max-width:1600px}
+html #root .app-shell :is(.heading,.studio-section-head,.finance-between,.panel-title,.comms-page-heading){gap:16px;align-items:center}
+html #root .app-shell :is(.heading h1,.studio-hero h1,.finance-page h1,.comms-page h1,.community-page h1,.area-heading h1,.intelligence-page h1){font-family:var(--ui-font);font-size:var(--ui-title);font-weight:650;line-height:1.25;letter-spacing:-.75px;color:var(--ui-ink);margin-top:0}
+html #root .app-shell :is(.heading p,.studio-hero p,.comms-page-heading p,.finance-workspace-header small){font-size:13px;line-height:1.6;color:var(--ui-muted)}
+html #root .app-shell :is(.panel,.workspace-sections,.finance-shell,.studio-shell,.communication-shell,.community-shell,.member-resource-grid>button,.finance-plan-card,.studio-template,.membership-account-list>button){border:1px solid var(--ui-border);border-radius:var(--ui-panel-radius);box-shadow:var(--ui-shadow);background:var(--ui-surface)}
+html #root .app-shell :is(.panel-title,.panel h2,.finance-page h2,.studio-page h2,.comms-page h2,.community-page h2,.conversation-header h2){font-size:var(--ui-section);font-weight:600;letter-spacing:-.4px;line-height:1.35;color:var(--ui-ink)}
+html #root .app-shell .panel-title{margin:0;padding:18px 22px;border-bottom:1px solid var(--ui-border)}
+html #root .app-shell :is(.panel h3,.finance-page h3,.studio-page h3,.comms-page h3,.community-page h3){font-size:15px;font-weight:600;letter-spacing:-.1px}
+html #root .app-shell :is(.field>span,.finance-form .field>span,.studio-form .field>span,.comms-form .field>span){font-size:var(--ui-label);font-weight:600;color:var(--ui-ink);margin-bottom:4px}
+html #root .app-shell .field{gap:7px;margin-bottom:16px}
+html #root .app-shell :is(input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]),select,textarea){font-family:var(--ui-font);font-size:var(--ui-control);border:1px solid var(--ui-border);border-radius:10px;background:var(--ui-surface);color:var(--ui-ink);padding:10px 12px;min-height:40px;box-shadow:inset 0 1px 2px #31234403}
+html #root .app-shell :is(input,select,textarea):focus{border-color:var(--ui-violet);box-shadow:0 0 0 3px #8a21c318;outline:none}
+html #root .app-shell input:is([type=checkbox],[type=radio]){width:17px;height:17px;accent-color:var(--ui-violet);flex-shrink:0}
+html #root .app-shell :is(.primary,.secondary,.ui-button,.finance-button,.studio-primary,.comms-primary){font-family:var(--ui-font);font-size:var(--ui-control);font-weight:550;min-height:40px;padding:9px 15px;border-radius:var(--ui-radius);display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.3}
+html #root .app-shell :is(.primary,.ui-button.primary,.studio-primary,.comms-primary){background:linear-gradient(180deg,#8919bd,#641398);border:1px solid transparent;color:#fff;box-shadow:0 2px 5px #7a12a611}
+html #root .app-shell :is(.secondary,.ui-button.secondary){background:var(--ui-surface);border:1px solid var(--ui-border);color:var(--ui-ink);box-shadow:none}
+html #root .app-shell .ui-button.ghost{background:transparent;border:1px solid transparent;color:var(--ui-violet)}
+html #root .app-shell :is(.icon-btn,.ui-icon-button){display:inline-grid;place-items:center;min-width:36px;min-height:36px;padding:8px;border:0;border-radius:10px;background:transparent;color:var(--ui-muted)}
+html #root .app-shell :is(button:disabled,.ui-button:disabled){opacity:.5;cursor:not-allowed}
+html #root .app-shell :is(.tabs,.studio-tabs,.tab-bar,.form-tab-buttons,.area-tabs,.ui-segmented){gap:5px;border-color:var(--ui-border)}
+html #root .app-shell :is(.tabs button,.studio-tabs button,.form-tab-buttons button,.area-tabs a,.ui-segmented button){font-family:var(--ui-font);font-size:12px;font-weight:550;border-radius:9px;padding:9px 13px;min-height:36px;background:transparent;color:var(--ui-muted)}
+html #root .app-shell :is(.tabs button.selected,.tabs button.active,.studio-tabs button.active,.form-tab-buttons button[aria-selected=true],.area-tabs a[aria-current=page],.ui-segmented button[aria-pressed=true]){background:var(--ui-soft);color:var(--ui-violet);border-color:var(--ui-border);box-shadow:none}
+html #root .app-shell :is(table,.studio-table,.finance-table,.comms-table){font-size:13px;border-collapse:separate;border-spacing:0;width:100%}
+html #root .app-shell :is(th,.studio-table th,.finance-table th,.comms-table th){font-size:11px;font-weight:600;letter-spacing:.3px;color:var(--ui-muted);background:var(--ui-soft);padding:13px 16px;border-bottom:1px solid var(--ui-border);white-space:nowrap}
+html #root .app-shell :is(td,.studio-table td,.finance-table td,.comms-table td){font-size:13px;padding:14px 16px;line-height:1.5;border-bottom:1px solid var(--ui-border);background:var(--ui-surface);color:var(--ui-ink);vertical-align:middle}
+html #root .app-shell tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--ui-soft) 32%,var(--ui-surface))}
+html #root .app-shell tbody tr:hover td{background:var(--ui-soft)}
+html #root .app-shell :is(td small,.studio-table td small,.finance-table td small){font-size:11px;line-height:1.5;color:var(--ui-muted)}
+html #root .app-shell :is(.table-wrap,.studio-table-wrap,.finance-table-scroll,.finance-table-wrap,.comms-table-wrap){border:1px solid var(--ui-border);border-radius:13px;max-width:100%;overflow:auto}
+html #root .app-shell .badge{font-size:11px;font-weight:550;padding:4px 9px;border-radius:20px;line-height:1.3;white-space:nowrap;background:var(--ui-soft);color:var(--ui-violet)}
+html #root .app-shell .badge:is(.active,.approved,.verified,.paid,.completed,.issued,.delivered,.sent){background:var(--ui-success-bg);color:var(--ui-success)}
+html #root .app-shell .badge:is(.pending,.proposed,.draft,.queued,.setup,.pending-approval,.payment-required){background:var(--ui-warning-bg);color:var(--ui-warning)}
+html #root .app-shell .badge:is(.rejected,.closed,.expired,.suspended,.overdue,.revoked,.failed,.cancelled){background:var(--ui-error-bg);color:var(--ui-error)}
+html #root .app-shell .avatar{border-radius:50%;background:var(--ui-soft);color:var(--ui-violet);font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}.ui-avatar img{width:100%;height:100%;object-fit:cover;border-radius:inherit}
+html #root .app-shell :is(.drawer,.studio-modal){background:var(--ui-surface);color:var(--ui-ink);border:1px solid var(--ui-border);border-radius:22px 0 0 22px;box-shadow:-12px 0 40px #34204b15}
+html #root .app-shell :is(.drawer>header,.drawer-head,.drawer-header,.studio-modal header){padding:20px 24px;border-bottom:1px solid var(--ui-border);gap:16px}
+html #root .app-shell :is(.drawer h2,.studio-modal h2){font-size:22px;font-weight:600;letter-spacing:-.5px;margin:0}
+html #root .app-shell :is(.drawer form,.drawer-body,.comms-drawer-body){padding:24px;gap:16px}
+html #root .app-shell :is(.overlay,.studio-overlay){background:#24163155;backdrop-filter:blur(3px)}
+html #root .app-shell .pagination{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;font-size:12px;color:var(--ui-muted)}.ui-pagination>div{display:flex;gap:8px}
+html #root .app-shell :is(.empty,.skeleton){padding:40px 24px;color:var(--ui-muted);text-align:center;font-size:13px}
+html #root .app-shell .empty h3{font-size:18px;font-weight:600;color:var(--ui-ink);margin-top:14px}.empty p{line-height:1.6}
+html #root .app-shell .error{border:1px solid #e9c2cc;border-radius:12px;background:var(--ui-error-bg);color:var(--ui-error);font-size:13px;padding:16px;line-height:1.6}
+html #root .app-shell :is(.comms-filter-bar,.studio-filter,.finance-search,.workspace-filter-row,.finance-report-controls){background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:12px;padding:12px;gap:12px}
+html #root .app-shell :is(.stat strong,.studio-metrics strong,.finance-metric strong,.comms-metric strong){font-size:29px;font-weight:600;letter-spacing:-.8px}.ui-search{display:flex;align-items:center;gap:9px;border:1px solid var(--ui-border);border-radius:10px;padding:0 12px;color:var(--ui-muted)}.ui-search input{border:0!important;background:transparent!important;padding-left:0!important;box-shadow:none!important;min-width:0;width:100%}
+.ui-tooltip-trigger{position:relative;display:inline-flex}.ui-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#332143;color:#fff;border-radius:8px;padding:7px 10px;font-size:11px;line-height:1.4;min-width:100px;max-width:230px;z-index:100;box-shadow:var(--ui-shadow)}
+html #root .app-shell :is(a,button,input,select,textarea):focus-visible{outline:2px solid var(--ui-violet);outline-offset:3px}
+html #root .app-shell:not(.admin-shell) .sidebar nav a{font-size:13px;min-height:44px}.app-shell:not(.admin-shell) .topbar{min-height:64px}
+html #root .app-shell.admin-shell .admin-overview h1{font-size:var(--ui-title);font-weight:650;letter-spacing:-.8px}html #root .app-shell.admin-shell .admin-overview h2{font-size:24px;font-weight:600;letter-spacing:-.5px}html #root .app-shell.admin-shell .ao-title-row>div>p{font-size:13px}html #root .app-shell.admin-shell .ao-stat strong{font-size:40px;font-weight:650}html #root .app-shell.admin-shell .ao-stat div>span{font-size:12px}
+@media(max-width:850px){html #root .app-shell main{padding:24px 20px}html #root .app-shell .heading{flex-wrap:wrap;gap:16px}html #root .app-shell .panel-title{padding:16px 18px}}
+@media(max-width:650px){html #root .app-shell main{padding:20px 14px}html #root .app-shell{--ui-title:24px;--ui-section:19px}html #root .app-shell :is(input:not([type=checkbox]):not([type=radio]):not([type=color]):not([type=range]),select,textarea){font-size:16px;max-width:100%;min-height:44px}html #root .app-shell :is(.primary,.secondary,.ui-button,.icon-btn){min-height:44px}html #root .app-shell :is(.drawer,.studio-modal){border-radius:22px 22px 0 0;max-width:100vw}html #root .app-shell :is(td,.studio-table td,.finance-table td){padding:12px;font-size:12px}html #root .app-shell :is(th,.studio-table th,.finance-table th){padding:12px;font-size:10px}html #root .app-shell .pagination{padding:14px;gap:10px;flex-wrap:wrap}html #root .app-shell :is(.drawer form,.drawer-body,.comms-drawer-body){padding:20px}html #root .app-shell .panel-title{padding:16px}html #root .app-shell.admin-shell .ao-search input{min-height:0}}
+@media(prefers-reduced-motion:reduce){.app-shell *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+@media print{html #root .app-shell{--ui-surface:#fff;--ui-ink:#17152e;--ui-muted:#655a77;--ui-border:#ddd;background:white}.ui-tooltip{display:none}}
+
+/* Public information and credential screens use the same restrained language. */
+html .landing{font-family:var(--ui-font);background:#fcfaff;color:#17152e}html .landing .hero h1{font-size:42px;font-weight:550;letter-spacing:-1.4px;line-height:1.15}html .landing .hero em{font-weight:600}html .landing .hero p{font-size:14px;line-height:1.7}html .landing header nav a{font-size:13px}html .landing .primary{font-size:14px;border-radius:12px}
+html .credential-verification{font-family:var(--ui-font);background:#fcfaff;color:#17152e}html .credential-verification section{background:white;border:1px solid #e3dbea;border-radius:22px;box-shadow:var(--ui-shadow)}html .credential-verification h1{font-size:28px;font-weight:600;letter-spacing:-.6px}html .credential-verification h2{font-size:21px;font-weight:600}html .credential-verification p{font-size:14px;line-height:1.6}
+@media(max-width:650px){html .landing .hero h1{font-size:32px}html .credential-verification h1{font-size:24px}}
+
+html #root .app-shell.admin-shell .ao-search-trigger{border:0;background:transparent;color:inherit;padding:0;display:grid;place-items:center;flex-shrink:0;width:22px;height:30px}
+@media(max-width:680px){html #root .app-shell.admin-shell .topbar{position:relative}html #root .app-shell.admin-shell .topbar .ao-search{width:36px;min-width:36px;padding:0;justify-content:center;border:0;background:transparent}html #root .app-shell.admin-shell .topbar .ao-search input{position:absolute;width:0;opacity:0;pointer-events:none;padding:0!important;min-height:0}html #root .app-shell.admin-shell .topbar .ao-search-trigger{width:36px;min-height:40px}html #root .app-shell.admin-shell .topbar .ao-search:focus-within{position:absolute;left:60px;right:14px;top:10px;width:auto;z-index:60;padding:0 10px;background:var(--ui-surface);border:1px solid var(--ui-border)}html #root .app-shell.admin-shell .topbar .ao-search:focus-within input{position:static;opacity:1;pointer-events:auto;width:100%;min-width:0;min-height:36px}html #root .app-shell.admin-shell .topbar .ao-search-results{top:44px}html #root .app-shell.admin-shell .topbar .ao-top-actions{gap:7px}}
+
+html #root .app-shell .membership-type-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px}html #root .app-shell .membership-type-tabs button{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ui-border);background:var(--ui-surface);color:var(--ui-muted);border-radius:12px;min-height:42px;padding:9px 15px;font-size:13px;font-weight:550}html #root .app-shell .membership-type-tabs button[aria-pressed=true]{background:var(--ui-soft);border-color:var(--ui-violet);color:var(--ui-violet)}.membership-type-note{font-size:12px;color:var(--ui-muted);margin-bottom:20px}.membership-kind-summary{display:flex;gap:15px;flex-wrap:wrap;margin:0 16px 24px}.membership-kind-summary a{display:flex;align-items:center;gap:8px;font-size:12px;background:var(--ui-surface);border:1px solid var(--ui-border);border-radius:12px;padding:12px 15px;color:var(--ui-ink)}.membership-kind-summary svg{color:var(--ui-violet)}.membership-kind-group{display:grid;gap:10px;width:100%;padding:8px}.membership-kind-group h3{font-size:13px;color:var(--ui-muted)}html #root .app-shell .membership-account-list .membership-kind-group>button{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--ui-border);border-radius:14px;background:var(--ui-surface);color:var(--ui-ink);text-align:left}.membership-kind-group button small{display:block;margin-top:7px;font-size:11px}.membership-kind-group button[aria-pressed=true]{outline:2px solid var(--ui-violet)}.organization-identity{display:flex;align-items:center;gap:18px;padding:20px}.organization-identity>svg{color:var(--ui-violet)}.organization-identity p{font-size:13px;color:var(--ui-muted);margin:8px 0}.organization-identity strong{font-size:21px}
+
+.contact-people-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}.contact-person{min-width:0;padding:18px;border:1px solid var(--border,#e4dded);border-radius:16px;background:var(--surface,#fff)}.contact-person h3{margin:8px 0 16px}.contact-person dl{margin:0}.contact-person dl>div{display:block;margin:12px 0}.contact-person dt{font-size:12px;opacity:.75}.contact-person dd{margin:4px 0;overflow-wrap:anywhere}.contact-person small{color:var(--accent,#7900d7)}
+
+/* Membership experience: keyboard access, compact forms and readable mobile actions. */
+.skip-link{position:fixed;top:-80px;left:16px;z-index:2000;padding:12px;background:#fff;color:#410080;border:2px solid #6800ba;border-radius:8px}.skip-link:focus{top:12px}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible,textarea:focus-visible{outline:3px solid #087f98;outline-offset:3px}.field-error{color:#a51830;font-size:13px}.field:has([aria-invalid=true]) input{border-color:#a51830}.missing-value{color:#656078}.ux-profile-summary{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center}.ux-profile-summary>strong{font-size:22px;flex-basis:100%}.ux-role-actions,.ux-contact-actions{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}.ux-history-details{white-space:pre-wrap;overflow-wrap:anywhere;max-height:360px;overflow:auto;font:inherit;padding:12px;background:var(--surface,#f8f4ff)}.ux-reminders{max-width:300px}.ux-row-actions{position:relative}.ux-row-actions summary{cursor:pointer;padding:8px}.ux-row-actions[open]{background:var(--surface,#fff);border:1px solid var(--border,#ded5ee);border-radius:10px;padding:8px}.contact-person .field{margin:12px 0}.contact-person dd a{overflow-wrap:anywhere}.contact-person .badge{margin-bottom:8px}.ao-nav{overflow:auto;max-height:calc(100dvh - 250px);scrollbar-width:thin}.badge.expired,.badge.payment-required{background:#ffe9e9;color:#942536}.badge.expiring-soon{background:#fff2cf;color:#795000}.badge.active{color:#096439;background:#ddf7e9}.ux-profile-summary a{min-height:38px;display:inline-flex;align-items:center}progress{display:block;width:100%;max-width:440px;margin-top:12px;accent-color:#7900d7}
+@media(max-width:700px){button,input,select,summary,.secondary,.primary{min-height:44px}.contact-people-grid{grid-template-columns:1fr}.ux-profile-summary{display:grid;gap:14px}.ux-role-actions>a{flex:1 1 100%}.ux-contact-actions button{flex:1 1 140px}.member-mobile-list .mobile-member-row{padding:16px}.ux-history-details{max-width:100%;font-size:13px}.field-error{line-height:1.5}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.app-shell .contact-person dt,.app-shell .contact-person small,.app-shell .field>span{color:var(--society-muted,#5d5470);opacity:1}.contact-person,.ux-row-actions[open]{background:var(--society-surface,#fff)}.ux-profile-summary>span{overflow-wrap:anywhere}
+
+.sidebar nav[aria-label="Main workspace navigation"]{overflow-y:auto;max-height:calc(100dvh - 280px);scrollbar-width:thin}.field-error{display:block;margin-top:6px;font-size:13px!important;line-height:1.5;color:#a51830!important} [data-theme="dark"] .field-error{color:#ffb9c6!important}
+
+.membership-stat-link{text-decoration:none;color:inherit;transition:box-shadow .15s,border-color .15s}.membership-stat-link:hover{border-color:#8500ed;box-shadow:0 4px 18px #8500ed20}.membership-stat-link small{color:#6600a9;margin-top:8px}.member-table td a,.distribution{color:var(--society-primary,#7100b5);text-underline-offset:3px}.member-table td a:hover{text-decoration:underline}

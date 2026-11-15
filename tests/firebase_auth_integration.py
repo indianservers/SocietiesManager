@@ -75,6 +75,13 @@ try:
  check('unverified social signup queues an actual verification request',sql('SELECT count(*) FROM "Outbox" WHERE "Recipient"=%s AND "Subject"=\'Verify your email\'',(unverified_email,))[0][0]==1)
  ordinary=Client();ordinary_email='ordinary-'+suffix+'@example.test';ordinary.call('/auth/signup','POST',{'email':ordinary_email,'password':password,'fullName':'Normal User','username':''});confirm(ordinary_email);ordinary.call('/auth/login','POST',{'email':ordinary_email,'password':password});check('ordinary email/password registration remains backward compatible',not ordinary.call('/users/me')['platformAdmin'])
  check('provider-supplied roles never grant platform privileges',not ordinary.call('/users/me')['platformAdmin'])
+ methods=mfa.call('/security/methods');check('security screen lists connected provider identities',len(methods['providers'])==2)
+ removed=methods['providers'][0];mfa.call('/security/providers/remove','POST',removed,status=204)
+ check('disconnecting a provider keeps the current MFA session usable',len(mfa.call('/security/methods')['providers'])==1 and mfa.call('/security/status')['mfaSession'])
+ mfa.call('/security/providers/remove','POST',removed,status=400);check('cannot disconnect a provider twice',True)
+ fresh_only=Client();fresh_email='only-provider-'+suffix+'@example.test';fresh_token=token('only-'+suffix,fresh_email)
+ fresh_only.call('/auth/firebase','POST',{'idToken':fresh_token});only=fresh_only.call('/security/methods')['providers'][0]
+ fresh_only.call('/security/providers/remove','POST',only,status=400);check('cannot remove the last primary sign-in method',True)
  print('SSO_TOTAL',len(checks),flush=True)
 finally:
  server.terminate();server.wait(timeout=20);log.close();(ROOT/'tests/firebase-auth-results.json').write_bytes(json.dumps({'passed':len(checks),'checks':checks},indent=2).encode())

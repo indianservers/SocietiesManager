@@ -78,6 +78,12 @@ try:
    page.set_viewport_size({'width':width,'height':844})
    for route in routes:inspect(page,'Society Administrator',route,width)
   check('all administrative workspaces fit 360px, 390px and 768px')
+  nested=['/app/members?view=directory','/app/members/governance?view=leadership','/app/members/governance?view=committees','/app/members/operations?view=applications','/app/members/operations?view=transfers','/app/members/operations?view=import','/app/members/settings','/app/organization?view=hierarchy','/app/organization?view=regions','/app/organization?view=chapters','/app/community/events','/app/community/settings','/app/community/oversight','/app/service/projects','/app/communications/inbox','/app/communications/broadcasts','/app/communications/content','/app/communications/automations','/app/communications/insights','/app/communications/settings','/app/finance?view=overview','/app/finance/collections','/app/finance/my','/app/studio/templates','/app/studio/issued','/app/studio/production?view=generate','/app/studio/production?view=jobs','/app/studio/production?view=requests','/app/studio/production?view=policy','/app/settings?view=society','/app/settings?view=branding','/app/settings?view=roles','/app/settings?view=audit','/app/settings?view=resources','/app/settings?view=readiness','/app/account?view=profile','/app/account?view=security','/app/account?view=memberships','/app/account?view=join','/app/resources','/app/clubs']
+  for width in [1440,768,390]:
+   page.set_viewport_size({'width':width,'height':900})
+   for route in nested:inspect(page,'Society Administrator · nested views',route,width)
+  check('nested administration, membership, chapter, finance, communication, document and account views share the system')
+
   page.set_viewport_size({'width':390,'height':844});navigate(page,'/app/members');page.get_by_role('button',name='Toggle navigation',exact=True).click();expect(page.locator('.sidebar')).to_have_class('sidebar open');page.get_by_role('link',name='Home',exact=True).click();expect(page.locator('.sidebar')).to_have_class('sidebar')
   check('mobile navigation opens and closes through real navigation')
   page.screenshot(path=str(ROOT/'tests/app-theme-dashboard-mobile.png'),full_page=True)

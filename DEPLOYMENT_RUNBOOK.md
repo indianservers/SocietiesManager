@@ -12,6 +12,16 @@ For a new empty installation, run migrations and `--bootstrap-admin` with protec
 
 The initial authenticated backup was restored to a separate scratch database and validated, then the scratch database was removed. The daily backup helper briefly quiesces only the membership API; other services remain running. Certificate renewal and backup timers keep all working files and logs on the additional disk. Back up the encryption key separately from encrypted snapshots. Before enabling real collections or sending email, configure the provider/SMTP settings and perform controlled end-to-end acceptance for those external services.
 
+## Membership import and self-service cards — 14 November 2026
+
+Release `20261114T024000Z` is deployed. The approved workbook import contains 253 individual memberships, 131 institutional memberships, and 378 institutional contacts. CMR Engineering College has one institutional membership with all six source contacts. Existing administrator accounts, settings, and templates were preserved. The production roster was empty before import, so no membership deletion or history-trigger bypass was needed.
+
+All source member numbers, names, and approved expiry dates were reconciled against production with zero mismatches. Month-only validity ends on the last calendar day; the database stores the exclusive next midnight in Asia/Kolkata. INS1003, INS1004, INS1005, INS1007, INS1008, and INS1009 are valid from 1 August 2023 through 31 January 2027.
+
+Members sign in using a verified source email to access imported memberships. Approved claim addresses are stored in immutable import history rather than editable profiles. Membership → My ID cards provides a PDF based on the live membership register, with an opaque protected QR token and current validity verification. This does not fabricate official Studio issuance approvals. Additional officially issued credentials retain the existing independent approval workflow. No account passwords were assigned and no member email campaign was sent.
+
+The AES-GCM pre-import backup `society-20261114T022410Z-c45f21.abk` was restored and verified in an isolated database before import. The first application switch failed because the package was framework-dependent; automatic rollback restored the prior app. The corrected release includes the verified bundled runtime. Public readiness and authenticated administrator directory checks pass. Local membership integration checks pass 81/81, including imported ownership, PDF download, unverified email denial, cross-account denial, and tampered QR rejection.
+
 ## Release prerequisites
 
 1. Close PRODUCTION_READINESS_CHECKLIST.md with named owners and attached evidence. Run `.github/workflows/verify.yml` on the exact reviewed commit; its remote status has not been verified here.
@@ -42,3 +52,66 @@ After automated smoke checks, sign in through production HTTPS, enroll/verify MF
 For an application-only failure, the host script can restore the previous application image. Database migrations are not automatically downgraded. Confirm backward compatibility before application rollback. If schema/data recovery is needed, stop writes, preserve failure evidence, restore into an isolated database/objects path, validate counts/hashes/journals/keys and have the operator perform an approved controlled cutover. Do not overwrite a live database with the verification helper. Follow BACKUP_RESTORE_RUNBOOK.md.
 
 Health endpoints: `/health/live` proves process liveness; `/health/ready` checks database connectivity and pending migrations. Neither is a production acceptance certificate. Monitor failed/aging queues, outbox errors, disk usage, database saturation, backup health, HTTPS and error rates. Define alert destinations and test a failure; no live alert destination was configured in this task.
+
+## Platform administrator overview — 14 November 2026
+
+Release `20261114T030115Z-dashboard` adds the reference-matched purple administrator shell and overview. Platform administrators land at `/app` after login; member login behavior remains unchanged. The overview uses `/api/v1/platform/overview`, an authenticated platform-only aggregate endpoint. Detailed records and actions retain their existing permissions. Calendar-period boundaries are calculated in Asia/Kolkata and converted to UTC for PostgreSQL.
+
+Desktop and 390px mobile checks passed against the live site, including real login redirect, create menu, participation chart, year/all-time date filters, and horizontal overflow checks. Local integration checks passed 84/84 and navigation checks 8/8. Membership records and society configuration were unchanged by this release. A pre-update encrypted backup is retained on the additional volume. The stable pre-dashboard fallback is `20261114T023716Z-theme`.
+
+## Approved application design — 14 November 2026
+
+Release `20261114T033925Z-approved-ui` implements the approved two-panel login mockup with a separate translucent brain/chip illustration, compact navigation, icon-led fields, remember-me control, four benefits and understated legal footer. Existing Google/Microsoft options remain visible when configured. Signup, verification, recovery and MFA use the same design without changing their destinations.
+
+The reusable design system is bundled through `design-tokens.css`, `app-ui.css`, and `ui.tsx`; `main.tsx` no longer loads the old static `society-theme.css` entry. Compatibility selectors and the new component contract live together in the bundled application theme. Existing module classes, permissions and routes are preserved. Auth content can still use other organizations' configured branding. Shared controls, panels, tables, pagination, status badges, drawers, empty/error/loading states, typography and spacing apply across membership, chapters, community, finance, communications, documents, service, intelligence, settings, platform administration and member account views. The illustration is used only on authentication screens.
+
+Remember me changes cookie persistence, retaining the established eight-hour cookie lifetime. Password and MFA sign-in share the optional setting; an unchecked control keeps a session-only cookie. Automated authentication checks verified persistent/session-only cookies, registration, verification, login/logout, password recovery/reset, authenticator and recovery-code sign-in. External provider consent screens and actual production email delivery were not triggered.
+
+Verification: 509 rendered screen checks across 26 distinct roles, desktop/tablet/mobile widths, nested sections and chapter details; zero browser page errors or error alerts. Authentication 27/27, social-authentication integration 27/27, and navigation 8/8 passed. Live checks verified loaded branding/artwork, three signup categories, accessible policy dialogs, recovery form, real platform administrator login, current dashboard counts and mobile layout. All 384 imported membership names and expiry dates matched their approved source values with zero mismatches. No production member, role or financial data was changed by the redesign.
+
+
+## Platform manual membership administration — 14 November 2026
+
+Platform administrators can select any society membership workspace, create and edit membership holders, IDs, categories, chapters, status, contact details, and joining/validity dates. Expiry dates are inclusive in Asia/Kolkata. Changes require an administration reason, optimistic revision checks, and retained history; manual entitlements do not manufacture payments. Delete archives with typed-ID confirmation; restore preserves the original membership identity. Individual and organization identity boundaries remain enforced for linked records.
+
+Platform membership access uses a role-only membership authorization helper. Existing strong MFA checks for platform configuration, pricing, roles, and financial operations remain in place. Individual card PDFs can be downloaded from profiles; the directory offers all or selected individual PDFs as a ZIP, excluding archived records. ZIP batches are limited to 2,000 records; larger societies can use chapter or selected-member batches. New manual individual records can optionally grant access by an explicitly approved verified personal email; editing a contact address does not transfer account ownership.
+
+Verification: 157 API integration checks and eight desktop/mobile browser workflows passed, covering dates, categories, duplicate IDs, stale writes, authorization, archival/restore, approved email ownership, and individual PDF/ZIP downloads. Production source audits confirmed 253 individuals, 131 institutions, 378 contacts, six CMR contacts, and zero source-field mismatches.
+
+Production release `20261114T083536Z-platform-members` passed seven live browser checks with zero page errors. All 253 individual PDF cards were downloaded and validated in a 68.3-second ZIP operation. Existing member records remained unchanged.
+
+
+## Individual member login and self-service ID download — 14 November 2026
+
+Verified individual accounts are matched to immutable approved import/manual registration email claims during password login and authenticated account loading. Members land at `/app/membership`, see their own existing membership, and download the current register ID PDF. Matching does not create another membership, change the membership ID, reset validity, or grant administrative privileges. Login/signup screens explain which email to use. Individual register IDs are downloadable independently of the issued-card download toggle; organizational documents and separately issued credentials retain their configured policies. Ownership checks protect the PDF and the administrator ZIP remains platform-only.
+
+All 253 production individuals have approved claim-email entries. Amazon SES will be provided later by the owner. Production signup records the account and queues verification, but verification and password-reset emails cannot be delivered until email transport is configured. Do not bypass email confirmation or set shared/default passwords for imported members. Test verification links are retrieved only for isolated synthetic accounts; this tests the real token flow, not SMTP transport.
+
+Validation: frontend production build and 160 API checks passed, including individual download with issued-card downloads disabled, organization policy preservation, ownership isolation, and prior administrative workflows. Ten end-to-end local browser checks cover signup, unverified sign-in denial, verification, login redirect, membership matching, PDF download, cross-member and bulk-download denial, mobile, unchanged validity, and logout. Equivalent live browser checks use temporary synthetic records which are removed afterward.
+
+
+## Professional AIMER individual ID template — 14 November 2026
+
+The published editable template `AIMER • Professional Individual ID` (8685a442-ed2f-49c1-9d04-fcaa8472a837) uses a CR80 front/back layout, the existing site organization logo, full society title, individual name, membership ID, inclusive expiry, mobile number, live verification QR, and a typeset D. Sai Satish / President, AIMER Society authorization block. No handwritten signature is fabricated. The logo is a private society-scoped Studio asset. A `member.phone` typed field is available to templates.
+
+Published versions of this template drive individual register PDF and ZIP downloads. Archived/unpublished absence falls back to the existing starter; organizational documents retain their prior layout, and already-issued credential snapshots are unchanged. `--install-aimer-card` requires an explicit AIMER_CARD_TENANT and an AIMER-named society; repeat installation preserves saved edits and published versions. Local preview artifacts are in artifacts/aimer-professional-card.
+
+163 API checks passed, including branded member PDF rendering, QR decoding, published version installation and repeat-install preservation. Seven production browser checks passed with zero page errors, including template gallery, president/logo content, PDF download, decoded QR resolving to live verification, and mobile layout. Source membership names and expiry values remained unchanged.
+
+
+## Individual member personal-details CRUD — 14 November 2026
+
+Individual members have an audited editor in their membership portal for contact, address, personal, education, emergency-contact and privacy details. `/membership/my/{id}/profile` supports reading, merging/updating and explicitly clearing optional personal fields. The endpoint limits access to the owning Individual membership, rejects administrative fields, and uses revision checks and society locking. Clearing optional details retains membership identity, entitlement, login access and history. Contact email updates do not change sign-in identity or approved email claims. Archived memberships cannot use this editor.
+
+Registered name and membership ID are read-only for members. The older membership update route also rejects registered Individual name changes without member-administration permission. Membership category, status, chapter, joining/validity and expiry remain under administrator control. Existing organization-controller behavior is retained.
+
+Validation: 174 API integration checks and 16 local browser checks passed, including profile upsert/read/delete, invalid fields/email rejection, stale revisions, ownership isolation, fixed registered identity, login/logout, ID PDF download and mobile layout. Live validation uses a temporary Individual account and two synthetic memberships; cleanup removes these exact fixtures and final source audits verify the approved imports. SES email delivery remains pending configuration; synthetic test verification uses the actual queued confirmation token.
+
+
+## Private membership portals — 14 November 2026
+
+Accounts without active staff permissions use a separate set of portal routes and navigation. Their membership kinds come from their authorized portfolio, not the signup preference. Individual, institutional and corporate labels select only memberships the verified account owns or represents; institutional/corporate-only accounts show organization documents and team/roster controls without an individual personal editor. Members see their own membership, affiliations/chapters, resources, account and invoices/receipts. Staff and Platform Admin workspaces remain separate. Direct attempts to open administrative directories, organization administration, templates, insights or platform settings redirect ordinary accounts to their private portal, without mounting those admin modules. Backend authorization continues to enforce ownership independently.
+
+The self-finance route renders only the member ledger/invoice interface, without accounting setup or staff navigation. Login/account loading also establishes the society link for verified roster affiliations via Entitled(), without assigning an administrative role or organization ownership. Existing approved workbook claim emails cover all 253 individuals and 125 of 131 institutions. INS1001, INS1002, INS1003, INS1004, INS1005 and INS1007 have no registered contact email; authorized emails are requested from the owner. SES delivery remains pending.
+
+Verification: 176 API checks and 45 local browser checks across Individual, Institutional and Corporate accounts passed. Browser checks cover approved organization claims, login, private navigation, direct admin-route redirects, own-document downloads, cross-member access denial, personal-profile separation, own finance, mobile and logout. Production verification uses temporary exact-ID fixtures and then removes them.

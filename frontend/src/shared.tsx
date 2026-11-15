@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef, createContext, useContext } from "react";
+import {Card, IconButton} from "./ui";
+import { useState, useEffect, useRef, createContext, useContext, useId } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Layers, X, LoaderCircle } from "lucide-react";
+import { Layers, X, LoaderCircle, Crown, PenLine, Building2, UserRound } from "lucide-react";
 import { api } from "./api";
 export type Context = {
   tenant: string;
+  platformAdmin?: boolean;
   workspace: any;
   scope: string;
   notify: (s: string) => void;
@@ -14,12 +16,7 @@ export type Context = {
 export const Ctx = createContext<Context>(null!);
 export const useApp = () => useContext(Ctx);
 export function Field({ label, children, ...props }: any) {
-  return (
-    <label className="field">
-      <span>{label}</span>
-      {children || <input {...props} />}
-    </label>
-  );
+ const [error,setError]=useState('');const id=useId();return <label className="field" onInvalidCapture={e=>{const input=e.target as HTMLInputElement;setError(input.validationMessage);input.setAttribute('aria-invalid','true');input.setAttribute('aria-describedby',id)}} onInputCapture={e=>{const input=e.target as HTMLInputElement;setError('');input.removeAttribute('aria-invalid')}}><span>{label}</span>{children||<input {...props}/ >}{error&&<small id={id} role="alert" className="field-error">{error}</small>}</label>;
 }
 export function Badge({ children }: any) {
   return (
@@ -54,15 +51,9 @@ export function Heading({ eyebrow, title, text, children }: any) {
     </div>
   );
 }
-export function Panel({ children, title }: any) {
-  return (
-    <section className="panel">
-      {title && <div className="panel-title">{title}</div>}
-      {children}
-    </section>
-  );
-}
+export function Panel({children,title}:any){return <Card title={title}>{children}</Card>}
 export function Drawer({ title, onClose, children }: any) {
+  const close=()=>{if(dialog.current?.querySelector('form[data-dirty="true"]')&&!window.confirm("Discard unsaved changes?"))return;onClose()};
   const dialog = useRef<HTMLElement>(null);
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
@@ -78,7 +69,7 @@ export function Drawer({ title, onClose, children }: any) {
   }, []);
   useEffect(() => {
     const f = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") close();
       if (e.key === "Tab") {
         const nodes = [
           ...(dialog.current?.querySelectorAll<HTMLElement>(
@@ -100,7 +91,7 @@ export function Drawer({ title, onClose, children }: any) {
     return () => document.removeEventListener("keydown", f);
   }, [onClose]);
   return (
-    <div className="overlay" onClick={onClose}>
+    <div className="overlay" onClick={close}>
       <section
         ref={dialog}
         role="dialog"
@@ -111,13 +102,7 @@ export function Drawer({ title, onClose, children }: any) {
       >
         <header>
           <h2>{title}</h2>
-          <button
-            className="icon-btn"
-            aria-label="Close drawer"
-            onClick={onClose}
-          >
-            <X />
-          </button>
+          <IconButton label="Close drawer" onClick={close}><X/></IconButton>
         </header>
         {children}
       </section>
@@ -159,6 +144,7 @@ export function useAction() {
       try {
         await fn();
         refresh();
+        window.dispatchEvent(new Event("aimer:saved"));
         notify(success);
         return true;
       } catch (e) {
@@ -169,4 +155,14 @@ export function useAction() {
       }
     },
   };
+}
+
+export function RoleBadge({children}: {children:string}) {
+ const hash=[...children.toLowerCase()].reduce((n,c)=>((n*31+c.charCodeAt(0))>>>0),0), hue=hash%360;
+ const Icon=/president/i.test(children)?Crown:/secretary/i.test(children)?PenLine:/institution/i.test(children)?Building2:UserRound;
+ return <span className="role-badge" style={{color:`hsl(${hue} 65% 28%)`,background:`hsl(${hue} 70% 94%)`,borderColor:`hsl(${hue} 45% 65%)`,borderRadius:/president/i.test(children)?'6px':'999px'}}><Icon size={13} aria-hidden="true"/>{children}</span>;
+}
+
+export function formatMembershipExpiry(value?:string){
+ return value ? new Date(new Date(value).getTime()-1).toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short',year:'numeric'}) : 'No expiry';
 }

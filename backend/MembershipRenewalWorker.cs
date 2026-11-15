@@ -27,7 +27,7 @@ public class MembershipRenewalWorker(IServiceScopeFactory factory, ILogger<Membe
             await using var tx = await db.Database.BeginTransactionAsync(ct); await MembershipService.Lock(db, candidate.TenantId);
             var m = await db.Memberships.SingleAsync(x => x.Id == candidate.Id, ct);
             var offer = await db.Set<MembershipOffer>().AsNoTracking().SingleOrDefaultAsync(o => o.TenantId == m.TenantId && o.CategoryId == m.CategoryId && o.Enabled, ct);
-            if (!m.RenewalReminders || m.EndsAt == null || m.Status != "Active" || m.PendingPayment || m.EndsAt > now.AddDays(offer?.ReminderDays ?? 30) || await db.Set<MembershipRenewalNotice>().AnyAsync(n => n.TenantId == m.TenantId && n.MembershipId == m.Id && n.TermEnd == m.EndsAt, ct)) continue;
+            if (!m.RenewalReminders || m.EndsAt == null || m.Status != "Active" || m.PendingPayment || m.EndsAt > now.AddDays(MembershipService.Json(m.Profile)["reminderLeadDays"]?.GetValue<int>() ?? offer?.ReminderDays ?? 30) || await db.Set<MembershipRenewalNotice>().AnyAsync(n => n.TenantId == m.TenantId && n.MembershipId == m.Id && n.TermEnd == m.EndsAt, ct)) continue;
             var recipients = await db.Users.Where(u => u.EmailConfirmed && (db.Persons.Any(p => p.Id == m.PersonId && p.UserId == u.Id) || db.Set<MembershipRepresentative>().Any(r => r.TenantId == m.TenantId && r.MembershipId == m.Id && r.UserId == u.Id && r.Role != "Coordinator" && r.RevokedAt == null && r.StartsAt <= now && (r.EndsAt == null || r.EndsAt > now)))).Select(u => new { u.Id, u.Email }).ToListAsync(ct);
             if (recipients.Count == 0) continue;
             var society = await db.Tenants.Where(t => t.Id == m.TenantId).Select(t => t.Name).SingleAsync(ct);

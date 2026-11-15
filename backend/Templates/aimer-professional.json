@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "widthMm": 85.6,
+  "heightMm": 53.98,
+  "safeMm": 3,
+  "background": "#FBFCFF",
+  "front": [
+    {
+      "id": "f-header",
+      "type": "Rect",
+      "x": 0,
+      "y": 0,
+      "width": 85.6,
+      "height": 14.6,
+      "fill": "#111A36"
+    },
+    {
+      "id": "f-violet",
+      "type": "Rect",
+      "x": 0,
+      "y": 14.6,
+      "width": 62,
+      "height": 1,
+      "fill": "#7134CD"
+    },
+    {
+      "id": "f-teal",
+      "type": "Rect",
+      "x": 62,
+      "y": 14.6,
+      "width": 23.6,
+      "height": 1,
+      "fill": "#14B8B0"
+    },
+    {
+      "id": "f-logo",
+      "type": "Image",
+      "x": 3,
+      "y": 1.3,
+      "width": 11.5,
+      "height": 11.5,
+      "assetId": "ba85e779-c614-4c41-b833-520b30eb14d1"
+    },
+    {
+      "id": "f-society",
+      "x": 17,
+      "y": 2.3,
+      "width": 65,
+      "height": 10,
+      "text": "Artificial Intelligence Medical and\nEngineering Researchers Society",
+      "fontSize": 2.55,
+      "fill": "#FFFFFF",
+      "bold": true,
+      "required": true
+    },
+    {
+      "id": "f-kind",
+      "x": 4.7,
+      "y": 18.5,
+      "width": 74,
+      "height": 4,
+      "text": "{{member.membership_category}}",
+      "fontSize": 2.45,
+      "fill": "#7134CD",
+      "bold": true
+    },
+    {
+      "id": "f-name",
+      "x": 4.5,
+      "y": 23.2,
+      "width": 76.5,
+      "height": 8,
+      "text": "{{member.full_name}}",
+      "fontSize": 4.8,
+      "fill": "#111A36",
+      "bold": true,
+      "required": true
+    },
+    {
+      "id": "f-rule",
+      "type": "Rect",
+      "x": 4.7,
+      "y": 32.1,
+      "width": 53.8,
+      "height": 0.25,
+      "fill": "#DDE2EE"
+    },
+    {
+      "id": "f-id-label",
+      "x": 4.7,
+      "y": 34,
+      "width": 33,
+      "height": 3,
+      "text": "MEMBERSHIP ID",
+      "fontSize": 1.85,
+      "fill": "#637087",
+      "bold": true
+    },
+    {
+      "id": "f-id",
+      "x": 4.7,
+      "y": 37.5,
+      "width": 54,
+      "height": 4.8,
+      "text": "{{member.member_id}}",
+      "fontSize": 2.9,
+      "fill": "#111A36",
+      "bold": true,
+      "required": true
+    },
+    {
+      "id": "f-expiry",
+      "x": 4.7,
+      "y": 44.1,
+      "width": 53,
+      "height": 4,
+      "text": "Valid through  {{card.expiry_date}}",
+      "fontSize": 2.35,
+      "fill": "#111A36",
+      "bold": false
+    },
+    {
+      "id": "f-qr-box",
+      "type": "Rect",
+      "x": 60,
+      "y": 29.6,
+      "width": 21,
+      "height": 21,
+      "fill": "#FFFFFF"
+    },
+    {
+      "id": "f-qr",
+      "type": "QR",
+      "x": 60,
+      "y": 29.6,
+      "width": 21,
+      "height": 21,
+      "fill": "#111A36"
+    },
+    {
+      "id": "f-bottom",
+      "type": "Rect",
+      "x": 0,
+      "y": 51,
+      "width": 85.6,
+      "height": 2.98,
+      "fill": "#111A36"
+    },
+    {
+      "id": "f-bottom-text",
+      "x": 4.7,
+      "y": 51.6,
+      "width": 76,
+      "height": 2,
+      "text": "RESEARCH  /  LEARNING  /  COMMUNITY",
+      "fontSize": 1.5,
+      "fill": "#FFFFFF",
+      "bold": true
+    }
+  ],
+  "back": [
+    {
+      "id": "b-bg",
+      "type": "Rect",
+      "x": 0,
+      "y": 0,
+      "width": 85.6,
+      "height": 53.98,
+      "fill": "#111A36"
+    },
+    {
+      "id": "b-edge",
+      "type": "Rect",
+      "x": 0,
+      "y": 0,
+      "width": 1.3,
+      "height": 53.98,
+      "fill": "#14B8B0"
+    },
+    {
+      "id": "b-watermark",
+      "type": "Image",
+      "x": 53,
+      "y": 6,
+      "width": 30,
+      "height": 30,
+      "assetId": "ba85e779-c614-4c41-b833-520b30eb14d1",
+      "opacity": 0.12
+    },
+    {
+      "id": "b-brand",
+      "x": 5,
+      "y": 4.6,
+      "width": 70,
+      "height": 5.5,
+      "text": "AIMER SOCIETY",
+      "fontSize": 4.1,
+      "fill": "#FFFFFF",
+      "bold": true
+    },
+    {
+      "id": "b-purpose",
+      "x": 5,
+      "y": 11.6,
+      "width": 67,
+      "height": 4,
+      "text": "MEMBERSHIP  /  DIGITAL VERIFICATION",
+      "fontSize": 1.9,
+      "fill": "#64E0D9",
+      "bold": true
+    },
+    {
+      "id": "b-note",
+      "x": 5,
+      "y": 18,
+      "width": 62,
+      "height": 9,
+      "text": "This card identifies the registered member.\nScan the QR code for current membership status.",
+      "fontSize": 2.25,
+      "fill": "#DDE4F5",
+      "bold": false
+    },
+    {
+      "id": "b-phone-label",
+      "x": 5,
+      "y": 28,
+      "width": 27,
+      "height": 3,
+      "text": "REGISTERED MOBILE",
+      "fontSize": 1.7,
+      "fill": "#A6B1CD",
+      "bold": true
+    },
+    {
+      "id": "b-phone",
+      "x": 5,
+      "y": 31.5,
+      "width": 40,
+      "height": 4,
+      "text": "{{member.phone}}",
+      "fontSize": 2.6,
+      "fill": "#FFFFFF",
+      "bold": true
+    },
+    {
+      "id": "b-sign-rule",
+      "type": "Rect",
+      "x": 5,
+      "y": 39,
+      "width": 39,
+      "height": 0.25,
+      "fill": "#5C6888"
+    },
+    {
+      "id": "b-president",
+      "x": 5,
+      "y": 40.7,
+      "width": 47,
+      "height": 4,
+      "text": "D. Sai Satish",
+      "fontSize": 3.1,
+      "fill": "#FFFFFF",
+      "bold": true
+    },
+    {
+      "id": "b-president-title",
+      "x": 5,
+      "y": 45,
+      "width": 47,
+      "height": 3.5,
+      "text": "President, AIMER Society",
+      "fontSize": 2.15,
+      "fill": "#B8C5E1",
+      "bold": false
+    },
+    {
+      "id": "b-site",
+      "x": 53,
+      "y": 44.8,
+      "width": 28,
+      "height": 4,
+      "text": "aimersociety.com",
+      "fontSize": 2,
+      "fill": "#64E0D9",
+      "bold": false,
+      "align": "right"
+    },
+    {
+      "id": "b-bottom",
+      "type": "Rect",
+      "x": 0,
+      "y": 51,
+      "width": 85.6,
+      "height": 2.98,
+      "fill": "#7134CD"
+    }
+  ]
+}

@@ -6,18 +6,22 @@ public static class MembershipExperienceEndpoints
 {
     public static void Map(RouteGroupBuilder api)
     {
+        ClubMembership.Map(api);
+        IndividualSelfProfile.Map(api);
+        MembershipCards.Map(api);
         api.MapGet("/membership/portfolio", async (AppDb db, Access a) =>
         {
+            await ImportedMemberships.LinkAccount(db,a.UserId);
             var rows = await (from m in MembershipExperience.Owned(db, a.UserId)
                 join c in db.MembershipCategories on m.CategoryId equals c.Id
                 join p in db.Persons on m.PersonId equals p.Id
                 join tenant in db.Tenants on m.TenantId equals tenant.Id
                 join chapter in db.Units on m.ChapterId equals chapter.Id
                 select new { member = m, c.Kind, category = c.Name, holder = p.FullName, society = tenant.Name, chapter = chapter.Name,
-                    relationship = p.UserId == a.UserId ? "My membership" : db.Set<MembershipRepresentative>().Where(r => r.MembershipId == m.Id && r.UserId == a.UserId && r.RevokedAt == null).Select(r => r.Role).FirstOrDefault(),
+                    relationship = p.UserId == a.UserId ? "My membership" : db.Set<MembershipRepresentative>().Where(r => r.MembershipId == m.Id && r.UserId == a.UserId && r.RevokedAt == null).Select(r => r.Role).FirstOrDefault() ?? "Verified member",
                     offer = db.Set<MembershipOffer>().Where(o => o.TenantId == m.TenantId && o.CategoryId == m.CategoryId).SingleOrDefault() }).ToListAsync();
             return Results.Ok(rows.Select(r => new { r.member.Id, r.member.TenantId, r.member.Number, r.member.ChapterId, r.member.CategoryId, r.member.EndsAt, r.member.EffectiveFrom,
-                r.member.RenewalReminders, r.Kind, r.category, r.holder, r.society, r.chapter, r.relationship, state = MembershipExperience.State(r.member), active = MembershipExperience.Current(r.member), r.offer }));
+                r.member.RenewalReminders, reminderLeadDays=MembershipService.Json(r.member.Profile)["reminderLeadDays"]?.GetValue<int>()??30, r.Kind, r.category, r.holder, r.society, r.chapter, r.relationship, state = MembershipExperience.State(r.member), active = MembershipExperience.Current(r.member), r.offer }));
         }).RequireAuthorization();
 
         api.MapGet("/membership/affiliations", async (AppDb db, Access a) =>
@@ -48,7 +52,7 @@ public static class MembershipExperienceEndpoints
         t.MapPut("/members/{id:guid}/renewal-reminders", async (Guid tenant, Guid id, ReminderWrite r, AppDb db, Access a) =>
         {
             var member = await MembershipExperience.Owned(db, a.UserId, true).SingleOrDefaultAsync(m => m.TenantId == tenant && m.Id == id) ?? throw new AccessDeniedException();
-            member.RenewalReminders = r.Enabled; member.Revision++;
+            if(r.Days is not (7 or 14 or 30 or 60 or 90))throw new DomainException("Choose 7, 14, 30, 60 or 90 reminder days"); member.RenewalReminders = r.Enabled; var reminderProfile=MembershipService.Json(member.Profile);reminderProfile["reminderLeadDays"]=r.Days;member.Profile=reminderProfile.ToJsonString(); member.Revision++;
             a.Audit(tenant, "membership.renewal.reminders", id, new { r.Enabled }); await db.SaveChangesAsync(); return Results.NoContent();
         });
         t.MapGet("/members/{id:guid}/renewals", async (Guid tenant, Guid id, AppDb db, Access a) =>
@@ -84,9 +88,18 @@ public static class MembershipExperienceEndpoints
             if (r.Role == "Controller" && !await db.Set<MembershipRepresentative>().AnyAsync(x => x.TenantId == tenant && x.MembershipId == id && x.Id != representative && x.Role == "Controller" && x.RevokedAt == null && x.StartsAt <= DateTimeOffset.UtcNow && (x.EndsAt == null || x.EndsAt > DateTimeOffset.UtcNow))) throw new DomainException("Keep at least one current controller");
             r.RevokedAt = DateTimeOffset.UtcNow; a.Audit(tenant, "membership.representative.revoked", representative); await db.SaveChangesAsync(); await tx.CommitAsync(); return Results.NoContent();
         });
+        t.MapGet("/members/{id:guid}/id-cards", async (Guid tenant, Guid id, AppDb db, Access a, StudioService studio) =>
+        {
+            await a.Member(tenant);
+            if (!await studio.Own(tenant, id)) throw new AccessDeniedException();
+            var policy = await studio.Policy(tenant);
+            var cards = await db.Set<Credential>().Where(c => c.TenantId == tenant && c.MembershipId == id && c.Kind == "Card")
+                .OrderByDescending(c => c.At).ToListAsync();
+            return Results.Ok(new { downloadsEnabled = policy.MemberDownloads || await db.Memberships.AnyAsync(m=>m.TenantId==tenant&&m.Id==id&&db.MembershipCategories.Any(c=>c.Id==m.CategoryId&&c.Kind=="Individual")), cards = cards.Select(StudioEndpoints.Card) });
+        });
         t.MapGet("/members/{id:guid}/roster", async (Guid tenant, Guid id, AppDb db, Access a) =>
         {
-            await ManageMember(db, a, tenant, id);
+            await ManageMember(db, a, tenant, id, clubRoster: true);
             return await db.Set<OrganizationMember>().Where(r => r.TenantId == tenant && r.MembershipId == id)
                 .OrderBy(r => r.FullName).ToListAsync();
         });
@@ -212,23 +225,24 @@ public static class MembershipExperienceEndpoints
     }
     static async Task<Membership> ManageRoster(AppDb db, Access a, Guid tenant, Guid id, bool requireActive = true)
     {
-        var member = await ManageMember(db, a, tenant, id);
+        var member = await ManageMember(db, a, tenant, id, clubRoster: true);
         if (!await db.MembershipCategories.AnyAsync(c => c.TenantId == tenant && c.Id == member.CategoryId && c.Kind != "Individual")) throw new DomainException("Choose an institutional or corporate membership");
-        if (!await MembershipExperience.Owned(db, a.UserId, true).AnyAsync(m => m.Id == id && m.TenantId == tenant)) await a.Require(tenant, "members.write", member.ChapterId);
+        if (!await MembershipExperience.Owned(db, a.UserId, true).AnyAsync(m => m.Id == id && m.TenantId == tenant) && !await ClubMembership.CanManageRoster(db,a,tenant,id)) await a.Require(tenant, "members.write", member.ChapterId);
         if (requireActive && !MembershipExperience.Current(member)) throw new DomainException("Activate or renew the organization membership before changing its roster");
         return member;
     }
-    static async Task<Membership> ManageMember(AppDb db, Access a, Guid tenant, Guid id, bool controller = false)
+    static async Task<Membership> ManageMember(AppDb db, Access a, Guid tenant, Guid id, bool controller = false, bool clubRoster = false)
     {
-        await a.Member(tenant);
+        if(await a.Platform())await PlatformMemberAdmin.Require(a);else await a.Member(tenant);
         var member = await db.Memberships.SingleOrDefaultAsync(m => m.TenantId == tenant && m.Id == id) ?? throw new AccessDeniedException();
+        if(await a.Platform())return member;
         if (controller)
         {
             var now = DateTimeOffset.UtcNow;
             if (await db.Set<MembershipRepresentative>().AnyAsync(r => r.TenantId == tenant && r.MembershipId == id && r.UserId == a.UserId && r.Role == "Controller" && r.RevokedAt == null && r.StartsAt <= now && (r.EndsAt == null || r.EndsAt > now))) return member;
             await a.Require(tenant, "members.write", member.ChapterId);
         }
-        else if (!await MembershipExperience.Owned(db, a.UserId, true).AnyAsync(m => m.TenantId == tenant && m.Id == id)) await a.Require(tenant, "members.read", member.ChapterId);
+        else if (!await MembershipExperience.Owned(db, a.UserId, true).AnyAsync(m => m.TenantId == tenant && m.Id == id) && (!clubRoster || !await ClubMembership.CanManageRoster(db,a,tenant,id))) await a.Require(tenant, "members.read", member.ChapterId);
         return member;
     }
     static void ValidateResource(ResourceWrite r)
@@ -239,4 +253,4 @@ public static class MembershipExperienceEndpoints
     }
     static void SetResource(MemberResource resource, ResourceWrite r) { resource.Title = r.Title.Trim(); resource.Description = r.Description; resource.Kind = r.Kind; resource.Audiences = r.Audiences.Distinct().ToArray(); resource.Content = r.Content; resource.Url = r.Url; resource.Published = r.Published; }
 }
-public record ReminderWrite(bool Enabled);
+public record ReminderWrite(bool Enabled,int Days=30);

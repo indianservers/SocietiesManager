@@ -9,8 +9,9 @@ public static class MembershipExperience
     public static IQueryable<Membership> Owned(AppDb db, Guid user, bool administratorsOnly = false)
     {
         var now = DateTimeOffset.UtcNow;
+        var imported = ImportedMemberships.ForAccount(db,user).Select(m=>m.Id);
         return db.Memberships.Where(m => db.Tenants.Any(t => t.Id == m.TenantId && t.Status != "Suspended") &&
-            (db.Persons.Any(p => p.Id == m.PersonId && p.UserId == user) ||
+            (imported.Contains(m.Id) || db.Persons.Any(p => p.Id == m.PersonId && p.UserId == user) ||
              db.Set<MembershipRepresentative>().Any(r => r.TenantId == m.TenantId && r.MembershipId == m.Id && r.UserId == user && (!administratorsOnly || r.Role != "Coordinator") && r.RevokedAt == null && r.StartsAt <= now && (r.EndsAt == null || r.EndsAt > now))));
     }
 

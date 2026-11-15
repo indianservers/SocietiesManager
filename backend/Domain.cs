@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 namespace Society.Api;
 
-public class Account : IdentityUser<Guid> { public string FullName { get; set; } = ""; public bool PlatformAdmin { get; set; } public string PreferredMembershipKind { get; set; } = "Individual"; public Guid? SignupTenantId { get; set; } }
+public class Account : IdentityUser<Guid> { public bool LoginChecklistDismissed { get; set; } public bool LoginProfileConfirmed { get; set; } public bool LoginIdViewed { get; set; } public string FullName { get; set; } = ""; public bool PlatformAdmin { get; set; } public string PreferredMembershipKind { get; set; } = "Individual"; public Guid? SignupTenantId { get; set; } }
 public class Tenant { public Guid Id { get; set; } = Guid.NewGuid(); public string Name { get; set; } = ""; public string Status { get; set; } = "Setup"; public string Profile { get; set; } = "{}"; public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow; }
 public class Application { public Guid Id { get; set; } = Guid.NewGuid(); public Guid ApplicantId { get; set; } public string Name { get; set; } = ""; public string Fingerprint { get; set; } = ""; public string Details { get; set; } = "{}"; public string Status { get; set; } = "Pending"; public string? ReviewNote { get; set; } public Guid? TenantId { get; set; } public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow; }
 public class Link { public Guid TenantId { get; set; } public Guid UserId { get; set; } }
@@ -25,7 +25,7 @@ public partial class AppDb(DbContextOptions<AppDb> options) : IdentityDbContext<
     [DbFunction("descendant_chapter_count")] public static int ChapterCount(Guid tenant, Guid unit) => throw new NotSupportedException();
     protected override void OnModelCreating(ModelBuilder b)
     {
-        base.OnModelCreating(b);
+        base.OnModelCreating(b); MemberLogin.ConfigureModel(b);
         MembershipModel.Configure(b); MembershipExperienceModel.Configure(b); CommunityModel.Configure(b); CommunicationModel.Configure(b); FinanceModel.Configure(b); StudioModel.Configure(b);
         b.Entity<Asset>().HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict);
         b.Entity<Invitation>().HasIndex(x => x.TokenHash).IsUnique(); b.Entity<Invitation>().HasOne<Tenant>().WithMany().HasForeignKey(x => x.TenantId).OnDelete(DeleteBehavior.Restrict);
