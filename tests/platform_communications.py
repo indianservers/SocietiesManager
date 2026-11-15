@@ -1,0 +1,71 @@
+"""Isolated integration tests: synthetic member records, local pickup email and test WhatsApp provider only."""
+import json,os,uuid,time,socket,subprocess,shutil,hashlib
+from pathlib import Path
+import psycopg
+from psycopg import sql
+from playwright.sync_api import sync_playwright,expect
+ROOT=Path.cwd();cfg=json.loads((ROOT/'.local/dev.json').read_text());suffix=uuid.uuid4().hex[:10];database='platform_comms_'+suffix;dsn=dict(host='127.0.0.1',port=55439,user='postgres',password=cfg['password'],dbname=database)
+with psycopg.connect(**{**dsn,'dbname':'postgres'},autocommit=True) as db:db.execute(sql.SQL('CREATE DATABASE {} TEMPLATE assemblia_welcome_test').format(sql.Identifier(database)))
+def query(text,args=()):
+ with psycopg.connect(**dsn) as db:
+  r=db.execute(text,args);return r.fetchall() if r.description else None
+query('UPDATE "Outbox" SET "Status"=\'Cancelled\' WHERE "SentAt" IS NULL');query('UPDATE "CommunicationCampaign" SET "Status"=\'Cancelled\'');query('UPDATE "CommunicationAutomation" SET "Enabled"=false')
+with socket.socket() as sock:sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
+URL='http://localhost:'+str(port);folder=ROOT/'.local'/('platform-comms-run-'+suffix);folder.mkdir();shutil.copytree(ROOT/'frontend/dist',folder/'wwwroot');env={**os.environ,'ASPNETCORE_ENVIRONMENT':'Development','ConnectionStrings__Database':f"Host=127.0.0.1;Port=55439;Database={database};Username=postgres;Password={cfg['password']}",'PublicUrl':URL,'Communications__AllowTestProvider':'true','Logging__LogLevel__Default':'Warning'};subprocess.run(['dotnet',str(ROOT/'.local/platform-comms-local/Society.Api.dll'),'--migrate'],env=env,cwd=folder,check=True,stdout=subprocess.DEVNULL);log=(folder/'api.log').open('w');server=subprocess.Popen(['dotnet',str(ROOT/'.local/platform-comms-local/Society.Api.dll'),'--urls',URL,'--contentRoot',str(folder)],cwd=folder,env=env,stdout=log,stderr=log,creationflags=subprocess.CREATE_NO_WINDOW);checks=[];password='Comms!'+uuid.uuid4().hex+'Aa9'
+def check(name,value=True):assert value,name;checks.append(name);print('PASS',name,flush=True)
+try:
+ with sync_playwright() as pw:
+  browser=pw.chromium.launch();ctx=browser.new_context(viewport={'width':1440,'height':1000});req=ctx.request
+  def call(path,body=None,method=None,status=200,client=req):
+   path='/api/v1'+path;headers={}
+   if body is not None:headers['X-CSRF-TOKEN']=client.get(URL+'/api/v1/auth/csrf').json()['token']
+   r=client.fetch(URL+path,method=method or ('POST' if body is not None else 'GET'),data=body,headers=headers);assert r.status==status,(path,r.status,r.text()[:200]);return r.json() if r.body() else None
+  for _ in range(100):
+   try:req.get(URL+'/health');break
+   except Exception:time.sleep(.2)
+  def account(label,platform=False):
+   email=label.lower().replace(' ','-')+'-'+suffix+'@example.invalid';call('/auth/signup',{'email':email,'password':password,'fullName':label});query('UPDATE "AspNetUsers" SET "EmailConfirmed"=true,"PlatformAdmin"=%s WHERE "NormalizedEmail"=%s',(platform,email.upper()));return email,str(query('SELECT "Id" FROM "AspNetUsers" WHERE "NormalizedEmail"=%s',(email.upper(),))[0][0])
+  admin,adminid=account('Platform Sender',True);u1,uid1=account('Member One');u2,uid2=account('Member Optout');call('/auth/login',{'email':admin,'password':password});tenant=str(uuid.uuid4());level=str(uuid.uuid4());chapter=str(uuid.uuid4());cats={k:str(uuid.uuid4()) for k in ['Individual','Institutional']}
+  query('INSERT INTO "Tenants" ("Id","Name","Status","Profile","CreatedAt") VALUES (%s,%s,\'Active\',\'{}\',now())',(tenant,'Comms QA '+suffix));query('INSERT INTO "Levels" ("Id","TenantId","Name","Kind","AllowedParents","AllowRoot") VALUES (%s,%s,\'Root\',\'Society\',\'{}\',true)',(level,tenant));query('INSERT INTO "Units" ("Id","TenantId","LevelId","Name","Code","Status","Details","CreatedAt","UpdatedAt","Revision") VALUES (%s,%s,%s,\'QA Chapter\',\'QA\',\'Active\',\'{}\',now(),now(),0)',(chapter,tenant,level))
+  for k,c in cats.items():query('INSERT INTO "MembershipCategories" ("Id","TenantId","Name","Kind","Description","Active") VALUES (%s,%s,%s,%s,\'\',true)',(c,tenant,k,k))
+  def member(kind,label,email,current=True,consent=False,user=None):
+   mid=str(uuid.uuid4());person=str(uuid.uuid4());profile={'email':email,'contactEmail':email if kind=='Institutional' else None,'phone':'+919000000001','country':'India','city':'Test City'}
+   query('INSERT INTO "Persons" ("Id","FullName","SearchName","UserId","CreatedAt","Revision") VALUES (%s,%s,%s,%s,now(),0)',(person,label,label.lower(),user));query('INSERT INTO "Memberships" ("Id","TenantId","PersonId","ChapterId","CategoryId","Number","Status","JoinedAt","EffectiveFrom","EndsAt","Profile","Privacy","Revision","PendingPayment","RenewalReminders") VALUES (%s,%s,%s,%s,%s,%s,\'Active\',now(),now()-interval \'1 year\',now()+(%s)*interval \'1 day\',%s::jsonb,%s::jsonb,0,false,false)',(mid,tenant,person,chapter,cats[kind],'QA-'+label,30 if current else -10,json.dumps(profile),json.dumps({'communication':consent})));return mid
+  one=member('Individual','Member <QA> One',u1,consent=True,user=uid1);expired=member('Individual','Expired Member','expired@example.invalid',False);member('Individual','Duplicate',u1);member('Individual','Missing','');member('Individual','Suppressed','suppressed@example.invalid');member('Individual','Optout',u2,user=uid2);inst=member('Institutional','Institution <QA>','institution@example.invalid')
+  for uid in [adminid,uid1,uid2]:query('INSERT INTO "Links" ("TenantId","UserId") VALUES (%s,%s)',(tenant,uid))
+  for uid,email,wa in [(uid1,True,True),(uid2,False,False)]:query('INSERT INTO "CommunicationPreference" ("Id","TenantId","UserId","DirectMessages","InApp","Email","Sms","WhatsApp","TimeZone","QuietStart","QuietEnd","UpdatedAt") VALUES (%s,%s,%s,true,true,%s,false,%s,\'Asia/Kolkata\',22,8,now())',(str(uuid.uuid4()),tenant,uid,email,wa))
+  query('INSERT INTO "CommunicationSuppression" ("Id","TenantId","Channel","DestinationHash","Reason","At") VALUES (%s,%s,\'Email\',%s,\'test optout\',now())',(str(uuid.uuid4()),tenant,hashlib.sha256(b'suppressed@example.invalid').hexdigest().upper()))
+  root='/platform/communications';check('Platform center setup',call(root+'/setup')['senderName']=='AIMER Society')
+  def draft(**extra):
+   value=dict(tenantId=tenant,name='QA '+uuid.uuid4().hex[:7],memberKind='Individual',channel='Email',purpose='MembershipNotice',term='All',subject='Hello {{member_name}}',body='Dear {{member_name}},\nMembership {{membership_id}} valid till {{valid_till}}. <script>alert(1)</script>');value.update(extra);return call(root+'/campaigns',value)
+  def preview(c):return call(root+'/campaigns/'+c['id']+'/preview')
+  c=draft();p=preview(c);check('Notice audience includes expired and deduplicates, missing contacts and optouts',p['eligible']==2 and p['total']==6);check('Email preview escapes member and message HTML','&lt;QA&gt;' in preview(draft(term='Current'))['html'] and '&lt;script&gt;' in p['html'] and '<script>' not in p['html']);check('Optional campaigns require consent',preview(draft(purpose='OptionalCampaign'))['eligible']==1);check('Institutional recipient grouping',preview(draft(memberKind='Institutional'))['eligible']==1);check('Current validity filter',preview(draft(term='Current'))['eligible']==1)
+  query('UPDATE "Memberships" SET "Profile"=jsonb_set("Profile",\'{email}\',\'"changed@example.invalid"\') WHERE "Id"=%s',(expired,));call(root+'/campaigns/'+c['id']+'/send',{'previewToken':p['previewToken']},status=400);check('Changed recipient snapshot rejected');query('UPDATE "Memberships" SET "Profile"=jsonb_set("Profile",\'{email}\',\'"expired@example.invalid"\') WHERE "Id"=%s',(expired,));p=preview(c);sent=call(root+'/campaigns/'+c['id']+'/send',{'previewToken':p['previewToken']});again=call(root+'/campaigns/'+c['id']+'/send',{'previewToken':p['previewToken']});check('Idempotent send prevents duplicate campaigns',sent['count']==2 and again['alreadyQueued'])
+  for _ in range(100):
+   jobs=query('SELECT "Status","Body" FROM "Outbox" WHERE "CampaignId"=%s',(c['id'],))
+   if len(jobs)==2 and all(j[0]=='Pickup' for j in jobs):break
+   time.sleep(.2)
+  check('Worker delivers exactly two personalized emails to local pickup',len(jobs)==2 and all(j[0]=='Pickup' for j in jobs));check('Email includes unsubscribe link',all('/unsubscribe?token=' in j[1] for j in jobs))
+  future=(__import__('datetime').datetime.now(__import__('datetime').timezone.utc)+__import__('datetime').timedelta(days=1)).isoformat();scheduled=draft(scheduledAt=future);sp=preview(scheduled);call(root+'/campaigns/'+scheduled['id']+'/send',{'previewToken':sp['previewToken']});call(root+'/campaigns/'+scheduled['id']+'/cancel',{},status=204);check('Scheduled campaign cancellation stops pending deliveries',not query('SELECT "Id" FROM "Outbox" WHERE "CampaignId"=%s',(scheduled['id'],)))
+  changed=draft(term='Current',scheduledAt=future);cp=preview(changed);call(root+'/campaigns/'+changed['id']+'/send',{'previewToken':cp['previewToken']});query('UPDATE "CommunicationPreference" SET "Email"=false WHERE "TenantId"=%s AND "UserId"=%s',(tenant,uid1));query('UPDATE "CommunicationCampaign" SET "ScheduledAt"=now()-interval \'1 second\' WHERE "Id"=%s',(changed['id'],))
+  for _ in range(80):
+   statuses=query('SELECT "Status" FROM "Outbox" WHERE "CampaignId"=%s',(changed['id'],))
+   if statuses and statuses[0][0]=='Suppressed':break
+   time.sleep(.2)
+  check('Worker rechecks optout after queueing',statuses==[('Suppressed',)]);query('UPDATE "CommunicationPreference" SET "Email"=true WHERE "TenantId"=%s AND "UserId"=%s',(tenant,uid1))
+  call(root+'/campaigns/'+draft()['id']+'/test',{'address':'unconfirmed@example.invalid'},status=400);check('Test email restricted to verified sender account')
+  waid=str(uuid.uuid4());tid=str(uuid.uuid4());query('INSERT INTO "CommunicationAccount" ("Id","TenantId","Name","Channel","Provider","Sender","ProviderReference","ProtectedSecrets","Enabled","Verified","InboundEnabled","Health","PerMinute","WindowStart","WindowCount") VALUES (%s,%s,\'WhatsApp Test\',\'WhatsApp\',\'Test\',\'+919000000000\',\'\',\'\',true,true,false,\'Test\',120,now(),0)',(waid,tenant));query('INSERT INTO "CommunicationTemplate" ("Id","TenantId","Name","Channel","Category","Language","Subject","Body","ProviderName","ProviderStatus","ProviderAccountId","ProviderBody","Active","Revision") VALUES (%s,%s,\'QA Welcome\',\'WhatsApp\',\'Membership\',\'en\',\'\',\'Hello {{member_name}}\',\'qa_welcome\',\'APPROVED\',%s,\'Hello {{1}}\',true,0)',(tid,tenant,waid));wa=draft(channel='WhatsApp',purpose='OptionalCampaign',accountId=waid,templateId=tid,body='Hello {{member_name}}');wp=preview(wa);check('WhatsApp requires explicit channel opt-in',wp['eligible']==1);call(root+'/campaigns/'+wa['id']+'/send',{'previewToken':wp['previewToken']})
+  for _ in range(80):
+   jobs=query('SELECT "Status" FROM "Outbox" WHERE "CampaignId"=%s',(wa['id'],))
+   if jobs and jobs[0][0]=='Accepted':break
+   time.sleep(.2)
+  check('Approved WhatsApp template dispatches only via local test provider',jobs==[('Accepted',)])
+  call(root+'/templates/'+tid+'/mapping',{'body':'Changed wording {{member_name}}'},method='PUT',status=400);call(root+'/templates/'+tid+'/mapping',{'body':'Hello {{membership_id}}'},method='PUT',status=204);call(root+'/templates/'+tid+'/mapping',{'body':'Hello {{member_name}}'},method='PUT',status=204);check('WhatsApp field mapping preserves approved wording')
+  fake='local-only-token-'+uuid.uuid4().hex;connection=call(root+'/whatsapp',dict(tenantId=tenant,name='Secure local fixture',sender='+919000000000',phoneNumberId='12345678901',businessAccountId='98765432101',apiVersion='v27.0',token=fake,appSecret='local-only-secret-'+uuid.uuid4().hex,perMinute=20));stored=query('SELECT "ProtectedSecrets" FROM "CommunicationAccount" WHERE "Id"=%s',(connection['id'],))[0][0];check('WhatsApp credentials encrypted and omitted from setup',fake not in stored and fake not in json.dumps(call(root+'/setup')))
+  report=req.get(URL+'/api/v1'+root+'/campaigns/'+c['id']+'/report.csv');check('Campaign delivery report exports actual statuses',report.ok and 'Pickup' in report.text())
+  page=ctx.new_page();page.goto(URL+'/app/communications',wait_until='domcontentloaded');expect(page.get_by_role('heading',name='Communication center',exact=True)).to_be_visible();page.get_by_role('button',name='Compose',exact=True).click();page.get_by_label('Society',exact=True).first.select_option(tenant);page.get_by_label('Campaign name',exact=True).fill('Browser preview');page.get_by_label('Email subject',exact=True).fill('Membership update');page.get_by_role('button',name='Preview recipients & message',exact=True).click();expect(page.get_by_text('Eligible recipients',exact=True)).to_be_visible();expect(page.get_by_role('button',name='Send to 2 members',exact=True)).to_be_disabled();page.screenshot(path=str(ROOT/'tests/platform-communications-desktop.png'),full_page=True);page.set_viewport_size({'width':390,'height':844});assert page.evaluate('document.documentElement.scrollWidth<=innerWidth');page.screenshot(path=str(ROOT/'tests/platform-communications-mobile.png'),full_page=True);check('Responsive center previews recipients and gates final send')
+  memberctx=browser.new_context();call('/auth/login',{'email':u1,'password':password},client=memberctx.request);call(root+'/setup',status=403,client=memberctx.request);call(root+'/campaigns/'+c['id'],status=403,client=memberctx.request);check('Non-platform account denied setup and campaign data');browser.close()
+ (ROOT/'tests/platform-communications-results.json').write_text(json.dumps({'checks':checks},indent=2))
+finally:
+ server.terminate();server.wait(timeout=15);log.close()
+ with psycopg.connect(**{**dsn,'dbname':'postgres'},autocommit=True) as db:db.execute(sql.SQL('DROP DATABASE {}').format(sql.Identifier(database)))

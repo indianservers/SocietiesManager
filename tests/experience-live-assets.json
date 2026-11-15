@@ -2,9 +2,9 @@
   "checks": [
     "Production HTTPS readiness",
     "Homepage references current built entry",
-    "Exact deployed checksum: index-CsPV-lcR.js",
-    "Exact deployed checksum: App-DL8Aqb-d.js",
-    "Exact deployed checksum: App-ClqZjSsN.css",
+    "Exact deployed checksum: index-nKsxXU2o.js",
+    "Exact deployed checksum: App-DmG4mGxa.js",
+    "Exact deployed checksum: App-CD9Z4hOD.css",
     "Private account endpoint rejects anonymous visitors"
   ]
 }

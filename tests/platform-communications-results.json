@@ -1,0 +1,24 @@
+{
+  "checks": [
+    "Platform center setup",
+    "Notice audience includes expired and deduplicates, missing contacts and optouts",
+    "Email preview escapes member and message HTML",
+    "Optional campaigns require consent",
+    "Institutional recipient grouping",
+    "Current validity filter",
+    "Changed recipient snapshot rejected",
+    "Idempotent send prevents duplicate campaigns",
+    "Worker delivers exactly two personalized emails to local pickup",
+    "Email includes unsubscribe link",
+    "Scheduled campaign cancellation stops pending deliveries",
+    "Worker rechecks optout after queueing",
+    "Test email restricted to verified sender account",
+    "WhatsApp requires explicit channel opt-in",
+    "Approved WhatsApp template dispatches only via local test provider",
+    "WhatsApp field mapping preserves approved wording",
+    "WhatsApp credentials encrypted and omitted from setup",
+    "Campaign delivery report exports actual statuses",
+    "Responsive center previews recipients and gates final send",
+    "Non-platform account denied setup and campaign data"
+  ]
+}

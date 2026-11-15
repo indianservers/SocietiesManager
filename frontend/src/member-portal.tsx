@@ -1,3 +1,4 @@
+import {AimerToolsResource} from './aimer-tools-resource';
 import {MembershipPaymentLinks,membershipPaymentLinks} from './membership-payments';
 import MembershipEmail from './membership-email';
 import {AttentionQueue,DigitalMembership,ContinueWork} from './experience';
@@ -107,7 +108,7 @@ export function ClubsPage(){
 }
 export function ResourcesPage(){
  const {tenant}=useApp(),action=useAction(),q=useLoad<any[]>('/societies/'+tenant+'/membership/resources',!!tenant);const [resource,setResource]=useState<any>(null);
- return <><Heading title="Resources" text="Guides, downloads, videos and useful links for your members."/><Panel><DataState query={q}>{!q.data?.length?<Empty title="Resources are coming soon" text="Resource details will be added here. Published resources will appear according to your membership access."/>:<div className="member-resource-grid">{q.data?.map(r=><button key={r.id} onClick={()=>action.run(async()=>setResource(await api('/societies/'+tenant+'/membership/resources/'+r.id)))}><FileText/><h3>{r.title}</h3><p>{r.description}</p><Badge>{r.kind}</Badge></button>)}</div>}</DataState></Panel>{resource&&<Drawer title={resource.title} onClose={()=>setResource(null)}><p>{resource.description}</p><div className="member-resource-content">{resource.content}</div>{resource.url&&<a href={resource.url} target="_blank" rel="noopener noreferrer">Open resource</a>}</Drawer>}</>;
+ return <><Heading title="Resources" text="Guides, downloads, videos and useful links for your members."/><AimerToolsResource/><Panel><DataState query={q}>{!q.data?.length?<Empty title="Resources are coming soon" text="Resource details will be added here. Published resources will appear according to your membership access."/>:<div className="member-resource-grid">{q.data?.map(r=><button key={r.id} onClick={()=>action.run(async()=>setResource(await api('/societies/'+tenant+'/membership/resources/'+r.id)))}><FileText/><h3>{r.title}</h3><p>{r.description}</p><Badge>{r.kind}</Badge></button>)}</div>}</DataState></Panel>{resource&&<Drawer title={resource.title} onClose={()=>setResource(null)}><p>{resource.description}</p><div className="member-resource-content">{resource.content}</div>{resource.url&&<a href={resource.url} target="_blank" rel="noopener noreferrer">Open resource</a>}</Drawer>}</>;
 }
 
 function MyIdCards({member,base}:any){
