@@ -90,6 +90,11 @@ try:
     for route,body in [('/auth/login',{'email':email,'password':'x'*1025}),('/auth/forgot',{'email':('a'*260)+'@example.test'}),('/auth/two-factor',{'code':'x'*129})]:
         check('Bounded input: '+route,anon.request(route,'POST',body)[0]==400)
     check('Oversized auth body rejected before hashing',anon.request('/auth/login','POST',{'email':email,'password':'x'*70000})[0]==413)
+    check('Invalid email verification token safely rejected',anon.request('/auth/verify?userId='+str(uid)+'&token=not-a-token','POST',{})[0]==400)
+    check('Empty email verification token safely rejected',anon.request('/auth/verify?userId='+str(uid)+'&token=','POST',{})[0]==400)
+    check('Malformed reset token safely rejected',anon.request('/auth/reset','POST',{'email':email,'token':'not-a-token','password':'Another-Valid-Password-2026!'})[0]==400)
+    for token in ['m-','m-not-a-valid-token','m-!@','not-a-token','0'*64]:
+        check('Malformed public card verification token rejected '+token,anon.request('/credentials/verify/'+urllib.parse.quote(token,safe=''))[0]==404)
     check('CSRF required for mutations',a.request('/users/me/password','POST',{'currentPassword':'x','newPassword':'x'},csrf=False)[0]==400)
     check('SQL-like login identifier cannot authenticate',anon.request('/auth/login','POST',{'email':"' OR 1=1 --",'password':'x'})[0]==401)
     check('Unknown API route returns 404 instead of the application HTML',anon.request('/not-an-endpoint')[0]==404)
