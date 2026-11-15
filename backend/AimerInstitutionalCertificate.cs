@@ -9,15 +9,25 @@ public static class AimerInstitutionalCertificate {
  public static async Task Install(IServiceProvider services,Guid tenant){
   var db=services.GetRequiredService<AppDb>();var store=services.GetRequiredService<IObjectStore>();
   if(!await db.Tenants.AnyAsync(t=>t.Id==tenant&&t.Name.Contains("AIMER")))throw new DomainException("This template is only for AIMER Society");
-  if(await db.Set<DesignTemplate>().AnyAsync(t=>t.Id==TemplateId)){Console.WriteLine("Institutional certificate already published; existing versions preserved.");return;}
+  var existing=await db.Set<DesignTemplate>().SingleOrDefaultAsync(t=>t.Id==TemplateId&&t.TenantId==tenant);
+  if(existing!=null){
+   if(existing.PublishedVersion==2){Console.WriteLine("Compact institutional certificate already published.");return;}
+   if(existing.PublishedVersion!=1)throw new DomainException("Review later certificate edits before publishing compact spacing");
+   var publisher=await db.Users.Where(u=>u.PlatformAdmin).OrderBy(u=>u.Id).Select(u=>u.Id).FirstAsync();
+   var revised=System.Text.Json.JsonSerializer.Serialize(Design(),DesignSchema.Json);await using var update=await db.Database.BeginTransactionAsync();
+   existing.Design=revised;existing.PublishedVersion=2;
+   db.Set<DesignVersion>().Add(new DesignVersion{TenantId=tenant,TemplateId=TemplateId,Version=2,Design=revised,PublisherId=publisher});
+   db.Audits.Add(new Audit{TenantId=tenant,ActorId=publisher,ResourceId=TemplateId,Action="design.institutional-certificate.spacing",Details="{\"version\":2,\"change\":\"Reduced gaps between membership terms\"}"});
+   await db.SaveChangesAsync();await update.CommitAsync();Console.WriteLine("Published compact institutional certificate version 2.");return;
+  }
   var actor=await db.Users.Where(u=>u.PlatformAdmin).OrderBy(u=>u.Id).Select(u=>u.Id).FirstAsync();
   foreach(var asset in new[]{(LetterheadId,"aimer-institution-letterhead.png","Supplied institutional certificate letterhead"),(SignatureId,"aimer-president-reference-signature.png","President signature from supplied BVC certificate")}){
    var bytes=Resource(asset.Item2);await store.Put(tenant,asset.Item1,bytes);db.Set<StudioAsset>().Add(new StudioAsset{Id=asset.Item1,TenantId=tenant,Name=asset.Item3,Kind="Image",Length=bytes.Length,AuthorId=actor});
   }
   var design=System.Text.Json.JsonSerializer.Serialize(Design(),DesignSchema.Json);
   await using var tx=await db.Database.BeginTransactionAsync();
-  db.Set<DesignTemplate>().Add(new DesignTemplate{Id=TemplateId,TenantId=tenant,Name="AIMER Institutional Certificate of Membership",Kind="Certificate",Category="Institutional Membership",Status="Published",Design=design,PublishedVersion=1,AuthorId=actor});
-  db.Set<DesignVersion>().Add(new DesignVersion{TenantId=tenant,TemplateId=TemplateId,Version=1,Design=design,PublisherId=actor});
+  db.Set<DesignTemplate>().Add(new DesignTemplate{Id=TemplateId,TenantId=tenant,Name="AIMER Institutional Certificate of Membership",Kind="Certificate",Category="Institutional Membership",Status="Published",Design=design,PublishedVersion=2,AuthorId=actor});
+  db.Set<DesignVersion>().Add(new DesignVersion{TenantId=tenant,TemplateId=TemplateId,Version=2,Design=design,PublisherId=actor});
   db.Audits.Add(new Audit{TenantId=tenant,ActorId=actor,ResourceId=TemplateId,Action="design.institutional-certificate.installed",Details="{\"version\":1,\"kind\":\"Institutional\"}"});
   await db.SaveChangesAsync();await tx.CommitAsync();Console.WriteLine("Published Institutional-only letterhead membership certificate.");
  }
