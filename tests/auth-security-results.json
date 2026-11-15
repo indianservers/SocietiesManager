@@ -7,6 +7,7 @@
     "Google, Microsoft, verified SMS and verified-mobile password login resolve to one existing account; cross-account linking and unverified phone login are blocked",
     "Explicit provider signup works; unconnected provider login does not silently create an account",
     "Email OTP cannot bypass MFA",
+    "Approved membership first OTP creates an unverified account, verifies only after code proof and links membership; first Google login retains MFA",
     "Browser OTP sign-in works and switching away from open work requires an explicit safe action"
   ],
   "externalProviderMode": "Test-only verifier stub; production verifier is checked separately"

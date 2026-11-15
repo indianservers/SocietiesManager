@@ -11,6 +11,15 @@ public static class ImportedMemberships
             AND h."Action" IN ('membership.import.approved','membership.manual.claim.approved') AND (h."Details"->'claimEmails') ? u."NormalizedEmail")
         """);
 
+    public static IQueryable<Membership> ForEmail(AppDb db, string normalizedEmail) => db.Memberships.FromSqlInterpolated($"""
+        SELECT m.* FROM "Memberships" m WHERE m."Status" <> 'Closed'
+          AND EXISTS (SELECT 1 FROM "Tenants" t WHERE t."Id"=m."TenantId" AND t."Status"='Active')
+          AND EXISTS (SELECT 1 FROM "MembershipHistories" h
+            WHERE h."TenantId"=m."TenantId" AND h."MembershipId"=m."Id"
+              AND h."Action" IN ('membership.import.approved','membership.manual.claim.approved')
+              AND (h."Details"->'claimEmails') ? {normalizedEmail})
+        """);
+
     public static async Task LinkAccount(AppDb db, Guid user)
     {
         var tenants = await MembershipExperience.Entitled(db, user).Where(m => db.Tenants.Any(t => t.Id == m.TenantId && t.Status == "Active"))
