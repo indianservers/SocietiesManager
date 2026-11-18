@@ -53,3 +53,10 @@ No schema migration is required. Contact edits change profile information and ch
 - Five reusable email templates cover renewal, events, research opportunities, Fellowship announcements and Board updates. Replacing existing copy requires an inline confirmation. Optional templates retain consent filtering. Bracketed instructions must be completed before previewing/sending; templates do not grant recognitions.
 
 No schema migration is required. Incomplete drafts are allowed, while preview, test delivery and final send retain strict validation. The isolated communication regression suite covers autosave, restoration, stale revisions, template application, recipient filtering and authorization. Existing member accounts are used only for read-only live layout/certificate verification; no real campaign is sent.
+
+
+## Guided communication campaigns — 18 November 2026
+
+Campaign composition uses Audience → Message → Preview → Send. Only the active step is displayed, with keyboard-accessible progress navigation, Back/Continue controls and validation before advancing. Campaign fields remain mounted when changing steps. The current step is included in the server-side draft settings and restored on reload or from campaign history, alongside the message and audience.
+
+Saving/Saved status, debounced autosave, serialized revisions, draft ownership and unsaved-change protection are retained. Preview and Send regenerate the current recipient preview after saving progress. A restored Send step obtains a fresh preview and requires a new explicit confirmation; resuming work cannot send a campaign. Editing the message requires a new preview. Existing email, WhatsApp, consent, scheduling and idempotent-send checks remain enforced. No schema migration is needed.

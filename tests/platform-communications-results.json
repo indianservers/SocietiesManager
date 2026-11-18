@@ -1,6 +1,7 @@
 {
   "checks": [
     "Platform center setup",
+    "Invalid campaign progress is rejected",
     "Incomplete drafts save but cannot preview or send tests",
     "Unfinished template instructions block preview",
     "Draft recovery is scoped to its author",
@@ -21,11 +22,17 @@
     "WhatsApp field mapping preserves approved wording",
     "WhatsApp credentials encrypted and omitted from setup",
     "Campaign delivery report exports actual statuses",
+    "Audience must be completed before Message",
     "Background autosave persists edits",
-    "Reload restores unfinished campaign",
+    "Reload restores unfinished campaign and current step",
+    "Back and Next preserve campaign fields",
     "Applying templates protects existing content",
     "All five reusable broadcast templates load",
+    "Preview is separate from the final send action",
     "Renewal template uses administrative audience and requires final review",
+    "Send step restores with a fresh preview and new confirmation required",
+    "All four campaign steps fit desktop and mobile",
+    "Editing a message invalidates the previous send review",
     "Stale draft revision cannot overwrite newer edits",
     "Responsive center previews recipients and gates final send",
     "Non-platform account denied setup and campaign data"

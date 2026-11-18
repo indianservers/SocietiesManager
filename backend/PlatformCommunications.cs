@@ -7,7 +7,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 namespace Society.Api;
-public record PlatformMessageWrite(Guid TenantId,string Name,string MemberKind,string Channel,string Purpose,string Term,string Subject,string Body,Guid? ChapterId=null,Guid? AccountId=null,Guid? TemplateId=null,DateTimeOffset? ScheduledAt=null,int Revision=0);
+public record PlatformMessageWrite(Guid TenantId,string Name,string MemberKind,string Channel,string Purpose,string Term,string Subject,string Body,Guid? ChapterId=null,Guid? AccountId=null,Guid? TemplateId=null,DateTimeOffset? ScheduledAt=null,int Revision=0,string ComposeStep="Audience");
 public record PlatformTemplateMapping(string Body);
 public record PlatformMessageSend(string PreviewToken);
 public record PlatformMessageTest(string Address);
@@ -24,6 +24,7 @@ public static class PlatformCommunications {
  static string Render(string text,Dictionary<string,string> variables)=>Regex.Replace(text,@"\{\{\s*([^{}]+?)\s*\}\}",m=>variables.GetValueOrDefault(m.Groups[1].Value,""));
  static async Task<CommunicationCampaign> Campaign(AppDb db,Guid id)=>await db.Set<CommunicationCampaign>().SingleOrDefaultAsync(c=>c.Id==id&&c.Kind==Kind)??throw new AccessDeniedException();
  static async Task Validate(AppDb db,PlatformMessageWrite r,bool draft=false){
+  if(r.ComposeStep is not("Audience" or "Message" or "Preview" or "Send"))throw new DomainException("Choose a valid campaign step");
   if(r.Name==null||r.Subject==null||r.Body==null)throw new DomainException("Complete the campaign name, subject and message");
   if(r.Name.Trim().Length>160||!draft&&string.IsNullOrWhiteSpace(r.Name)||r.Subject.Length>180||r.Subject.Contains('\r')||r.Subject.Contains('\n')||r.Body.Length>12000||!draft&&string.IsNullOrWhiteSpace(r.Body)||r.MemberKind is not("Individual" or "Institutional")||r.Channel is not("Email" or "WhatsApp")||r.Purpose is not("MembershipNotice" or "OptionalCampaign")||r.Term is not("All" or "Current" or "Expired"))throw new DomainException("Complete the campaign name, audience, channel and message");
   if(!draft&&Regex.IsMatch(r.Body,@"\[add [^\]]+\]",RegexOptions.IgnoreCase))throw new DomainException("Complete the bracketed template instructions before previewing or sending");
