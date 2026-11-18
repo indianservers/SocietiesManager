@@ -28,6 +28,16 @@ public static class MembershipCards
             a.Audit(tenant,"membership.certificate.downloaded",id); await db.SaveChangesAsync();
             return Results.File(pdf,"application/pdf","Membership-Certificate-"+m.Number+".pdf");
         }).RequireAuthorization().RequireRateLimiting("member-card");
+        api.MapGet("/societies/{tenant:guid}/membership/members/{id:guid}/membership-certificate/preview.png", async
+            (Guid tenant, Guid id, AppDb db, Access a, StudioService studio, StudioRenderer renderer, IDataProtectionProvider protection, IConfiguration config) =>
+        {
+            var platform=await a.Platform();if(platform)await PlatformMemberAdmin.Require(a);else {await a.Member(tenant);if(!await studio.Own(tenant,id))throw new AccessDeniedException();if(!await db.MembershipCategories.AnyAsync(c=>db.Memberships.Any(m=>m.TenantId==tenant&&m.Id==id&&m.CategoryId==c.Id)&&(c.Kind=="Individual"||c.Kind=="Institutional"))&&!(await studio.Policy(tenant)).MemberDownloads)throw new AccessDeniedException();}
+            var m = await db.Memberships.SingleOrDefaultAsync(m=>m.TenantId==tenant && m.Id==id);if(m==null)return Results.NotFound();
+            if(!await db.MembershipCategories.AnyAsync(c=>c.Id==m.CategoryId&&c.Kind=="Institutional"))throw new DomainException("Membership certificates are only for Institutional Members");
+            var pdf=await Build(m,db,renderer,protection,config,certificatePreview:true);
+            a.Audit(tenant,"membership.certificate.previewed",id); await db.SaveChangesAsync();
+            return Results.File(pdf,"image/png");
+        }).RequireAuthorization().RequireRateLimiting("member-card");
         api.MapGet("/societies/{tenant:guid}/membership/members/{id:guid}/id-card/front.png", async
             (Guid tenant, Guid id, AppDb db, Access a, StudioService studio, StudioRenderer renderer, IDataProtectionProvider protection, IConfiguration config) =>
         {
@@ -51,7 +61,7 @@ public static class MembershipCards
         }).RequireAuthorization();
 
     }
-    public static async Task<byte[]> Build(Membership m,AppDb db,StudioRenderer renderer,IDataProtectionProvider protection,IConfiguration config,bool frontOnly=false,string side="Front"){
+    public static async Task<byte[]> Build(Membership m,AppDb db,StudioRenderer renderer,IDataProtectionProvider protection,IConfiguration config,bool frontOnly=false,string side="Front",bool certificatePreview=false){
         var person = await db.Persons.SingleAsync(p=>p.Id==m.PersonId);
         var society = await db.Tenants.SingleAsync(t=>t.Id==m.TenantId);
         var chapter = await db.Units.SingleAsync(u=>u.TenantId==m.TenantId && u.Id==m.ChapterId);
@@ -73,6 +83,7 @@ public static class MembershipCards
         fields["member.place"]=MembershipService.Json(m.Profile)["city"]?.GetValue<string>()??"Not provided";
         fields["member.membership_status"]=MembershipExperience.State(m);
         var snapshot=new CredentialSnapshot(design,fields,new Dictionary<string,Guid>());
+        if(certificatePreview){if(category.Kind!="Institutional")throw new DomainException("This certificate is only for Institutional Members");return renderer.Image(m.TenantId,snapshot,"Front",dpi:120);}
         if(frontOnly){if(category.Kind!="Individual")throw new DomainException("ID cards are only for Individual Members; institutions receive certificates");return renderer.Image(m.TenantId,snapshot,side);}
         return renderer.Pdf(snapshot,renderer.Image(m.TenantId,snapshot,"Front",jpeg:true),category.Kind=="Individual"&&design.Back.Length>0?renderer.Image(m.TenantId,snapshot,"Back",jpeg:true):null);
     }

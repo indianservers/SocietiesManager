@@ -41,3 +41,15 @@ Implemented for the AIMER membership portal. Existing membership IDs, validity, 
 - Production read-only browser verification and source-data reconciliation after deployment.
 
 No schema migration is required. Contact edits change profile information and chapter details; they do not silently change account identity or governance grants. Unverified contact addresses are not subscribed to notifications.
+
+
+## Member workflows — 18 November 2026
+
+- Individual Resources clips its offset book illustration inside the banner; search and category controls wrap within the content area; category buttons scroll within their own row on narrow displays.
+- Institutional Membership has one primary renewal action in its renewal panel. The purple decorative card is labelled “Institutional membership summary”.
+- Mobile institutional account profiles place the managed-by badge below the institution name, retaining the locked name and administrator correction flow.
+- “Preview certificate” opens the actual protected letterhead rendering with zoom and a printable PDF link, both generated from the same membership record and template. Preview access retains institution ownership and administrator checks.
+- Platform communications autosaves after 900ms of inactivity with saving/saved/error status. Draft recovery is scoped to the current administrator and society. Saves serialize revisions; starting another campaign first flushes pending edits. Before-unload protection covers unsaved changes.
+- Five reusable email templates cover renewal, events, research opportunities, Fellowship announcements and Board updates. Replacing existing copy requires an inline confirmation. Optional templates retain consent filtering. Bracketed instructions must be completed before previewing/sending; templates do not grant recognitions.
+
+No schema migration is required. Incomplete drafts are allowed, while preview, test delivery and final send retain strict validation. The isolated communication regression suite covers autosave, restoration, stale revisions, template application, recipient filtering and authorization. Existing member accounts are used only for read-only live layout/certificate verification; no real campaign is sent.

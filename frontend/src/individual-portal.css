@@ -16,3 +16,9 @@
 .ip-membership-card.ip-printed-card{padding:0;min-height:0;background:#061222;display:flex;align-items:center;border-radius:12px;overflow:hidden}.ip-printed-card>img{display:block;width:100%;height:auto;aspect-ratio:85.6/53.98;object-fit:contain}
 
 .ip-card-sides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:18px 0}.ip-card-sides figure{margin:0}.ip-card-sides img{display:block;width:100%;border-radius:10px}.ip-card-sides figcaption{margin-top:6px;text-align:center;color:#61517b}@media(max-width:760px){.ip-card-sides{grid-template-columns:1fr}}
+
+/* Keep resource search and filters within the available content width. */
+.ip-resource-tools{display:flex;flex-wrap:wrap;min-width:0;gap:14px}.ip-resource-tools .ip-input-search{flex:1 1 280px;min-width:0;max-width:100%}.ip-resource-tools .ip-filter-tabs{flex:0 1 auto;min-width:0;max-width:100%;overflow-x:auto}.ip-resource-tools .ip-filter-tabs button{flex-shrink:0}
+
+/* Clip the decorative book illustration to its banner, so its offset cannot widen the page. */
+.ip-resource-banner{overflow:hidden}
