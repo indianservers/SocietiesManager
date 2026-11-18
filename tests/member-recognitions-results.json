@@ -1,0 +1,17 @@
+{
+  "checks": [
+    "Anonymous recognition access denied",
+    "Named verified Platform Admin can manage recognition options",
+    "Editable profile JSON cannot grant recognition",
+    "Both additional recognitions persist",
+    "Stale recognition update rejected",
+    "Only supported recognition labels allowed",
+    "Membership identity, category, validity and access permissions unchanged",
+    "Recognition display read-only for other admin",
+    "Recognition display read-only for member",
+    "Recognition can be removed independently",
+    "Both recognitions can be cleared",
+    "Recognition grants and removals are audited",
+    "Named administrator can assign recognition from member profile UI"
+  ]
+}
